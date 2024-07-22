@@ -10,8 +10,9 @@ void main() {
         'Description': {
           'rich_text': [
             {
-              'type': 'text',
-              'text': {'content': 'foo bar'}
+              'text': {
+                'content': 'foo bar',
+              }
             }
           ]
         }
@@ -20,6 +21,35 @@ void main() {
       const _text = Text(
         name: 'Description',
         type: 'rich_text',
+        valueDetails: Value(
+          value: 'foo bar',
+        ),
+      );
+
+      final _map = _text.toMap();
+
+      expect(_map, _expectedMap);
+    },
+  );
+  test(
+    'text property successfully generates a map as per the contract for title type',
+    () {
+      final _expectedMap = <String, Object?>{
+        'Name': {
+          'title': [
+            {
+              'text': {
+                'content': 'foo bar',
+              }
+            }
+          ]
+        }
+      };
+
+      const _text = Text(
+        name: 'Name',
+        type: 'rich_text',
+        isTitle: true,
         valueDetails: Value(
           value: 'foo bar',
         ),
