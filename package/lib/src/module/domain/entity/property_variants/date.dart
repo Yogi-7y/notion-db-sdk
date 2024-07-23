@@ -11,6 +11,8 @@ class Date extends Property<DateTime> {
     super.valueDetails,
   });
 
+  static const propertyType = 'date';
+
   String get _formattedDate => value?.toIso8601String().split('T').first ?? '';
 
   @override

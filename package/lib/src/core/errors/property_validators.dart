@@ -15,7 +15,7 @@ PropertyMetaData<T?> getMetaData<T>({
 
   final _id = _data['id'] as String? ?? '';
   final _type = _data['type'] as String? ?? '';
-  final _value = _data['checkbox'] as T?;
+  final _value = _data[_type] as T?;
 
   return (id: _id, name: _name, type: _type, value: _value);
 }
