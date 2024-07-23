@@ -11,6 +11,8 @@ class Number extends Property<num> {
     super.id,
   });
 
+  static const propertyType = 'number';
+
   @override
   Map<String, Object?> toMap() => {
         name: {
