@@ -4,8 +4,8 @@ import '../../../../core/errors/property_validators.dart';
 import '../../../domain/entity/property_variants/text.dart';
 import '../../../domain/entity/value.dart';
 
-class TextJsonAdapter extends Text {
-  const TextJsonAdapter({
+class TextModel extends Text {
+  const TextModel({
     required super.name,
     required super.type,
     super.id,
@@ -14,7 +14,7 @@ class TextJsonAdapter extends Text {
 
   static const String propertyType = 'rich_text';
 
-  factory TextJsonAdapter.fromMap(Map<String, Object?> map) {
+  factory TextModel.fromMap(Map<String, Object?> map) {
     final _metaData = getMetaData<List<Map<String, dynamic>>>(
       map: map,
       validators: [
@@ -30,7 +30,7 @@ class TextJsonAdapter extends Text {
       return prev + (text?['content'] as String? ?? '');
     });
 
-    return TextJsonAdapter(
+    return TextModel(
       name: _metaData.name,
       id: _metaData.id,
       type: _metaData.type,

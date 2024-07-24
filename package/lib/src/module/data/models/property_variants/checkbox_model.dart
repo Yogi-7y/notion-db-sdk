@@ -2,15 +2,15 @@ import '../../../../core/errors/property_validators.dart';
 import '../../../domain/entity/property_variants/checkbox.dart';
 import '../../../domain/entity/value.dart';
 
-class CheckboxJsonAdapter extends Checkbox {
-  const CheckboxJsonAdapter({
+class CheckboxModel extends Checkbox {
+  const CheckboxModel({
     required super.name,
     required super.type,
     super.id,
     super.valueDetails,
   });
 
-  factory CheckboxJsonAdapter.fromMap(Map<String, Object?> map) {
+  factory CheckboxModel.fromMap(Map<String, Object?> map) {
     final _metaData = getMetaData<bool>(
       map: map,
       validators: [
@@ -19,7 +19,7 @@ class CheckboxJsonAdapter extends Checkbox {
       ],
     );
 
-    return CheckboxJsonAdapter(
+    return CheckboxModel(
       name: _metaData.name,
       id: _metaData.id,
       type: _metaData.type,
