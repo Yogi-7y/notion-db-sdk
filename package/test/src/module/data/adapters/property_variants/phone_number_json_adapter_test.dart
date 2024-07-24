@@ -6,6 +6,13 @@ import 'package:test/test.dart';
 
 void main() {
   group('PhoneNumberJsonAdapter', () {
+    test('throws exception when map is empty', () {
+      expect(
+        () => PhoneNumberJsonAdapter.fromMap(const {}),
+        throwsA(isA<InvalidMapLengthException>()),
+      );
+    });
+
     test(
       'throws InvalidMapLengthException when map has more than one key',
       () {
