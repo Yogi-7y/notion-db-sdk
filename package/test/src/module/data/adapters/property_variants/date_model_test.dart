@@ -1,11 +1,11 @@
 import 'package:package/src/core/errors/exception.dart';
-import 'package:package/src/module/data/adapters/property_variants/date_json_adapter.dart';
+import 'package:package/src/module/data/models/property_variants/date_model.dart';
 import 'package:package/src/module/domain/entity/property_variants/date.dart';
 import 'package:package/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('DateJsonAdapter Tests', () {
+  group('DateModel Tests', () {
     test(
       'throws InvalidMapLengthException when map has more than 1 key',
       () {
@@ -26,7 +26,7 @@ void main() {
           },
         };
         expect(
-          () => DateJsonAdapter.fromMap(_map),
+          () => DateModel.fromMap(_map),
           throwsA(isA<InvalidMapLengthException>()),
         );
       },
@@ -47,7 +47,7 @@ void main() {
         expect(
           () async {
             try {
-              DateJsonAdapter.fromMap(_map);
+              DateModel.fromMap(_map);
             } catch (e) {
               if (e is InvalidPropertyTypeException) {
                 expect(e.expectedType, 'date');
@@ -72,7 +72,7 @@ void main() {
             },
           },
         };
-        final _date = DateJsonAdapter.fromMap(_map);
+        final _date = DateModel.fromMap(_map);
         final _expectedResult = Date(
           name: 'Due date',
           type: 'date',

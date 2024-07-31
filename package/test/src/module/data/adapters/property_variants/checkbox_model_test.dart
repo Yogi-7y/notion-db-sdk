@@ -1,5 +1,5 @@
 import 'package:package/src/core/errors/exception.dart';
-import 'package:package/src/module/data/adapters/property_variants/checkbox_json_adapter.dart';
+import 'package:package/src/module/data/models/property_variants/checkbox_model.dart';
 import 'package:package/src/module/domain/entity/property_variants/checkbox.dart';
 import 'package:package/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
@@ -22,7 +22,7 @@ void main() {
       };
 
       expect(
-        () => CheckboxJsonAdapter.fromMap(_map),
+        () => CheckboxModel.fromMap(_map),
         throwsA(isA<InvalidMapLengthException>()),
       );
     },
@@ -42,7 +42,7 @@ void main() {
       expect(
         () async {
           try {
-            CheckboxJsonAdapter.fromMap(_map);
+            CheckboxModel.fromMap(_map);
           } catch (e) {
             if (e is InvalidPropertyTypeException) {
               expect(e.expectedType, 'checkbox');
@@ -66,7 +66,7 @@ void main() {
         },
       };
 
-      final _checkbox = CheckboxJsonAdapter.fromMap(_map);
+      final _checkbox = CheckboxModel.fromMap(_map);
 
       const _expectedResult = Checkbox(
         name: 'Task completed',

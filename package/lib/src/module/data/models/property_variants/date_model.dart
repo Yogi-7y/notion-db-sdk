@@ -2,15 +2,15 @@ import '../../../../core/errors/property_validators.dart';
 import '../../../domain/entity/property_variants/date.dart';
 import '../../../domain/entity/value.dart';
 
-class DateJsonAdapter extends Date {
-  const DateJsonAdapter({
+class DateModel extends Date {
+  const DateModel({
     required super.name,
     required super.type,
     super.id,
     super.valueDetails,
   });
 
-  factory DateJsonAdapter.fromMap(Map<String, Object?> map) {
+  factory DateModel.fromMap(Map<String, Object?> map) {
     final _metaData = getMetaData<Map<String, Object?>>(
       map: map,
       validators: [
@@ -22,7 +22,7 @@ class DateJsonAdapter extends Date {
     final _dateInString = (_metaData.value ?? {})['start'] as String?;
     final _date = _dateInString != null ? DateTime.parse(_dateInString) : null;
 
-    return DateJsonAdapter(
+    return DateModel(
       name: _metaData.name,
       id: _metaData.id,
       type: _metaData.type,

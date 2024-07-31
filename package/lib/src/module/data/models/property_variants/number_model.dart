@@ -2,15 +2,15 @@ import '../../../../core/errors/property_validators.dart';
 import '../../../domain/entity/property_variants/number.dart';
 import '../../../domain/entity/value.dart';
 
-class NumberJsonAdapter extends Number {
-  const NumberJsonAdapter({
+class NumberModel extends Number {
+  const NumberModel({
     required super.name,
     required super.type,
     super.id,
     super.valueDetails,
   });
 
-  factory NumberJsonAdapter.fromMap(Map<String, Object?> map) {
+  factory NumberModel.fromMap(Map<String, Object?> map) {
     final _metaData = getMetaData<num>(
       map: map,
       validators: [
@@ -18,7 +18,7 @@ class NumberJsonAdapter extends Number {
         PropertyTypeValidator(expectedType: Number.propertyType),
       ],
     );
-    return NumberJsonAdapter(
+    return NumberModel(
       name: _metaData.name,
       id: _metaData.id,
       type: _metaData.type,

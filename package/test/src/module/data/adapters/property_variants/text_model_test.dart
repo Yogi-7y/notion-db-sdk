@@ -1,5 +1,5 @@
 import 'package:package/src/core/errors/exception.dart';
-import 'package:package/src/module/data/adapters/property_variants/test_json_adapter.dart';
+import 'package:package/src/module/data/models/property_variants/text_model.dart';
 import 'package:package/src/module/domain/entity/property_variants/text.dart';
 import 'package:package/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
@@ -36,7 +36,7 @@ void main() {
       };
 
       expect(
-        () => TextJsonAdapter.fromMap(_map),
+        () => TextModel.fromMap(_map),
         throwsA(isA<InvalidMapLengthException>()),
       );
     },
@@ -62,7 +62,7 @@ void main() {
       expect(
         () async {
           try {
-            TextJsonAdapter.fromMap(_map);
+            TextModel.fromMap(_map);
           } catch (e) {
             if (e is InvalidPropertyTypeException) {
               expect(e.expectedType, 'rich_text');
@@ -93,7 +93,7 @@ void main() {
         },
       };
 
-      final _text = TextJsonAdapter.fromMap(_map);
+      final _text = TextModel.fromMap(_map);
       const _expectedResult = Text(
         name: 'Description',
         type: 'rich_text',
@@ -116,7 +116,7 @@ void main() {
           'rich_text': <Map<String, Object?>>[],
         },
       };
-      final _text = TextJsonAdapter.fromMap(_map);
+      final _text = TextModel.fromMap(_map);
 
       const _expectedResult = Text(
         name: 'Description',
@@ -153,7 +153,7 @@ void main() {
           ],
         },
       };
-      final _text = TextJsonAdapter.fromMap(_map);
+      final _text = TextModel.fromMap(_map);
 
       const _expectedResult = Text(
         name: 'Description',

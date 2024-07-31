@@ -1,11 +1,11 @@
 import 'package:package/src/core/errors/exception.dart';
-import 'package:package/src/module/data/adapters/property_variants/number_json_adapter.dart';
+import 'package:package/src/module/data/models/property_variants/number_model.dart';
 import 'package:package/src/module/domain/entity/property_variants/number.dart';
 import 'package:package/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('NumberJsonAdapter', () {
+  group('NumberModel', () {
     test(
       'throws InvalidMapLengthException when map has incorrect structure',
       () {
@@ -20,7 +20,7 @@ void main() {
           },
         };
         expect(
-          () => NumberJsonAdapter.fromMap(_map),
+          () => NumberModel.fromMap(_map),
           throwsA(isA<InvalidMapLengthException>()),
         );
       },
@@ -39,7 +39,7 @@ void main() {
         expect(
           () async {
             try {
-              NumberJsonAdapter.fromMap(_map);
+              NumberModel.fromMap(_map);
             } catch (e) {
               if (e is InvalidPropertyTypeException) {
                 expect(e.expectedType, 'number');
@@ -62,7 +62,7 @@ void main() {
             'number': 42,
           },
         };
-        final _number = NumberJsonAdapter.fromMap(_map);
+        final _number = NumberModel.fromMap(_map);
         const _expectedResult = Number(
           name: 'Quantity',
           type: 'number',

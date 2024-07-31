@@ -1,14 +1,14 @@
 import 'package:package/src/core/errors/exception.dart';
-import 'package:package/src/module/data/adapters/property_variants/phone_number_json_adapter.dart';
+import 'package:package/src/module/data/models/property_variants/phone_number_model.dart';
 import 'package:package/src/module/domain/entity/property_variants/phone_number.dart';
 import 'package:package/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('PhoneNumberJsonAdapter', () {
+  group('PhoneNumberModel', () {
     test('throws exception when map is empty', () {
       expect(
-        () => PhoneNumberJsonAdapter.fromMap(const {}),
+        () => PhoneNumberModel.fromMap(const {}),
         throwsA(isA<InvalidMapLengthException>()),
       );
     });
@@ -27,7 +27,7 @@ void main() {
           },
         };
         expect(
-          () => PhoneNumberJsonAdapter.fromMap(_map),
+          () => PhoneNumberModel.fromMap(_map),
           throwsA(isA<InvalidMapLengthException>()),
         );
       },
@@ -46,7 +46,7 @@ void main() {
         expect(
           () async {
             try {
-              PhoneNumberJsonAdapter.fromMap(_map);
+              PhoneNumberModel.fromMap(_map);
             } catch (e) {
               if (e is InvalidPropertyTypeException) {
                 expect(e.expectedType, 'phone_number');
@@ -69,7 +69,7 @@ void main() {
             'phone_number': '+1 (555) 123-4567',
           },
         };
-        final _phoneNumber = PhoneNumberJsonAdapter.fromMap(_map);
+        final _phoneNumber = PhoneNumberModel.fromMap(_map);
         const _expectedResult = PhoneNumber(
           name: 'Contact',
           type: 'phone_number',

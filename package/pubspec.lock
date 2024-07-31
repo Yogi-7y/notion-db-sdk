@@ -68,12 +68,11 @@ packages:
   core_y:
     dependency: transitive
     description:
-      path: "packages/core"
-      ref: "core_v1.0.2"
-      resolved-ref: "3e78abf01c7e4c1ab676c0e91d5ecbf83749055d"
-      url: "https://github.com/Yogi-7y/Project-Y.git"
-    source: git
-    version: "0.0.1"
+      name: core_y
+      sha256: ec323d343c7418da65a9d913ba3ddb2decc13348ea4bbb8a559fc0e4ddb13d22
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3+1"
   coverage:
     dependency: transitive
     description:
@@ -219,12 +218,11 @@ packages:
   network_y:
     dependency: "direct main"
     description:
-      path: "packages/network"
-      ref: "network_v1.0.3"
-      resolved-ref: "8ee4d3a06c169693f9bec6ca2ea6d88e442c5fc3"
-      url: "https://github.com/Yogi-7y/Project-Y"
-    source: git
-    version: "0.0.1"
+      name: network_y
+      sha256: "1d6314346326ab0c2d0f95ec8b756f5adca913f3d361a5085deabc6a1ffbefc8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   node_preamble:
     dependency: transitive
     description:
