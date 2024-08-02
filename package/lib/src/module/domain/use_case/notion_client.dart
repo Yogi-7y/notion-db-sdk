@@ -14,7 +14,7 @@ class NotionUseCase {
   final Repository repository;
 
   AsyncResult<Properties, AppException> getProperties(DatabaseId databaseId) {
-    return repository.getProperties(databaseId);
+    return repository.getPageProperties(databaseId);
   }
 }
 
