@@ -1,9 +1,11 @@
+import 'package:core_y/core_y.dart';
+
 import '../entity/property.dart';
 
-typedef PageProperties = Map<String, Property>;
+typedef Properties = Map<String, Property>;
 
 typedef DatabaseId = String;
 
 abstract class Repository {
-  Future<PageProperties> getPageProperties(DatabaseId databaseId);
+  AsyncResult<Properties, AppException> getProperties(DatabaseId databaseId);
 }
