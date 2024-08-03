@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+       {
+        "type": "dart",
+        "request": "launch",
+        "name": "Example (Debug)",
+        "program": "package/example/lib/main.dart",
+        "flutterMode": "debug",
+        "toolArgs": [
+            "--dart-define",
+            "NOTION_SECRET=secret_MnV0yFWLCLmfJzrvvgfj1M9CcHRaoYNb9Qt6MrVs6ay",
+        ]
+       } 
+    ]
+}

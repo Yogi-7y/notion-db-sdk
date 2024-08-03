@@ -19,30 +19,32 @@ class NotionRepository implements Repository {
 
     return result.map(
       (value) {
-        final _result = <Map<String, Property>>[];
+        try {
+          final _result = <Map<String, Property>>[];
 
-        final _resultsPayload =
-            List.castFrom<Object?, Map<String, Object?>>(value['results'] as List<Object?>? ?? [])
-                .toList();
+          final _resultsPayload =
+              List.castFrom<Object?, Map<String, Object?>>(value['results'] as List<Object?>? ?? [])
+                  .toList();
 
-        final _properties =
-            _resultsPayload.map((e) => e['properties'] as Map<String, Object?>? ?? {}).toList();
+          final _properties =
+              _resultsPayload.map((e) => e['properties'] as Map<String, Object?>? ?? {}).toList();
 
-        final _factory = PropertyFactory();
+          final _factory = PropertyFactory();
 
-        for (final property in _properties) {
-          final _propertyMap = <String, Property>{};
+          for (final property in _properties) {
+            final _propertyMap = <String, Property>{};
 
-          for (final entry in property.entries) {
-            final _property = _factory({entry.key: entry.value});
+            for (final entry in property.entries) {
+              final _property = _factory({entry.key: entry.value});
 
-            _propertyMap[entry.key] = _property;
+              _propertyMap[entry.key] = _property;
+            }
+
+            _result.add(_propertyMap);
           }
 
-          _result.add(_propertyMap);
-        }
-
-        return _result;
+          return _result;
+        } catch (e, s) {}
       },
     );
   }
