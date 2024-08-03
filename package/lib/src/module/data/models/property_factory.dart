@@ -6,12 +6,12 @@ import 'property_variants/phone_number_model.dart';
 import 'property_variants/text_model.dart';
 
 class PropertyFactory {
-  Property call(Map<String, dynamic> map) {
+  Property call(Map<String, Object?> map) {
     if (map.isEmpty) {
       throw ArgumentError('Map cannot be empty');
     }
 
-    final propertyData = map.values.first as Map<String, dynamic>;
+    final propertyData = map.values.first as Map<String, Object?>? ?? {};
     final type = propertyData['type'] as String;
 
     switch (type) {
