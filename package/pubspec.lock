@@ -227,10 +227,10 @@ packages:
     dependency: "direct main"
     description:
       name: network_y
-      sha256: "1d6314346326ab0c2d0f95ec8b756f5adca913f3d361a5085deabc6a1ffbefc8"
+      sha256: "54979f67688f5951bf778f9f501e6085eea16e9d5d15c8abd8933e5c72d71daa"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.3"
+    version: "0.0.3+3"
   node_preamble:
     dependency: transitive
     description:

@@ -6,7 +6,7 @@ class FetchPropertiesRequest extends BaseNotionRequest implements PostRequest {
   FetchPropertiesRequest({
     required this.databaseId,
   }) : super(
-          endpoint: '/databases/$databaseId/query',
+          endpoint: 'v1/databases/$databaseId/query',
         );
 
   final String databaseId;

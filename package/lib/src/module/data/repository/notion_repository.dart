@@ -1,9 +1,8 @@
 import 'package:core_y/core_y.dart';
 import 'package:network_y/network_y.dart';
-// ignore: implementation_imports
-import 'package:network_y/src/exceptions/api_exception.dart';
 
 import '../../domain/repository/notion_repository.dart';
+import '../models/property_factory.dart';
 import 'api_request.dart';
 
 class NotionRepository implements Repository {
@@ -19,6 +18,20 @@ class NotionRepository implements Repository {
 
     return result.map(
       (value) {
+        final _results =
+            List.castFrom<Object?, Map<String, Object?>>(value['results'] as List<Object?>? ?? []);
+
+        final _properties =
+            _results.map((e) => e['properties'] as Map<String, Object?>? ?? {}).toList();
+
+        final _factory = PropertyFactory();
+
+        // return _properties.map(
+        //   (key, value) => MapEntry(
+        //     key,
+        //     _factory(value as Map<String, Object?>? ?? {}),
+        //   ),
+        // );
         throw UnimplementedError();
       },
     );

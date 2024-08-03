@@ -1,9 +1,9 @@
-import 'package:package/src/module/data/models/property_factory.dart';
-import 'package:package/src/module/domain/entity/property_variants/checkbox.dart';
-import 'package:package/src/module/domain/entity/property_variants/date.dart';
-import 'package:package/src/module/domain/entity/property_variants/number.dart';
-import 'package:package/src/module/domain/entity/property_variants/phone_number.dart';
-import 'package:package/src/module/domain/entity/property_variants/text.dart';
+import 'package:notion_db_sdk/src/module/data/models/property_factory.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/checkbox.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/date.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/number.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/phone_number.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/text.dart';
 import 'package:test/test.dart';
 
 void main() {

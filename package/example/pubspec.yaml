@@ -1,0 +1,27 @@
+name: example
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.4 <4.0.0'
+
+dependencies:
+  dio: ^5.5.0+1
+  flutter:
+    sdk: flutter
+  flutter_json_viewer: ^1.0.1
+  notion_db_sdk:
+    path: ..
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+  uses-material-design: true

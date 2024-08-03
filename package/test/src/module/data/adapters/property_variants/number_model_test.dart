@@ -1,7 +1,7 @@
-import 'package:package/src/core/errors/exception.dart';
-import 'package:package/src/module/data/models/property_variants/number_model.dart';
-import 'package:package/src/module/domain/entity/property_variants/number.dart';
-import 'package:package/src/module/domain/entity/value.dart';
+import 'package:notion_db_sdk/src/core/errors/exception.dart';
+import 'package:notion_db_sdk/src/module/data/models/property_variants/number_model.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/number.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
 
 void main() {

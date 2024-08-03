@@ -6,6 +6,6 @@ class ApiConstants {}
 class BaseNotionRequest extends Request {
   BaseNotionRequest({
     required super.endpoint,
-    super.baseUrl = 'https://api.notion.com/v1',
+    super.baseUrl = 'https://api.notion.com/',
   });
 }
