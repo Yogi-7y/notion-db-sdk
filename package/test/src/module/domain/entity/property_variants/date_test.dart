@@ -1,5 +1,5 @@
-import 'package:package/src/module/domain/entity/property_variants/date.dart';
-import 'package:package/src/module/domain/entity/value.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/date.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
 
 void main() {
