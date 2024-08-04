@@ -1,2 +1,6 @@
 .fvm
 .vscode
+package/.claudeignore
+package/claude_chats
+.vscode/launch.json
+env
