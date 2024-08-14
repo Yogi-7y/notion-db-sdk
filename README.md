@@ -1,2 +1,3 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+A type-safe structured way to interact with notion APIs. The client only handles structured data from within the database and ignores any embedded styles, page blocks etc.
+
+![Diagram](assets/diagram.png)
