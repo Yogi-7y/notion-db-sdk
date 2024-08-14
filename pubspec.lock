@@ -41,14 +41,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  characters:
-    dependency: transitive
-    description:
-      name: characters
-      sha256: "04a925763edad70e8443c99234dc3328f442e811f1d8fd1a72f1c8ad0f69a605"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.0"
   collection:
     dependency: transitive
     description:
@@ -113,11 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
-  flutter:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -170,8 +157,8 @@ packages:
     dependency: "direct dev"
     description:
       path: "packages/lints"
-      ref: "lints_v1.0.1"
-      resolved-ref: bc55a9cbcc0c736895bb5541e7076cea802d0325
+      ref: main
+      resolved-ref: "8ab2e72270f3769cb9dbeaf061bbfe9f402bdd34"
       url: "https://github.com/Yogi-7y/Project-Y"
     source: git
     version: "0.0.1"
@@ -191,14 +178,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.16+1"
-  material_color_utilities:
-    dependency: transitive
-    description:
-      name: material_color_utilities
-      sha256: "0e0a020085b65b6083975e499759762399b4475f766c21668c4ecca34ea74e5a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.8.0"
   meta:
     dependency: "direct main"
     description:
@@ -303,11 +282,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  sky_engine:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.99"
   source_map_stack_trace:
     dependency: transitive
     description:
@@ -396,14 +370,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
-  vector_math:
-    dependency: transitive
-    description:
-      name: vector_math
-      sha256: "80b3257d1492ce4d091729e3a67a60407d227c27241d6927be0130c98e741803"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.4"
   vm_service:
     dependency: transitive
     description:
@@ -454,4 +420,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.4.0 <4.0.0"
-  flutter: ">=3.16.0"
+  flutter: ">=1.17.0"
