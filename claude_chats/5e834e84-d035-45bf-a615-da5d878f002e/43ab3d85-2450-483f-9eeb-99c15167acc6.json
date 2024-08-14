@@ -1,0 +1,12 @@
+{
+  "uuid": "43ab3d85-2450-483f-9eeb-99c15167acc6",
+  "text": "Are you sure it's returning null? Because when I add a breakpoint and check, I'm able to get the correct response. \nAlso, if it's returning null then even expect should fail, right?",
+  "sender": "human",
+  "index": 2,
+  "created_at": "2024-08-03T07:30:57.644498+00:00",
+  "updated_at": "2024-08-03T07:30:57.644498+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "2f6cb899-f805-4d91-94c5-b33cde57e07d"
+}

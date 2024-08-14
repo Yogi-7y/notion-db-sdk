@@ -1,0 +1,12 @@
+{
+  "uuid": "344caf1d-d030-4986-bcad-f3c2cccb9285",
+  "text": " To resolve this error, it looks like there's a mismatch between the expected and actual return types. Let's break down the issue and suggest a solution:\n\n1. The test is expecting the mock API call to return a `Result<Map<String, Object?>, ApiException>`.\n\n2. However, the mock is returning a `Success<Map<String, Object?>, AppException>`.\n\nThe main differences are:\n- `Result` vs `Success`\n- `ApiException` vs `AppException`\n\nTo fix this, we need to align the types. Here's a corrected version of the test:\n\n```dart\ntest('returns success when api call is successful', () async {\n  final success = Success<Map<String, Object?>, ApiException>(<String, Object?>{});\n\n  when(\n    () => apiClient.call<Map<String, Object?>>(any()),\n  ).thenAnswer(\n    (_) async => success,\n  );\n\n  // Add your assertion here\n});\n```\n\nKey changes:\n\n1. Changed `const _success` to `final success` to allow for the generic type parameters.\n\n2. Explicitly specified the generic types for `Success`: `Success<Map<String, Object?>, ApiException>`.\n\n3. Changed `AppException` to `ApiException` to match the expected type.\n\n4. Made the test function `async` and the mock answer `async` as well, to properly return a `Future`.\n\n5. Removed the unnecessary `Future.value()` wrapper, as `thenAnswer` already expects a `Future`.\n\nThis should resolve the type mismatch error. Make sure that your `Result` and `Success` types are properly defined to handle these generic parameters.\n\nAlso, don't forget to add your assertions after setting up the mock to actually test the behavior you're expecting.",
+  "sender": "assistant",
+  "index": 1,
+  "created_at": "2024-08-02T13:31:23.874321+00:00",
+  "updated_at": "2024-08-02T13:31:23.874321+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "f7be2d9a-6eb7-4859-9430-ed072dc811ca"
+}

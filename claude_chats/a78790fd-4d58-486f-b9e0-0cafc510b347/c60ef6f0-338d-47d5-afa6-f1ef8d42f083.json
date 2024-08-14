@@ -1,0 +1,12 @@
+{
+  "uuid": "c60ef6f0-338d-47d5-afa6-f1ef8d42f083",
+  "text": "Can you write a script that can rename all the existing files?",
+  "sender": "human",
+  "index": 20,
+  "created_at": "2024-07-24T15:14:31.255294+00:00",
+  "updated_at": "2024-07-24T15:14:31.255294+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "20c2795e-f17f-4e7d-9373-d188b97f1481"
+}

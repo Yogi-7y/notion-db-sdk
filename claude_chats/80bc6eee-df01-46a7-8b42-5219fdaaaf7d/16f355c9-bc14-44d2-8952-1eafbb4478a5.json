@@ -1,0 +1,12 @@
+{
+  "uuid": "16f355c9-bc14-44d2-8952-1eafbb4478a5",
+  "text": "```\nabstract class ApiExecutor {\n  AsyncResult<void, AppException> setUp({SetupRequest? request});\n\n  AsyncResult<T, ApiException> get<T>(Request request);\n\n  AsyncResult<T, ApiException> post<T>(PostRequest request);\n}\n\n```\n\nThis is how the ApiExecutor looks like. \n\nWouldn't it also ask me to implement the methods?",
+  "sender": "human",
+  "index": 10,
+  "created_at": "2024-07-31T17:26:39.281249+00:00",
+  "updated_at": "2024-07-31T17:26:39.281249+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "23206513-61d3-4b1f-804d-bb0c750bd0c5"
+}

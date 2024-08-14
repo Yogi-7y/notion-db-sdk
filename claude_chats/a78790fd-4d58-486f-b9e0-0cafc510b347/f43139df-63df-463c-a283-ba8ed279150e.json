@@ -1,0 +1,12 @@
+{
+  "uuid": "f43139df-63df-463c-a283-ba8ed279150e",
+  "text": "I'm following clean architecture. \n\nAre the naming of _adapter.dart correct? \nI'm using those files to convert json to dart objects.",
+  "sender": "human",
+  "index": 18,
+  "created_at": "2024-07-24T15:13:16.853433+00:00",
+  "updated_at": "2024-07-24T15:13:16.853433+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "f13c3fb2-d8ed-4783-b116-63551c9bb57c"
+}

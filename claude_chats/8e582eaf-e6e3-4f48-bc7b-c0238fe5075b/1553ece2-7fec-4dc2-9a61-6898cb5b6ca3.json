@@ -1,0 +1,12 @@
+{
+  "uuid": "1553ece2-7fec-4dc2-9a61-6898cb5b6ca3",
+  "text": "Write unit tests for this factory",
+  "sender": "human",
+  "index": 4,
+  "created_at": "2024-08-02T16:26:48.192655+00:00",
+  "updated_at": "2024-08-02T16:26:48.192655+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "4ad04c95-4ce4-4a80-84b3-a2db092a45ce"
+}

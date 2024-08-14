@@ -1,0 +1,12 @@
+{
+  "uuid": "2dc2fe7a-f4f0-44da-a468-1b0c650bd171",
+  "text": "ApiClient\n\n```\nclass ApiClient {\n  const ApiClient({\n    required this.apiExecutor,\n  });\n\n  final ApiExecutor apiExecutor;\n\n  Future<void> setup() async => apiExecutor.setUp();\n\n  AsyncResult<T, ApiException> call<T>(Request request) async {\n    if (request is GetRequest) return apiExecutor.get<T>(request);\n\n    if (request is PostRequest) return apiExecutor.post<T>(request);\n\n    return Failure<T, ApiException>(\n      ApiException(\n        request: request,\n        exception: Exception('Unsupported request type'),\n        stackTrace: StackTrace.current,\n      ),\n    );\n  }\n}\n\n```\n\n\n\n```\n@immutable\nsealed class Result<S, E extends AppException> {\n  const Result();\n\n  bool get isSuccess => this is Success<S, E>;\n  bool get isFailure => this is Failure<S, E>;\n\n  S? get valueOrNull => isSuccess ? (this as Success<S, E>).value : null;\n\n  /// Ensures that all the states are handled and returns a common type.\n  T fold<T>(\n    T Function(S value) onSuccess,\n    T Function(E error) onFailure,\n  );\n\n  Result<T, E> map<T>(T Function(S value) transform);\n}\n\nfinal class Success<S, E extends AppException> extends Result<S, E> {\n  const Success(this.value);\n\n  final S value;\n\n  @override\n  T fold<T>(T Function(S value) onSuccess, T Function(E error) onFailure) => onSuccess(value);\n\n  @override\n  Result<T, E> map<T>(T Function(S value) transform) => Success(transform(value));\n}\n\nfinal class Failure<S, E extends AppException> extends Result<S, E> {\n  const Failure(this.error);\n\n  final E error;\n\n  @override\n  T fold<T>(T Function(S value) onSuccess, T Function(E error) onFailure) => onFailure(error);\n\n  @override\n  Result<T, E> map<T>(T Function(S value) transform) => Failure(error);\n}\n\n```\n\n\n\nNow please help me write some unit tests using mocktail for the data layer",
+  "sender": "human",
+  "index": 6,
+  "created_at": "2024-07-31T17:23:02.461080+00:00",
+  "updated_at": "2024-07-31T17:23:02.461080+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "4baf65ac-7d1e-4bb5-8728-676b51963b42"
+}

@@ -1,0 +1,12 @@
+{
+  "uuid": "1fce9d00-0c2a-4d92-9929-19fcd3659e2f",
+  "text": "Can you use mocktail to write unit tests?",
+  "sender": "human",
+  "index": 2,
+  "created_at": "2024-07-31T17:11:28.891977+00:00",
+  "updated_at": "2024-07-31T17:11:28.891977+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "0cd63cb8-a10a-4e43-b112-4cd70d72996d"
+}

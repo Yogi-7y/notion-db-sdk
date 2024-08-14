@@ -1,0 +1,20 @@
+{
+  "uuid": "a78790fd-4d58-486f-b9e0-0cafc510b347",
+  "name": "Accessing Notion API Contracts",
+  "summary": "",
+  "model": null,
+  "created_at": "2024-07-23T15:59:53.116962+00:00",
+  "updated_at": "2024-07-24T15:18:49.193313+00:00",
+  "settings": {
+    "preview_feature_uses_artifacts": null,
+    "preview_feature_uses_latex": null,
+    "preview_feature_uses_citations": null
+  },
+  "is_starred": false,
+  "project_uuid": "56408df5-4533-437f-bb62-f983949b9c18",
+  "current_leaf_message_uuid": "a26d7d06-238e-4dd3-8f19-047c12821d86",
+  "project": {
+    "uuid": "56408df5-4533-437f-bb62-f983949b9c18",
+    "name": "Notion DB SDK"
+  }
+}

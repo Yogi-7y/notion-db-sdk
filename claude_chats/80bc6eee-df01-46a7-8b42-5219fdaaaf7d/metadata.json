@@ -1,0 +1,20 @@
+{
+  "uuid": "80bc6eee-df01-46a7-8b42-5219fdaaaf7d",
+  "name": "Implementing Notion Repository Tests",
+  "summary": "",
+  "model": null,
+  "created_at": "2024-07-31T17:10:26.051653+00:00",
+  "updated_at": "2024-07-31T17:26:39.281249+00:00",
+  "settings": {
+    "preview_feature_uses_artifacts": null,
+    "preview_feature_uses_latex": null,
+    "preview_feature_uses_citations": null
+  },
+  "is_starred": false,
+  "project_uuid": "56408df5-4533-437f-bb62-f983949b9c18",
+  "current_leaf_message_uuid": "9fe026f4-1bfa-4e02-93e1-6258314ad04f",
+  "project": {
+    "uuid": "56408df5-4533-437f-bb62-f983949b9c18",
+    "name": "Notion DB SDK"
+  }
+}

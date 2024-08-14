@@ -1,0 +1,33 @@
+{
+  "uuid": "a65a569e-73c2-45fb-9bdc-aa42dde397e4",
+  "text": "I've created usecase and repository.\n\nJob of use case is to act like client and give method to the packages using it to do actions. \nIt'll delegate actions to repository for any network related calls. The repo inside domain is just the contract and will be implemented by a repo in data layer. \n\nJust FYI",
+  "sender": "human",
+  "index": 16,
+  "created_at": "2024-07-23T16:16:40.191104+00:00",
+  "updated_at": "2024-07-23T16:16:40.191104+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [
+    {
+      "file_uuid": "a669ef95-397a-47e5-9510-4812dfbb7c77",
+      "file_name": "CleanShot 20240723 at 21.44.25.png",
+      "thumbnail_url": "/api/0a93a6e7-eda2-4bee-ac78-58d0287fabb7/files/a669ef95-397a-47e5-9510-4812dfbb7c77/thumbnail",
+      "preview_url": "/api/0a93a6e7-eda2-4bee-ac78-58d0287fabb7/files/a669ef95-397a-47e5-9510-4812dfbb7c77/preview",
+      "thumbnail_asset": {
+        "url": "/api/0a93a6e7-eda2-4bee-ac78-58d0287fabb7/files/a669ef95-397a-47e5-9510-4812dfbb7c77/preview",
+        "file_variant": "thumbnail",
+        "primary_color": "181824",
+        "image_width": 351,
+        "image_height": 157
+      },
+      "preview_asset": {
+        "url": "/api/0a93a6e7-eda2-4bee-ac78-58d0287fabb7/files/a669ef95-397a-47e5-9510-4812dfbb7c77/preview",
+        "file_variant": "preview",
+        "primary_color": "181824",
+        "image_width": 351,
+        "image_height": 157
+      }
+    }
+  ],
+  "parent_message_uuid": "610b72fd-6276-46a0-b364-57c085497cfd"
+}

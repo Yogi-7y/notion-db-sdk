@@ -1,0 +1,12 @@
+{
+  "uuid": "4cc033bc-0a7e-4562-8746-a54c2edbadc0",
+  "text": "Write a ReadMe for Property section.\n\n1. Explain what a property is\n2. Explain a couple of variants. No need to explain all.\n3. Explain how to create a new variant.\n4. Explain how a variant is created from json (Ensure to also show factory)",
+  "sender": "human",
+  "index": 8,
+  "created_at": "2024-08-02T16:33:20.368139+00:00",
+  "updated_at": "2024-08-02T16:33:20.368139+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "e30aa8c8-194f-4271-be0e-1589ba7bf952"
+}

@@ -1,0 +1,20 @@
+{
+  "uuid": "5e834e84-d035-45bf-a615-da5d878f002e",
+  "name": "Debugging Null Errors in Mocked API Calls",
+  "summary": "",
+  "model": null,
+  "created_at": "2024-08-03T07:28:18.115347+00:00",
+  "updated_at": "2024-08-03T07:30:57.644498+00:00",
+  "settings": {
+    "preview_feature_uses_artifacts": null,
+    "preview_feature_uses_latex": null,
+    "preview_feature_uses_citations": null
+  },
+  "is_starred": false,
+  "project_uuid": "56408df5-4533-437f-bb62-f983949b9c18",
+  "current_leaf_message_uuid": "52f3f84c-0953-4977-9501-8a1c0ced3d2b",
+  "project": {
+    "uuid": "56408df5-4533-437f-bb62-f983949b9c18",
+    "name": "Notion DB SDK"
+  }
+}

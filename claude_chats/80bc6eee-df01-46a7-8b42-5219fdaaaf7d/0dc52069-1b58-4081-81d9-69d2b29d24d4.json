@@ -1,0 +1,12 @@
+{
+  "uuid": "0dc52069-1b58-4081-81d9-69d2b29d24d4",
+  "text": "```\nimport 'package:core_y/core_y.dart';\nimport 'package:network_y/network_y.dart';\n\nimport '../../domain/repository/notion_repository.dart';\n\nclass NotionRepository implements Repository {\n  NotionRepository(this.apiClient);\n\n  final ApiClient apiClient;\n\n  @override\n  AsyncResult<Properties, AppException> getProperties(DatabaseId databaseId) {\n    throw UnimplementedError();\n  }\n}\n\n```\n\nHelp me write test cases for this",
+  "sender": "human",
+  "index": 0,
+  "created_at": "2024-07-31T17:10:48.068007+00:00",
+  "updated_at": "2024-07-31T17:10:48.068007+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+}

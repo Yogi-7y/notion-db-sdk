@@ -1,0 +1,12 @@
+{
+  "uuid": "e9b633d2-cb2c-4344-a054-dd58d2475c18",
+  "text": " To get a tree-like view of directories and files on macOS similar to the `tree` command, you have a few options:\n\n1. Install `tree` using Homebrew:\n\n```\nbrew install tree\n```\n\nThen you can use it like:\n\n```\ntree /path/to/directory\n```\n\n2. Use the built-in `find` command with some formatting:\n\n```\nfind /path/to/directory -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'\n```\n\n3. Create an alias in your shell config file (e.g. `.zshrc` or `.bashrc`):\n\n```\nalias tree=\"find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'\"\n```\n\nThen you can just type `tree` in any directory.\n\n4. For a simple one-level directory listing, you can use:\n\n```\nls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\\/]*\\//--/g' -e 's/^/   /' -e 's/-/|/'\n```\n\nThese options provide tree-like output without needing to install additional software. The `find` or alias method is probably the most flexible and closest to the original `tree` command functionality.",
+  "sender": "assistant",
+  "index": 1,
+  "created_at": "2024-08-02T16:20:47.440535+00:00",
+  "updated_at": "2024-08-02T16:20:47.440535+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "8a49c021-8a2c-4977-a67a-cf9dc68480b3"
+}

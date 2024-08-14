@@ -1,0 +1,12 @@
+{
+  "uuid": "e30aa8c8-194f-4271-be0e-1589ba7bf952",
+  "text": " Here's a conventional commit message for the changes we've made:\n\n```\nfeat(property): add PropertyFactory with unit tests\n\n- Create PropertyFactory class to generate appropriate Property subclasses\n- Implement factory method to handle various Notion property types\n- Add comprehensive unit tests for PropertyFactory\n- Cover all supported property types and error scenarios in tests\n\nThis change introduces a new way to create property objects from raw map data,\nimproving type safety and reducing boilerplate when working with Notion API responses.\n```\n\nThis commit message follows the Conventional Commits 1.0.0 specification:\n\n1. It starts with `feat` to indicate a new feature.\n2. The scope `(property)` specifies that this change is related to the property handling part of the codebase.\n3. The subject line succinctly describes the main change.\n4. The body provides more detailed information about the changes made.\n5. The message explains the impact and reasoning behind the change.\n\nThis format makes it easier to understand the nature and scope of the changes at a glance, which is helpful for maintaining a clear project history and generating changelogs.",
+  "sender": "assistant",
+  "index": 7,
+  "created_at": "2024-08-02T16:31:07.910480+00:00",
+  "updated_at": "2024-08-02T16:31:07.910480+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [],
+  "parent_message_uuid": "b2e8c0d6-cef6-46b3-96e7-09350792e961"
+}

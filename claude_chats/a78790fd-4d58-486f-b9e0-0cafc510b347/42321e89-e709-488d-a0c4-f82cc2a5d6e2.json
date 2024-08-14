@@ -1,0 +1,33 @@
+{
+  "uuid": "42321e89-e709-488d-a0c4-f82cc2a5d6e2",
+  "text": "I think these much properties are good for starters. \n\nI want to do an end-to-end flow where I make the API call and push these changes to Notion database. How do you think I should proceed further? \n\nAnd just for your context the sample database has the following structure:",
+  "sender": "human",
+  "index": 12,
+  "created_at": "2024-07-23T16:12:35.965632+00:00",
+  "updated_at": "2024-07-23T16:12:35.965632+00:00",
+  "truncated": false,
+  "attachments": [],
+  "files": [
+    {
+      "file_uuid": "a8d7fb22-b74f-484e-af47-9fbe7a8f38a8",
+      "file_name": "CleanShot 20240723 at 21.41.16.png",
+      "thumbnail_url": "/api/0a93a6e7-eda2-4bee-ac78-58d0287fabb7/files/a8d7fb22-b74f-484e-af47-9fbe7a8f38a8/thumbnail",
+      "preview_url": "/api/0a93a6e7-eda2-4bee-ac78-58d0287fabb7/files/a8d7fb22-b74f-484e-af47-9fbe7a8f38a8/preview",
+      "thumbnail_asset": {
+        "url": "/api/0a93a6e7-eda2-4bee-ac78-58d0287fabb7/files/a8d7fb22-b74f-484e-af47-9fbe7a8f38a8/preview",
+        "file_variant": "thumbnail",
+        "primary_color": "ffffff",
+        "image_width": 400,
+        "image_height": 95
+      },
+      "preview_asset": {
+        "url": "/api/0a93a6e7-eda2-4bee-ac78-58d0287fabb7/files/a8d7fb22-b74f-484e-af47-9fbe7a8f38a8/preview",
+        "file_variant": "preview",
+        "primary_color": "ffffff",
+        "image_width": 1104,
+        "image_height": 263
+      }
+    }
+  ],
+  "parent_message_uuid": "16f8f049-505f-42a2-898f-91f037c04268"
+}
