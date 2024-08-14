@@ -1,6 +1,7 @@
 .fvm
-.vscode
-package/.claudeignore
-package/claude_chats
-.vscode/launch.json
+.vscode/settings.json
 env
+
+.claudeignore
+claude_chats
+.DS_Store
