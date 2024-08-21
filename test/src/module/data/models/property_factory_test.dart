@@ -116,6 +116,7 @@ void main() {
           'phone_number': '+1 (555) 123-4567',
         }
       };
+
       final property = factory(map);
       expect(property, isA<PhoneNumber>());
       expect(property.name, equals('Contact'));
