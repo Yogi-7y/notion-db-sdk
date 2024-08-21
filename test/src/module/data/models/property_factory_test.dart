@@ -1,3 +1,4 @@
+import 'package:core_y/core_y.dart';
 import 'package:notion_db_sdk/src/module/data/models/property_factory.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/checkbox.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/date.dart';
@@ -15,7 +16,13 @@ void main() {
     });
 
     test('throws ArgumentError when map is empty', () {
-      expect(() => factory({}), throwsA(isA<ArgumentError>()));
+      final _mapLengthMustBe1 = isA<SerializationException>().having(
+        (exception) => exception.exception,
+        'message',
+        equals('Map length must be 1'),
+      );
+
+      expect(() => factory({}), throwsA(_mapLengthMustBe1));
     });
 
     test('creates TextModel for rich_text type', () {
