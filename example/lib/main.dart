@@ -50,7 +50,6 @@ class _MyAppState extends State<MyApp> {
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
             final _page = _pages[index];
-
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: _page.entries
