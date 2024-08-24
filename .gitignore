@@ -1,6 +1,8 @@
 .fvm
 .vscode/settings.json
 .vscode/launch.json
+example/.vscode/launch.json
+example/.vscode/settings.json
 env
 
 .claudeignore
