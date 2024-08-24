@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late final _options = NotionOptions(
-    secret: String.fromEnvironment('NOTION_SECRET'),
+    secret: const String.fromEnvironment('SECRET'),
     version: '2022-06-28',
   );
 
