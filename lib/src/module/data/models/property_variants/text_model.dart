@@ -15,7 +15,7 @@ class TextModel extends Text {
   static const String propertyType = 'rich_text';
 
   factory TextModel.fromMap(Map<String, Object?> map) {
-    final _metaData = getMetaData<List<Map<String, dynamic>>>(
+    final _metaData = getMetaData<List<Object?>>(
       map: map,
       validators: [
         MapLengthValidator(),
@@ -23,7 +23,9 @@ class TextModel extends Text {
       ],
     );
 
-    final richTextList = _metaData.value ?? [];
+    final richTextList =
+        (_metaData.value as List<dynamic>?)?.map((item) => item as Map<String, Object?>).toList() ??
+            [];
 
     final textContent = richTextList.fold<String>('', (prev, element) {
       final text = element['text'] as Map<String, dynamic>?;
