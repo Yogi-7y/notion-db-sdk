@@ -5,6 +5,7 @@ import 'property_variants/checkbox_model.dart';
 import 'property_variants/date_model.dart';
 import 'property_variants/number_model.dart';
 import 'property_variants/phone_number_model.dart';
+import 'property_variants/status_model.dart';
 import 'property_variants/text_model.dart';
 
 class PropertyFactory {
@@ -41,6 +42,8 @@ class PropertyFactory {
         return DateModel.fromMap(map);
       case 'phone_number':
         return PhoneNumberModel.fromMap(map);
+      case 'status':
+        return StatusModel.fromMap(map);
       default:
         throw UnsupportedError('Unsupported property type: $_type');
     }
