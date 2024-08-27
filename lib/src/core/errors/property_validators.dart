@@ -43,7 +43,9 @@ class MapLengthValidator extends PropertyValidator {
 }
 
 /// Ensures that the property type is of the expected type.
+@Deprecated('Use PropertyTypeListValidator instead.')
 class PropertyTypeValidator extends PropertyValidator {
+  @Deprecated('Use PropertyTypeListValidator instead.')
   PropertyTypeValidator({
     required this.expectedType,
   });
@@ -60,6 +62,30 @@ class PropertyTypeValidator extends PropertyValidator {
       throw InvalidPropertyTypeException(
         map: map,
         expectedType: expectedType,
+      );
+
+    _nextValidator?.validate(map);
+  }
+}
+
+/// Ensures that the property type is one of the expected types.
+class PropertyTypeListValidator extends PropertyValidator {
+  PropertyTypeListValidator({
+    required this.expectedTypes,
+  });
+
+  final List<String> expectedTypes;
+
+  @override
+  void validate(Map<String, Object?> map) {
+    final _data = map.values.first as Map<String, Object?>? ?? {};
+
+    final _type = _data['type'] as String?;
+
+    if (_type == null || !expectedTypes.contains(_type))
+      throw InvalidPropertyTypeException(
+        map: map,
+        expectedType: expectedTypes.join(' or '),
       );
 
     _nextValidator?.validate(map);
