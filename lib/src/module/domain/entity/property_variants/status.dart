@@ -11,6 +11,8 @@ class Status extends Property<String> {
     super.valueDetails,
   });
 
+  static const propertyType = 'status';
+
   @override
   Map<String, Object?> toMap() => {
         'Status': {
