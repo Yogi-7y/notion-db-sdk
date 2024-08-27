@@ -50,4 +50,17 @@ class NotionRepository implements Repository {
       },
     );
   }
+
+  @override
+  AsyncResult<void, AppException> createPage(
+    DatabaseId databaseId,
+    List<Property> properties,
+  ) {
+    final _request = CreatePageRequest(
+      databaseId: databaseId,
+      properties: properties,
+    );
+
+    return apiClient<void>(_request);
+  }
 }

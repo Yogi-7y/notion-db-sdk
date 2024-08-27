@@ -3,10 +3,10 @@ import 'package:meta/meta.dart';
 import '../property.dart';
 
 @immutable
-class Text extends Property<String> {
-  const Text({
+class TextProperty extends Property<String> {
+  const TextProperty({
     required super.name,
-    required super.type,
+    super.type = propertyType,
     this.isTitle = false,
     super.id,
     super.valueDetails,

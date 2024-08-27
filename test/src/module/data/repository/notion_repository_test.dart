@@ -87,7 +87,7 @@ void main() {
 
           final _expectedResult = <Map<String, Property<Object?>>>[
             <String, Property<Object?>>{
-              'Description': const Text(
+              'Description': const TextProperty(
                 name: 'Description',
                 type: 'rich_text',
                 id: 'a%7BUf',

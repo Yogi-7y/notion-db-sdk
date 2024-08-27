@@ -94,14 +94,14 @@ void main() {
       };
 
       final _text = TextModel.fromMap(_map);
-      const _expectedResult = Text(
+      const _expectedResult = TextProperty(
         name: 'Description',
         type: 'rich_text',
         id: 'a%7BUf',
         valueDetails: Value(value: 'A dark sky'),
       );
 
-      expect(_text, isA<Text>());
+      expect(_text, isA<TextProperty>());
       expect(_text, _expectedResult);
     },
   );
@@ -118,14 +118,14 @@ void main() {
       };
       final _text = TextModel.fromMap(_map);
 
-      const _expectedResult = Text(
+      const _expectedResult = TextProperty(
         name: 'Description',
         type: 'rich_text',
         id: 'a%7BUf',
         valueDetails: Value(value: ''),
       );
 
-      expect(_text, isA<Text>());
+      expect(_text, isA<TextProperty>());
       expect(_text, _expectedResult);
     },
   );
@@ -155,14 +155,14 @@ void main() {
       };
       final _text = TextModel.fromMap(_map);
 
-      const _expectedResult = Text(
+      const _expectedResult = TextProperty(
         name: 'Description',
         type: 'rich_text',
         id: 'a%7BUf',
         valueDetails: Value(value: 'A dark sky with stars'),
       );
 
-      expect(_text, isA<Text>());
+      expect(_text, isA<TextProperty>());
       expect(_text, _expectedResult);
     },
   );

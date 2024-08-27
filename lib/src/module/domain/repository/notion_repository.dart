@@ -11,4 +11,9 @@ abstract class Repository {
   AsyncResult<Properties, AppException> getPageProperties(
     DatabaseId databaseId,
   );
+
+  AsyncResult<void, AppException> createPage(
+    DatabaseId databaseId,
+    List<Property> properties,
+  );
 }

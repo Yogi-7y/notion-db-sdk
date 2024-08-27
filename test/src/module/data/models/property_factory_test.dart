@@ -39,7 +39,7 @@ void main() {
         }
       };
       final property = factory(map);
-      expect(property, isA<Text>());
+      expect(property, isA<TextProperty>());
       expect(property.name, equals('Description'));
       expect(property.type, equals('rich_text'));
       expect(property.value, equals('This is a description'));
@@ -62,7 +62,7 @@ void main() {
         };
 
         final property = factory(map);
-        expect(property, isA<Text>());
+        expect(property, isA<TextProperty>());
         expect(property.name, equals('Name'));
         expect(property.type, equals('title'));
         expect(property.value, equals('Page Title'));

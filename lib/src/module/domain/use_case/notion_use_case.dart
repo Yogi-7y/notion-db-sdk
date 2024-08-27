@@ -2,6 +2,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
 
+import '../entity/property.dart';
 import '../repository/notion_repository.dart';
 
 class NotionUseCase {
@@ -15,6 +16,13 @@ class NotionUseCase {
 
   AsyncResult<Properties, AppException> getProperties(DatabaseId databaseId) {
     return repository.getPageProperties(databaseId);
+  }
+
+  AsyncResult<void, AppException> createPage({
+    required String databaseId,
+    required List<Property> properties,
+  }) async {
+    return repository.createPage(databaseId, properties);
   }
 }
 

@@ -1,8 +1,10 @@
 import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
 import 'package:network_y/network_y.dart';
+
 import './domain/use_case/notion_use_case.dart';
 import 'data/repository/notion_repository.dart';
+import 'domain/entity/property.dart';
 import 'domain/repository/notion_repository.dart';
 
 @immutable
@@ -32,4 +34,10 @@ class NotionClient {
 
   AsyncResult<Properties, AppException> getProperties(DatabaseId databaseId) =>
       _useCase.getProperties(databaseId);
+
+  AsyncResult<void, AppException> createPage({
+    required String databaseId,
+    required List<Property> properties,
+  }) =>
+      _useCase.createPage(databaseId: databaseId, properties: properties);
 }

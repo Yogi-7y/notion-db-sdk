@@ -18,7 +18,7 @@ void main() {
         }
       };
 
-      const _text = Text(
+      const _text = TextProperty(
         name: 'Description',
         type: 'rich_text',
         valueDetails: Value(
@@ -46,7 +46,7 @@ void main() {
         }
       };
 
-      const _text = Text(
+      const _text = TextProperty(
         name: 'Name',
         type: 'rich_text',
         isTitle: true,

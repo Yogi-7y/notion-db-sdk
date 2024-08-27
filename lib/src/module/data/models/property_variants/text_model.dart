@@ -1,10 +1,9 @@
 // ignore_for_file: sort_constructors_first
 
+import '../../../../../notion_db_sdk.dart';
 import '../../../../core/errors/property_validators.dart';
-import '../../../domain/entity/property_variants/text.dart';
-import '../../../domain/entity/value.dart';
 
-class TextModel extends Text {
+class TextModel extends TextProperty {
   const TextModel({
     required super.name,
     required super.type,
