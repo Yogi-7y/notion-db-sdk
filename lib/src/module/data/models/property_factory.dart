@@ -1,5 +1,6 @@
 import 'package:core_y/core_y.dart';
 
+import '../../../../notion_db_sdk.dart';
 import '../../domain/entity/property.dart';
 import 'property_variants/checkbox_model.dart';
 import 'property_variants/date_model.dart';
@@ -30,22 +31,40 @@ class PropertyFactory {
         code: SerializationExceptionCode.invalidType,
       );
 
-    switch (_type) {
-      case 'rich_text':
-      case 'title':
-        return TextModel.fromMap(map);
-      case 'number':
-        return NumberModel.fromMap(map);
-      case 'checkbox':
-        return CheckboxModel.fromMap(map);
-      case 'date':
-        return DateModel.fromMap(map);
-      case 'phone_number':
-        return PhoneNumberModel.fromMap(map);
-      case 'status':
-        return StatusModel.fromMap(map);
-      default:
-        throw UnsupportedError('Unsupported property type: $_type');
+    if (_type == 'formula') {
+      return call(extractPropertyFromFormula(map));
     }
+
+    if (TextProperty.supportedTypes.contains(_type)) return TextModel.fromMap(map);
+    if (Number.supportedTypes.contains(_type)) return NumberModel.fromMap(map);
+    if (Checkbox.supportedTypes.contains(_type)) return CheckboxModel.fromMap(map);
+    if (Date.supportedTypes.contains(_type)) return DateModel.fromMap(map);
+    if (PhoneNumber.supportedTypes.contains(_type)) return PhoneNumberModel.fromMap(map);
+    if (Status.supportedTypes.contains(_type)) return StatusModel.fromMap(map);
+
+    throw UnsupportedError('Unsupported property type: $_type');
+  }
+
+  Map<String, Object?> extractPropertyFromFormula(Map<String, Object?> map) {
+    final formulaMap = map.values.first as Map<String, Object?>? ?? {};
+    final innerPropertyMap = formulaMap['formula'] as Map<String, Object?>? ?? {};
+
+    final type = innerPropertyMap['type'] as String?;
+
+    if (type == null) {
+      throw SerializationException(
+        exception: 'Formula inner type is missing',
+        stackTrace: StackTrace.current,
+        payload: map,
+        code: SerializationExceptionCode.invalidType,
+      );
+    }
+    return {
+      map.keys.first: {
+        'id': formulaMap['id'],
+        'type': type,
+        type: innerPropertyMap[type],
+      },
+    };
   }
 }
