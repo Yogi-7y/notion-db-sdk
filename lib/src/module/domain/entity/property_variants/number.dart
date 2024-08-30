@@ -2,16 +2,18 @@ import 'package:meta/meta.dart';
 
 import '../property.dart';
 
+const _numberType = 'number';
+
 @immutable
 class Number extends Property<num> {
   const Number({
     required super.name,
-    required super.type,
+    super.type = _numberType,
     super.valueDetails,
     super.id,
   });
 
-  static const propertyType = 'number';
+  static const supportedTypes = [_numberType];
 
   @override
   Map<String, Object?> toMap() => {

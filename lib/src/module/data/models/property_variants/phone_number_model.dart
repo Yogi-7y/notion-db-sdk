@@ -15,7 +15,7 @@ class PhoneNumberModel extends PhoneNumber {
       map: map,
       validators: [
         MapLengthValidator(),
-        PropertyTypeValidator(expectedType: PhoneNumber.propertyType),
+        PropertyTypeListValidator(expectedTypes: PhoneNumber.supportedTypes),
       ],
     );
 

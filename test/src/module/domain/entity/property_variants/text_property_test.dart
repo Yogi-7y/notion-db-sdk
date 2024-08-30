@@ -1,4 +1,4 @@
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/text.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
 
@@ -20,7 +20,6 @@ void main() {
 
       const _text = TextProperty(
         name: 'Description',
-        type: 'rich_text',
         valueDetails: Value(
           value: 'foo bar',
         ),
@@ -48,7 +47,6 @@ void main() {
 
       const _text = TextProperty(
         name: 'Name',
-        type: 'rich_text',
         isTitle: true,
         valueDetails: Value(
           value: 'foo bar',

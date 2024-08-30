@@ -70,7 +70,6 @@ void main() {
 
       const _expectedResult = Checkbox(
         name: 'Task completed',
-        type: 'checkbox',
         id: 'ZI%40W',
         valueDetails: Value(value: true),
       );

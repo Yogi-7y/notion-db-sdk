@@ -4,17 +4,17 @@ import 'package:notion_db_sdk/src/module/domain/entity/property_variants/checkbo
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/date.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/number.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/phone_number.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/text.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
 import 'package:test/test.dart';
 
 void main() {
+  late PropertyFactory factory;
+
+  setUp(() {
+    factory = PropertyFactory();
+  });
+
   group('PropertyFactory', () {
-    late PropertyFactory factory;
-
-    setUp(() {
-      factory = PropertyFactory();
-    });
-
     test('throws ArgumentError when map is empty', () {
       final _mapLengthMustBe1 = isA<SerializationException>().having(
         (exception) => exception.exception,
@@ -139,6 +139,92 @@ void main() {
         }
       };
       expect(() => factory(map), throwsA(isA<UnsupportedError>()));
+    });
+  });
+
+  group('Formula', () {
+    test('creates NumberModel for formula with number type', () {
+      final map = {
+        'Amount': {
+          'id': 'HU%3DS',
+          'type': 'formula',
+          'formula': {
+            'type': 'number',
+            'number': 42,
+          },
+        },
+      };
+      final property = factory(map);
+      expect(property, isA<Number>());
+      expect(property.name, equals('Amount'));
+      expect(property.type, equals('number'));
+      expect(property.value, equals(42));
+    });
+
+    test('creates CheckboxModel for formula with boolean type', () {
+      final map = {
+        'Cold': {
+          'id': 'I%7D%5Cl',
+          'type': 'formula',
+          'formula': {
+            'type': 'boolean',
+            'boolean': false,
+          },
+        },
+      };
+      final property = factory(map);
+      expect(property, isA<Checkbox>());
+      expect(property.name, equals('Cold'));
+      expect(property.type, equals('boolean'));
+      expect(property.value, equals(false));
+    });
+
+    test('throws UnsupportedError for unsupported formula type', () {
+      final map = {
+        'Unsupported': {
+          'id': 'XYZ789',
+          'type': 'formula',
+          'formula': <String, Object?>{
+            'type': 'unsupported_type',
+            'unsupported_type': 'some_value',
+          },
+        },
+      };
+      expect(() => factory(map), throwsA(isA<UnsupportedError>()));
+    });
+
+    test('handles nested formula properties correctly', () {
+      final map = {
+        'NestedFormula': {
+          'id': 'NESTED123',
+          'type': 'formula',
+          'formula': <String, Object?>{
+            'type': 'number',
+            'number': 100,
+          },
+        },
+      };
+      final property = factory(map);
+      expect(property, isA<Number>());
+      expect(property.name, equals('NestedFormula'));
+      expect(property.type, equals('number'));
+      expect(property.value, equals(100));
+    });
+
+    test('preserves original property name in nested formula', () {
+      final map = {
+        'FormulaProperty': {
+          'id': 'FP123',
+          'type': 'formula',
+          'formula': {
+            'type': 'boolean',
+            'boolean': true,
+          },
+        },
+      };
+      final property = factory(map);
+      expect(property, isA<Checkbox>());
+      expect(property.name, equals('FormulaProperty'));
     });
   });
 }

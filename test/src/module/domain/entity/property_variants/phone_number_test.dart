@@ -14,7 +14,6 @@ void main() {
 
       const _phoneNumber = PhoneNumber(
         name: 'Contact',
-        type: 'phone_number',
         valueDetails: Value(
           value: '+1 (555) 123-4567',
         ),

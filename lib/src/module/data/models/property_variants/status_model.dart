@@ -15,7 +15,7 @@ class StatusModel extends Status {
       map: map,
       validators: [
         MapLengthValidator(),
-        PropertyTypeValidator(expectedType: Status.propertyType),
+        PropertyTypeListValidator(expectedTypes: Status.supportedTypes),
       ],
     );
 

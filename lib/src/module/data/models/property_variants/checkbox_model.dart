@@ -15,7 +15,7 @@ class CheckboxModel extends Checkbox {
       map: map,
       validators: [
         MapLengthValidator(),
-        PropertyTypeValidator(expectedType: Checkbox.propertyType),
+        PropertyTypeListValidator(expectedTypes: Checkbox.supportedTypes),
       ],
     );
 

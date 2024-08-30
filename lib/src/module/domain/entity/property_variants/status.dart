@@ -2,16 +2,18 @@ import 'package:meta/meta.dart';
 
 import '../property.dart';
 
+const _statusType = 'status';
+
 @immutable
 class Status extends Property<String> {
   const Status({
     required super.name,
-    required super.type,
+    super.type = _statusType,
     super.id,
     super.valueDetails,
   });
 
-  static const propertyType = 'status';
+  static const supportedTypes = [_statusType];
 
   @override
   Map<String, Object?> toMap() => {

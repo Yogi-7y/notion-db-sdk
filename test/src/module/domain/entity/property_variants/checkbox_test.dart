@@ -12,9 +12,8 @@ void main() {
         }
       };
 
-    const _checkbox = Checkbox(
+      const _checkbox = Checkbox(
         name: 'Task completed',
-        type: 'checkbox',
         valueDetails: Value(value: true),
       );
 

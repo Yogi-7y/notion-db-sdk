@@ -2,16 +2,19 @@ import 'package:meta/meta.dart';
 
 import '../property.dart';
 
+const _checkboxType = 'checkbox';
+const _booleanType = 'boolean';
+
 @immutable
 class Checkbox extends Property<bool> {
   const Checkbox({
     required super.name,
-    required super.type,
+    super.type = _checkboxType,
     super.valueDetails,
     super.id,
   });
 
-  static const propertyType = 'checkbox';
+  static const supportedTypes = [_checkboxType, _booleanType];
 
   @override
   Map<String, Object?> toMap() {

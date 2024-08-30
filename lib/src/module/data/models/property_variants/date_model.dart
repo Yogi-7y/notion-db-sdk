@@ -15,7 +15,7 @@ class DateModel extends Date {
       map: map,
       validators: [
         MapLengthValidator(),
-        PropertyTypeValidator(expectedType: Date.propertyType),
+        PropertyTypeListValidator(expectedTypes: Date.supportedTypes),
       ],
     );
 

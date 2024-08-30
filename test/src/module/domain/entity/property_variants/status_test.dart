@@ -14,7 +14,6 @@ void main() {
 
       const _status = Status(
         name: 'Status',
-        type: 'status',
         valueDetails: Value(
           value: 'In progress',
         ),

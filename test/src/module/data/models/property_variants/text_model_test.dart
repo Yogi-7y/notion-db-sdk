@@ -1,6 +1,6 @@
 import 'package:notion_db_sdk/src/core/errors/exception.dart';
 import 'package:notion_db_sdk/src/module/data/models/property_variants/text_model.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/text.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/value.dart';
 import 'package:test/test.dart';
 
@@ -96,7 +96,6 @@ void main() {
       final _text = TextModel.fromMap(_map);
       const _expectedResult = TextProperty(
         name: 'Description',
-        type: 'rich_text',
         id: 'a%7BUf',
         valueDetails: Value(value: 'A dark sky'),
       );

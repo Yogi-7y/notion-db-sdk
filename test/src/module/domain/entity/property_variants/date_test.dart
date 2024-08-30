@@ -14,7 +14,6 @@ void main() {
 
       final _date = Date(
         name: 'Date',
-        type: 'date',
         valueDetails: Value(
           value: DateTime(2021, 9),
         ),

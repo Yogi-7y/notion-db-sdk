@@ -18,10 +18,7 @@ class TextModel extends TextProperty {
       map: map,
       validators: [
         MapLengthValidator(),
-        PropertyTypeListValidator(expectedTypes: [
-          propertyType,
-          'title',
-        ])
+        PropertyTypeListValidator(expectedTypes: [propertyType]),
       ],
     );
 

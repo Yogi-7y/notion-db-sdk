@@ -15,7 +15,7 @@ class NumberModel extends Number {
       map: map,
       validators: [
         MapLengthValidator(),
-        PropertyTypeValidator(expectedType: Number.propertyType),
+        PropertyTypeListValidator(expectedTypes: Number.supportedTypes),
       ],
     );
     return NumberModel(
