@@ -8,120 +8,188 @@ import 'package:notion_db_sdk/src/module/domain/entity/value.dart';
 import 'package:notion_db_sdk/src/module/domain/repository/notion_repository.dart';
 import 'package:test/test.dart';
 
-const _payload = <String, Object?>{
-  'results': [
-    {
-      'properties': {
-        'Description': {
-          'id': 'a%7BUf',
-          'type': 'rich_text',
-          'rich_text': [
-            {
-              'type': 'text',
-              'text': {'content': 'A dark sky', 'link': null},
-              'annotations': {
-                'bold': false,
-                'italic': false,
-                'strikethrough': false,
-                'underline': false,
-                'code': false,
-                'color': 'default'
-              },
-              'plain_text': 'A dark sky',
-              'href': null
-            }
-          ]
-        },
-        'Number': {'id': 'uCG%3A', 'type': 'number', 'number': 42},
-      }
-    },
-    {
-      'properties': {
-        'Number': {'id': 'uCG%3A', 'type': 'number', 'number': 42},
-        'Date': {
-          'id': '%5E%7Cny',
-          'type': 'date',
-          'date': {'start': '2023-02-23', 'end': null, 'time_zone': null}
-        },
-      }
-    }
-  ],
-};
-
 class MockApiClient extends Mock implements ApiClient {}
 
-class FakePostRequest extends Fake implements PostRequest {}
+class MockPostRequest extends Mock implements PostRequest {}
 
 void main() {
-  late MockApiClient mockApiClient;
   late NotionRepository repository;
+  late MockApiClient mockApiClient;
 
-  setUpAll(
-    () {
-      registerFallbackValue(FakePostRequest());
-    },
-  );
+  setUpAll(() {
+    registerFallbackValue(MockPostRequest());
+  });
 
-  setUp(
-    () {
-      mockApiClient = MockApiClient();
-      repository = NotionRepository(mockApiClient);
-    },
-  );
+  setUp(() {
+    mockApiClient = MockApiClient();
+    repository = NotionRepository(mockApiClient);
+  });
 
-  group(
-    'NotionRepository',
-    () {
-      test(
-        'return the map of properties when response is successful',
-        () async {
-          const _success = Success<Map<String, Object?>, ApiException>(_payload);
-
-          when(
-            () => mockApiClient.call<Map<String, Object?>>(any()),
-          ).thenAnswer(
-            (_) async => _success,
-          );
-
-          final _expectedResult = <Map<String, Property<Object?>>>[
-            <String, Property<Object?>>{
-              'Description': const TextProperty(
-                name: 'Description',
-                type: 'rich_text',
-                id: 'a%7BUf',
-                valueDetails: Value(value: 'A dark sky'),
-              ),
-              'Number': const Number(
-                name: 'Number',
-                type: 'number',
-                id: 'uCG%3A',
-                valueDetails: Value(value: 42),
-              ),
-            },
+  group('NotionRepository', () {
+    group('query', () {
+      test('returns Properties on successful API call', () async {
+        const databaseId = 'test_database_id';
+        final mockResponse = {
+          'results': [
             {
-              'Number': const Number(
-                name: 'Number',
-                type: 'number',
-                id: 'uCG%3A',
-                valueDetails: Value(value: 42),
-              ),
-              'Date': Date(
-                name: 'Date',
-                type: 'date',
-                id: '%5E%7Cny',
-                valueDetails: Value(
-                  value: DateTime(2023, 2, 23),
-                ),
-              ),
+              'properties': {
+                'Name': {
+                  'id': 'title',
+                  'type': 'title',
+                  'title': [
+                    {
+                      'text': {'content': 'Test Task'}
+                    }
+                  ]
+                },
+                'Status': {
+                  'id': 'status',
+                  'type': 'status',
+                  'status': {'name': 'In Progress'}
+                }
+              }
+            }
+          ]
+        };
+
+        when(() => mockApiClient.call<Map<String, Object?>>(any()))
+            .thenAnswer((_) async => Success(mockResponse));
+
+        final result = await repository.query(databaseId);
+
+        expect(result, isA<Success<Properties, ApiException>>());
+        final properties = result.valueOrNull!;
+        expect(properties.length, 1);
+        expect(properties[0]['Name'], isA<TextProperty>());
+        expect(properties[0]['Name']!.value, 'Test Task');
+        expect(properties[0]['Status'], isA<Status>());
+        expect(properties[0]['Status']!.value, 'In Progress');
+
+        verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
+      });
+
+      test('returns Failure on API error', () async {
+        const databaseId = 'test_database_id';
+        final mockException = ApiException(
+          exception: Exception('API Error'),
+          stackTrace: StackTrace.empty,
+          request: MockPostRequest(),
+        );
+
+        when(() => mockApiClient.call<Map<String, Object?>>(any()))
+            .thenAnswer((_) async => Failure(mockException));
+
+        final result = await repository.query(databaseId);
+
+        expect(result, isA<Failure<Properties, ApiException>>());
+        verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
+      });
+    });
+
+    group('fetchPageProperties', () {
+      test('returns Map<String, Property> on successful API call', () async {
+        const pageId = 'test_page_id';
+        final mockResponse = {
+          'properties': {
+            'Title': {
+              'id': 'title',
+              'type': 'title',
+              'title': [
+                {
+                  'text': {'content': 'Test Page'}
+                }
+              ]
             },
-          ];
+            'Date': {
+              'id': 'date',
+              'type': 'date',
+              'date': {'start': '2024-08-30'}
+            }
+          }
+        };
 
-          final _result = await repository.query('');
+        when(() => mockApiClient.call<Map<String, Object?>>(any()))
+            .thenAnswer((_) async => Success(mockResponse));
 
-          expect(_result, isA<Success<Properties, ApiException>>());
-          expect(_result.valueOrNull, _expectedResult);
-        },
-      );
-    },
-  );
+        final result = await repository.fetchPageProperties(pageId);
+
+        expect(result, isA<Success<Map<String, Property>, ApiException>>());
+        final properties = result.valueOrNull!;
+        expect(properties['Title'], isA<TextProperty>());
+        expect(properties['Title']!.value, 'Test Page');
+        expect(properties['Date'], isA<Date>());
+        expect(properties['Date']!.value, DateTime(2024, 8, 30));
+
+        verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
+      });
+
+      test('returns Failure on API error', () async {
+        const pageId = 'test_page_id';
+
+        final mockException = ApiException(
+          exception: Exception('API Error'),
+          stackTrace: StackTrace.empty,
+          request: MockPostRequest(),
+        );
+
+        when(() => mockApiClient.call<Map<String, Object?>>(any()))
+            .thenAnswer((_) async => Failure(mockException));
+
+        final result = await repository.fetchPageProperties(pageId);
+
+        expect(result, isA<Failure<Map<String, Property>, ApiException>>());
+
+        verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
+      });
+    });
+
+    group('createPage', () {
+      test('returns Success on successful API call', () async {
+        const databaseId = 'test_database_id';
+        const properties = [
+          TextProperty(
+            name: 'Name',
+            valueDetails: Value(value: 'New Task'),
+            isTitle: true,
+          ),
+          Status(
+            name: 'Status',
+            valueDetails: Value(value: 'To Do'),
+          ),
+        ];
+
+        when(() => mockApiClient.call<void>(any())).thenAnswer((_) async => const Success(null));
+
+        final result = await repository.createPage(databaseId, properties);
+
+        expect(result, isA<Success<void, AppException>>());
+
+        verify(() => mockApiClient.call<void>(any())).called(1);
+      });
+
+      test('returns Failure on API error', () async {
+        const databaseId = 'test_database_id';
+        const properties = [
+          TextProperty(
+            name: 'Name',
+            valueDetails: Value(value: 'New Task'),
+            isTitle: true,
+          ),
+        ];
+
+        final mockException = ApiException(
+          exception: Exception('API Error'),
+          stackTrace: StackTrace.empty,
+          request: MockPostRequest(),
+        );
+        when(() => mockApiClient.call<void>(any())).thenAnswer((_) async => Failure(mockException));
+
+        final result = await repository.createPage(databaseId, properties);
+
+        expect(result, isA<Failure<void, AppException>>());
+
+        verify(() => mockApiClient.call<void>(any())).called(1);
+      });
+    });
+  });
 }
