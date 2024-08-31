@@ -2,7 +2,7 @@ import '../../../../core/errors/property_validators.dart';
 import '../../../domain/entity/property_variants/checkbox.dart';
 import '../../../domain/entity/value.dart';
 
-class CheckboxModel extends Checkbox {
+class CheckboxModel extends CheckboxProperty {
   const CheckboxModel({
     required super.name,
     required super.type,
@@ -15,7 +15,7 @@ class CheckboxModel extends Checkbox {
       map: map,
       validators: [
         MapLengthValidator(),
-        PropertyTypeListValidator(expectedTypes: Checkbox.supportedTypes),
+        PropertyTypeListValidator(expectedTypes: CheckboxProperty.supportedTypes),
       ],
     );
 

@@ -90,7 +90,7 @@ void main() {
         }
       };
       final property = factory(map);
-      expect(property, isA<Checkbox>());
+      expect(property, isA<CheckboxProperty>());
       expect(property.name, equals('Is Complete'));
       expect(property.type, equals('checkbox'));
       expect(property.value, isTrue);
@@ -169,7 +169,7 @@ void main() {
         },
       };
       final property = factory(map);
-      expect(property, isA<Checkbox>());
+      expect(property, isA<CheckboxProperty>());
       expect(property.name, equals('Cold'));
       expect(property.type, equals('boolean'));
       expect(property.value, equals(false));
@@ -219,7 +219,7 @@ void main() {
         },
       };
       final property = factory(map);
-      expect(property, isA<Checkbox>());
+      expect(property, isA<CheckboxProperty>());
       expect(property.name, equals('FormulaProperty'));
     });
   });

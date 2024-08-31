@@ -68,13 +68,13 @@ void main() {
 
       final _checkbox = CheckboxModel.fromMap(_map);
 
-      const _expectedResult = Checkbox(
+      const _expectedResult = CheckboxProperty(
         name: 'Task completed',
         id: 'ZI%40W',
         valueDetails: Value(value: true),
       );
 
-      expect(_checkbox, isA<Checkbox>());
+      expect(_checkbox, isA<CheckboxProperty>());
       expect(_checkbox, _expectedResult);
     },
   );

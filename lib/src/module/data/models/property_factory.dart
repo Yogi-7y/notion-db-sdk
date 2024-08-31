@@ -54,7 +54,7 @@ class PropertyFactory {
 
     if (TextProperty.supportedTypes.contains(_type)) return TextModel.fromMap(map);
     if (Number.supportedTypes.contains(_type)) return NumberModel.fromMap(map);
-    if (Checkbox.supportedTypes.contains(_type)) return CheckboxModel.fromMap(map);
+    if (CheckboxProperty.supportedTypes.contains(_type)) return CheckboxModel.fromMap(map);
     if (Date.supportedTypes.contains(_type)) return DateModel.fromMap(map);
     if (PhoneNumber.supportedTypes.contains(_type)) return PhoneNumberModel.fromMap(map);
     if (Status.supportedTypes.contains(_type)) return StatusModel.fromMap(map);

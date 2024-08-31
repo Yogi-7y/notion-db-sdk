@@ -6,8 +6,8 @@ const _checkboxType = 'checkbox';
 const _booleanType = 'boolean';
 
 @immutable
-class Checkbox extends Property<bool> {
-  const Checkbox({
+class CheckboxProperty extends Property<bool> {
+  const CheckboxProperty({
     required super.name,
     super.type = _checkboxType,
     super.valueDetails,

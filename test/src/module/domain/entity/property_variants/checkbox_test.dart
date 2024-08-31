@@ -12,7 +12,7 @@ void main() {
         }
       };
 
-      const _checkbox = Checkbox(
+      const _checkbox = CheckboxProperty(
         name: 'Task completed',
         valueDetails: Value(value: true),
       );
