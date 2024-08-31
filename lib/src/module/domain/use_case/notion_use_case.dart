@@ -31,52 +31,6 @@ class NotionUseCase implements PageResolver {
   /// When set to true, it automatically fetches the properties of
   /// related pages for any relation properties so they are readily available.
 
-  ///  Example usage:
-  /// ```dart
-  /// final result = await useCase.fetchPageProperties('page_id');
-  /// result.fold(
-  ///   onSuccess: (properties) {
-  ///     // Accessing a text property
-  ///     final titleProperty = properties['Title'] as TextProperty?;
-  ///     print('Page title: ${titleProperty?.value}');
-  ///
-  ///     // Accessing a number property
-  ///     final priceProperty = properties['Price'] as Number?;
-  ///     print('Price: ${priceProperty?.value}');
-  ///
-  ///     // Accessing a date property
-  ///     final dueDateProperty = properties['Due Date'] as Date?;
-  ///     print('Due date: ${dueDateProperty?.value}');
-  ///   },
-  ///   onFailure: (error) => print('Error: $error'),
-  /// );
-  /// ```
-  ///
-  /// It is recommended to set [forceFetchRelationPages] to false if there are many
-  /// related pages, as this can lead to a large number of API calls. In that case, it
-  /// is recommended to resolve related pages manually as needed.
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final result = await useCase.query('database_id', lazyLoadRelations: true);
-  ///
-  /// result.fold(
-  ///   onSuccess: (properties) {
-  ///     properties['related_pages'].first.value; // Access the value of the first related
-  ///   },
-  ///   onFailure: (error) => print('Error: $error'),
-  /// );
-  /// ```
-  /// To resolve the related pages manually later:
-  /// ```dart
-  ///   final result = await useCase.query('database_id', lazyLoadRelations: false);
-  ///
-  ///   final properties = result.valueOrNull ?? [];
-  ///   final relation = properties['related_pages'].first as RelationProperty;
-  ///   await relation.valueDetails?.value.first.resolve(useCase); // Resolve
-  ///
-  ///   relation.valueDetails?.value.first.value; // Access the value of the first related page
-  /// ```
   AsyncResult<Properties, AppException> query(
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
@@ -112,40 +66,6 @@ class NotionUseCase implements PageResolver {
   ///
   /// [databaseId] is the ID of the database to create the page in.
   /// [properties] is a list of [Property] objects to set on the new page.
-  ///
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final properties = [
-  ///   TextProperty(
-  ///     name: 'Name',
-  ///     valueDetails: Value(value: 'New Task'),
-  ///     isTitle: true,
-  ///   ),
-  ///   Number(
-  ///     name: 'Priority',
-  ///     valueDetails: Value(value: 1),
-  ///   ),
-  ///   Date(
-  ///     name: 'Due Date',
-  ///     valueDetails: Value(value: DateTime(2023, 12, 31)),
-  ///   ),
-  ///   Status(
-  ///     name: 'Status',
-  ///     valueDetails: Value(value: 'In Progress'),
-  ///   ),
-  /// ];
-  ///
-  /// final result = await useCase.createPage(
-  ///   databaseId: 'database_id',
-  ///   properties: properties,
-  /// );
-  ///
-  /// result.fold(
-  ///   onSuccess: (_) => print('Page created successfully'),
-  ///   onFailure: (error) => print('Error creating page: $error'),
-  /// );
-  /// ```
   AsyncResult<void, AppException> createPage({
     required String databaseId,
     required List<Property> properties,
