@@ -65,7 +65,7 @@ void main() {
             TextModel.fromMap(_map);
           } catch (e) {
             if (e is InvalidPropertyTypeException) {
-              expect(e.expectedType, 'rich_text');
+              expect(e.expectedType, contains('rich_text'));
               rethrow;
             }
           }
@@ -119,7 +119,6 @@ void main() {
 
       const _expectedResult = TextProperty(
         name: 'Description',
-        type: 'rich_text',
         id: 'a%7BUf',
         valueDetails: Value(value: ''),
       );
@@ -156,9 +155,32 @@ void main() {
 
       const _expectedResult = TextProperty(
         name: 'Description',
-        type: 'rich_text',
         id: 'a%7BUf',
         valueDetails: Value(value: 'A dark sky with stars'),
+      );
+
+      expect(_text, isA<TextProperty>());
+      expect(_text, _expectedResult);
+    },
+  );
+
+  test(
+    'handles unique_id and returns it as a TextProperty',
+    () {
+      final _map = {
+        'ID': {
+          'id': 'HUIH',
+          'type': 'unique_id',
+          'unique_id': {'prefix': 'P', 'number': 42}
+        },
+      };
+      final _text = TextModel.fromMap(_map);
+
+      const _expectedResult = TextProperty(
+        name: 'ID',
+        id: 'HUIH',
+        type: 'unique_id',
+        valueDetails: Value(value: 'P-42'),
       );
 
       expect(_text, isA<TextProperty>());
