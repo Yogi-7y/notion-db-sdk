@@ -1,3 +1,18 @@
-## 1.0.0
+## 0.1.0
 
-- Initial version.
+Initial release of the Notion DB SDK package.
+
+### Added
+
+- Core functionality to interact with Notion databases
+- Support for querying databases and fetching page properties
+- Implementation of various Notion property types:
+  - Text
+  - Number
+  - Checkbox
+  - Date
+  - Phone Number
+  - Status
+  - Relation
+- Basic error handling and type-safe operations
+- Comprehensive test suite for all major components

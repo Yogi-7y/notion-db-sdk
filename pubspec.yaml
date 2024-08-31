@@ -1,7 +1,10 @@
 name: notion_db_sdk
-description: A sample command-line application.
-version: 0.0.1
-publish_to: "none"
+description: A type-safe structured way to interact with Notion APIs.
+homepage: https://github.com/Yogi-7y/notion_db_sdk
+repository: https://github.com/Yogi-7y/notion_db_sdk
+issue_tracker: https://github.com/Yogi-7y/notion_db_sdk/issues
+license: MIT
+version: 0.1.0
 
 environment:
   sdk: ^3.4.0

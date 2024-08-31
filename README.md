@@ -12,8 +12,7 @@ import 'package:notion_db_sdk/notion_db_sdk.dart';
 void main() async {
   // Initialize the NotionClient
   final client = NotionClient(
-    options: NotionOptions(
-      secret: 'your_notion_api_secret',
+    options: NotionOptions( secret: 'your_notion_api_secret',
       version: 'your_notion_api_version',
     ),
   );

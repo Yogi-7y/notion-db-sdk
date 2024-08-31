@@ -2,7 +2,6 @@ import 'package:core_y/core_y.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/page.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/relation.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/value.dart';
 import 'package:notion_db_sdk/src/module/domain/repository/notion_repository.dart';
@@ -157,7 +156,7 @@ void main() {
 
       when(() => mockRepository.query(databaseId)).thenAnswer((_) async => Success(mockProperties));
 
-      final result = await notionUseCase.query(databaseId, lazyLoadRelations: false);
+      final result = await notionUseCase.query(databaseId);
 
       expect(result, isA<Success<Properties, AppException>>());
       expect(result.valueOrNull, equals(mockProperties));
