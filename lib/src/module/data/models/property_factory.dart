@@ -11,7 +11,18 @@ import 'property_variants/relation_model.dart';
 import 'property_variants/status_model.dart';
 import 'property_variants/text_model.dart';
 
+/// A factory class responsible for creating appropriate [Property] instances
+/// based on the raw data received from the Notion API.
 class PropertyFactory {
+  /// Creates a [Property] instance from a map of raw Notion API data.
+  ///
+  /// [map] is the raw property data from the Notion API.
+  ///
+  /// Returns a concrete implementation of [Property] based on the type
+  /// of the property in the input map.
+  ///
+  /// Throws [SerializationException] if the input map is invalid or
+  /// the property type is unsupported.
   Property call(Map<String, Object?> map) {
     if (map.length != 1)
       throw SerializationException(
@@ -52,6 +63,9 @@ class PropertyFactory {
     throw UnsupportedError('Unsupported property type: $_type');
   }
 
+  /// Extracts the underlying property embeded in a formula property. \
+  /// Formula does not have a dedicated implementation of [Property] as in the end
+  /// it'll be a common type like [TextProperty], [Number], etc.
   Map<String, Object?> extractPropertyFromFormula(Map<String, Object?> map) {
     final formulaMap = map.values.first as Map<String, Object?>? ?? {};
     final innerPropertyMap = formulaMap['formula'] as Map<String, Object?>? ?? {};
@@ -75,6 +89,9 @@ class PropertyFactory {
     };
   }
 
+  /// Extracts the underlying property embeded in a rollup property. \
+  /// Rollup does not have a dedicated implementation of [Property] as in the end
+  /// it'll be a common type like [TextProperty], [Number], etc.
   Map<String, Object?> extractPropertyFromRollup(Map<String, Object?> map) {
     final rollupMap = map.values.first as Map<String, Object?>? ?? {};
     final innerRollupMap = rollupMap['rollup'] as Map<String, Object?>? ?? {};

@@ -4,8 +4,11 @@ import 'package:meta/meta.dart';
 import 'postable_property.dart';
 import 'value.dart';
 
+/// Represents a generic property in a Notion page. \
+/// For example, Text, Number, Checkbox, etc.
 @immutable
 abstract class Property<T extends Object> implements PostableProperty {
+  /// Creates a [Property] with the given [name], [type], [id], and [valueDetails].
   const Property({
     required this.name,
     required this.type,
@@ -13,12 +16,24 @@ abstract class Property<T extends Object> implements PostableProperty {
     this.valueDetails,
   });
 
+  /// The name of the property. This is the name given to the property in the Notion database.
   final String name;
+
+  /// The type of the property. This is the type of the property in the Notion database.
   final String type;
+
   final String? id;
+
   final Value<T>? valueDetails;
 
   T? get value => valueDetails?.value;
+
+  /// Converts the property to a map format suitable for Notion API requests.
+  ///
+  /// This method should be implemented by subclasses to provide
+  /// type-specific serialization.
+  @override
+  Map<String, Object?> toMap();
 
   @override
   bool operator ==(covariant Property<T> other) {
