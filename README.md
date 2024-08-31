@@ -2,7 +2,7 @@
 
 A type-safe structured way to interact with Notion APIs. This client handles structured data from within Notion databases, focusing on property management while ignoring embedded styles, page blocks, and other non-database elements.
 
-![Diagram](assets/diagram.png)
+![Diagram](https://raw.githubusercontent.com/Yogi-7y/notion-db-sdk/main/assets/diagram.png)
 
 ## Quick Start
 
