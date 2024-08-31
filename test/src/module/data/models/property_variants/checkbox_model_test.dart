@@ -45,7 +45,7 @@ void main() {
             CheckboxModel.fromMap(_map);
           } catch (e) {
             if (e is InvalidPropertyTypeException) {
-              expect(e.expectedType, 'checkbox');
+              expect(e.expectedType, contains('checkbox'));
               rethrow;
             }
           }

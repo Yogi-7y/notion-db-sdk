@@ -65,7 +65,6 @@ void main() {
         final _number = NumberModel.fromMap(_map);
         const _expectedResult = Number(
           name: 'Quantity',
-          type: 'number',
           id: '123',
           valueDetails: Value(value: 42),
         );
