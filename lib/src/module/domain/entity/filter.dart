@@ -11,3 +11,35 @@ abstract class PropertyFilter extends Filter {
 
   final String property;
 }
+
+@immutable
+class AndFilter extends Filter {
+  AndFilter(this.filters)
+      : assert(
+          filters.length > 1,
+          'AndFilter must contain at least two filters.',
+        );
+
+  final List<Filter> filters;
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'and': filters.map((filter) => filter.toMap()).toList(),
+      };
+}
+
+@immutable
+class OrFilter extends Filter {
+  OrFilter(this.filters)
+      : assert(
+          filters.length > 1,
+          'OrFilter must contain at least two filters.',
+        );
+
+  final List<Filter> filters;
+
+  @override
+  Map<String, dynamic> toMap() => {
+        'or': filters.map((filter) => filter.toMap()).toList(),
+      };
+}
