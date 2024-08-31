@@ -33,7 +33,7 @@ class NotionClient {
   );
 
   AsyncResult<Properties, AppException> getProperties(DatabaseId databaseId) =>
-      _useCase.getProperties(databaseId);
+      _useCase.query(databaseId);
 
   AsyncResult<void, AppException> createPage({
     required String databaseId,

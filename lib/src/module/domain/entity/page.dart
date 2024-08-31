@@ -2,7 +2,9 @@ import 'package:core_y/core_y.dart';
 
 import 'property.dart';
 
-typedef Resolver = AsyncResult<Map<String, Property>, AppException> Function(String);
+abstract class PageResolver {
+  AsyncResult<Map<String, Property>, AppException> resolve(String pageId);
+}
 
 class Page {
   Page({
@@ -13,8 +15,8 @@ class Page {
   final String id;
   Map<String, Property> properties;
 
-  Future<void> resolve(Resolver resolver) async {
-    final result = await resolver(id);
+  Future<void> resolve(PageResolver resolver) async {
+    final result = await resolver.resolve(id);
 
     result.fold(
       onSuccess: (value) => properties = value,

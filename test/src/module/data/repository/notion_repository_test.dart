@@ -116,7 +116,7 @@ void main() {
             },
           ];
 
-          final _result = await repository.getPageProperties('');
+          final _result = await repository.query('');
 
           expect(_result, isA<Success<Properties, ApiException>>());
           expect(_result.valueOrNull, _expectedResult);
