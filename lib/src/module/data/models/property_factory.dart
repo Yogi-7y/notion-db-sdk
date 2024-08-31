@@ -35,6 +35,10 @@ class PropertyFactory {
       return call(extractPropertyFromFormula(map));
     }
 
+    if (_type == 'rollup') {
+      return call(extractPropertyFromRollup(map));
+    }
+
     if (TextProperty.supportedTypes.contains(_type)) return TextModel.fromMap(map);
     if (Number.supportedTypes.contains(_type)) return NumberModel.fromMap(map);
     if (Checkbox.supportedTypes.contains(_type)) return CheckboxModel.fromMap(map);
@@ -64,6 +68,51 @@ class PropertyFactory {
         'id': formulaMap['id'],
         'type': type,
         type: innerPropertyMap[type],
+      },
+    };
+  }
+
+  Map<String, Object?> extractPropertyFromRollup(Map<String, Object?> map) {
+    final rollupMap = map.values.first as Map<String, Object?>? ?? {};
+    final innerRollupMap = rollupMap['rollup'] as Map<String, Object?>? ?? {};
+
+    final type = innerRollupMap['type'] as String?;
+
+    if (type == null) {
+      throw SerializationException(
+        exception: 'Rollup inner type is missing',
+        stackTrace: StackTrace.current,
+        payload: map,
+        code: SerializationExceptionCode.invalidType,
+      );
+    }
+
+    if (type == 'array') {
+      final arrayValue = innerRollupMap['array'] as List<Object?>?;
+      if (arrayValue != null && arrayValue.isNotEmpty) {
+        final firstArrayItem = arrayValue.first as Map<String, Object?>?;
+
+        if (firstArrayItem != null) {
+          final type = firstArrayItem['type'] as String?;
+
+          if (type == null) return <String, Object?>{};
+
+          return <String, Object?>{
+            map.keys.first: <String, Object?>{
+              'id': rollupMap['id'],
+              'type': firstArrayItem['type'],
+              type: firstArrayItem[firstArrayItem['type']],
+            },
+          };
+        }
+      }
+    }
+
+    return <String, Object?>{
+      map.keys.first: <String, Object?>{
+        'id': rollupMap['id'],
+        'type': type,
+        type: innerRollupMap[type],
       },
     };
   }

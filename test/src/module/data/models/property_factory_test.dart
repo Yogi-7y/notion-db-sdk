@@ -1,9 +1,5 @@
 import 'package:core_y/core_y.dart';
 import 'package:notion_db_sdk/src/module/data/models/property_factory.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/checkbox.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/date.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/number.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/phone_number.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
 import 'package:test/test.dart';
 
@@ -225,6 +221,61 @@ void main() {
       final property = factory(map);
       expect(property, isA<Checkbox>());
       expect(property.name, equals('FormulaProperty'));
+    });
+  });
+
+  group('Rollup property handling', () {
+    test('creates NumberModel for rollup with array of numbers', () {
+      final map = {
+        'Price': <String, Object?>{
+          'id': 'C%3DT%40',
+          'type': 'rollup',
+          'rollup': <String, Object?>{
+            'type': 'array',
+            'array': [
+              {
+                'type': 'number',
+                'number': 42,
+              }
+            ],
+            'function': 'show_original'
+          }
+        },
+      };
+      final property = factory(map);
+      expect(property, isA<Number>());
+      expect(property.name, equals('Price'));
+      expect(property.type, equals('number'));
+      expect(property.value, equals(42));
+    });
+
+    test('creates NumberModel for rollup with number', () {
+      final map = {
+        'Minutes': {
+          'id': 'fZhC',
+          'type': 'rollup',
+          'rollup': {'type': 'number', 'number': 60, 'function': 'sum'}
+        },
+      };
+      final property = factory(map);
+      expect(property, isA<Number>());
+      expect(property.name, equals('Minutes'));
+      expect(property.type, equals('number'));
+      expect(property.value, equals(60));
+    });
+
+    test('throws UnsupportedError for unsupported rollup type', () {
+      final map = {
+        'Unsupported': {
+          'id': 'XYZ789',
+          'type': 'rollup',
+          'rollup': {
+            'type': 'unsupported_type',
+            'unsupported_type': 'some_value',
+          },
+        },
+      };
+      expect(() => factory(map), throwsA(isA<UnsupportedError>()));
     });
   });
 }
