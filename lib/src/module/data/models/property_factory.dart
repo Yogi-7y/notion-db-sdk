@@ -2,10 +2,12 @@ import 'package:core_y/core_y.dart';
 
 import '../../../../notion_db_sdk.dart';
 import '../../domain/entity/property.dart';
+import '../../domain/entity/property_variants/relation.dart';
 import 'property_variants/checkbox_model.dart';
 import 'property_variants/date_model.dart';
 import 'property_variants/number_model.dart';
 import 'property_variants/phone_number_model.dart';
+import 'property_variants/relation_model.dart';
 import 'property_variants/status_model.dart';
 import 'property_variants/text_model.dart';
 
@@ -45,6 +47,7 @@ class PropertyFactory {
     if (Date.supportedTypes.contains(_type)) return DateModel.fromMap(map);
     if (PhoneNumber.supportedTypes.contains(_type)) return PhoneNumberModel.fromMap(map);
     if (Status.supportedTypes.contains(_type)) return StatusModel.fromMap(map);
+    if (RelationProperty.supportedTypes.contains(_type)) return RelationModel.fromMap(map);
 
     throw UnsupportedError('Unsupported property type: $_type');
   }

@@ -12,8 +12,8 @@ class NotionRepository implements Repository {
   final ApiClient apiClient;
 
   @override
-  AsyncResult<Properties, ApiException> getPageProperties(DatabaseId databaseId) async {
-    final _request = FetchPropertiesRequest(databaseId: databaseId);
+  AsyncResult<Properties, ApiException> query(DatabaseId databaseId) async {
+    final _request = QueryRequest(databaseId: databaseId);
 
     final result = await apiClient<Map<String, Object?>>(_request);
 
@@ -52,6 +52,24 @@ class NotionRepository implements Repository {
   }
 
   @override
+  AsyncResult<Map<String, Property>, ApiException> fetchPageProperties(String pageId) async {
+    final _request = FetchPagePropertiesRequest(pageId: pageId);
+
+    final result = await apiClient<Map<String, Object?>>(_request);
+
+    return result.map(
+      (value) {
+        try {
+          final _properties = value['properties'] as Map<String, Object?>? ?? {};
+          return _parseProperties(_properties);
+        } catch (e) {
+          rethrow;
+        }
+      },
+    );
+  }
+
+  @override
   AsyncResult<void, AppException> createPage(
     DatabaseId databaseId,
     List<Property> properties,
@@ -62,5 +80,17 @@ class NotionRepository implements Repository {
     );
 
     return apiClient<void>(_request);
+  }
+
+  Map<String, Property> _parseProperties(Map<String, Object?> properties) {
+    final _result = <String, Property>{};
+    final _factory = PropertyFactory();
+
+    for (final entry in properties.entries) {
+      final _property = _factory({entry.key: entry.value});
+      _result[entry.key] = _property;
+    }
+
+    return _result;
   }
 }

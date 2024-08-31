@@ -4,8 +4,8 @@ import 'package:network_y/network_y.dart';
 import '../../../core/network/api_constants.dart';
 import '../../domain/entity/property.dart';
 
-class FetchPropertiesRequest extends BaseNotionRequest implements PostRequest {
-  FetchPropertiesRequest({
+class QueryRequest extends BaseNotionRequest implements PostRequest {
+  QueryRequest({
     required this.databaseId,
   }) : super(
           endpoint: 'v1/databases/$databaseId/query',
@@ -15,6 +15,16 @@ class FetchPropertiesRequest extends BaseNotionRequest implements PostRequest {
 
   @override
   Payload get body => {};
+}
+
+class FetchPagePropertiesRequest extends BaseNotionRequest implements GetRequest {
+  FetchPagePropertiesRequest({
+    required this.pageId,
+  }) : super(
+          endpoint: 'v1/pages/$pageId',
+        );
+
+  final String pageId;
 }
 
 @immutable

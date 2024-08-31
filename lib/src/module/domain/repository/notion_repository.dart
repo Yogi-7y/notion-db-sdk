@@ -8,12 +8,16 @@ typedef Properties = List<Map<String, Property>>;
 typedef DatabaseId = String;
 
 abstract class Repository {
-  AsyncResult<Properties, AppException> getPageProperties(
+  AsyncResult<Properties, AppException> query(
     DatabaseId databaseId,
   );
 
   AsyncResult<void, AppException> createPage(
     DatabaseId databaseId,
     List<Property> properties,
+  );
+
+  AsyncResult<Map<String, Property>, AppException> fetchPageProperties(
+    String pageId,
   );
 }
