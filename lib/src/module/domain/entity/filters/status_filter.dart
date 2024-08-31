@@ -2,9 +2,9 @@ import 'package:meta/meta.dart';
 import '../filter.dart';
 
 @immutable
-class StatusFilter extends Filter {
+class StatusFilter extends PropertyFilter {
   StatusFilter(
-    this.property, {
+    super.property, {
     this.equals,
     this.doesNotEqual,
     this.isEmpty,
@@ -14,7 +14,6 @@ class StatusFilter extends Filter {
           'Exactly one status condition must be specified.',
         );
 
-  final String property;
   final String? equals;
   final String? doesNotEqual;
   final bool? isEmpty;

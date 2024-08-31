@@ -10,15 +10,15 @@ class FilterBuilder {
     return this;
   }
 
+  FilterBuilder or(List<Filter> filters) {
+    _filter = OrFilter(filters);
+    return this;
+  }
+
   Filter build() {
     if (_filter == null) {
       throw StateError('No filter has been set. Use and() or or() to set a filter.');
     }
     return _filter!;
-  }
-
-  FilterBuilder or(List<Filter> filters) {
-    _filter = OrFilter(filters);
-    return this;
   }
 }

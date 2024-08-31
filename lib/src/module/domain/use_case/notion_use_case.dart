@@ -2,6 +2,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
 
+import '../entity/filter.dart';
 import '../entity/page.dart';
 import '../entity/property.dart';
 import '../entity/property_variants/relation.dart';
@@ -34,8 +35,9 @@ class NotionUseCase implements PageResolver {
   AsyncResult<Properties, AppException> query(
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
+    Filter? filter,
   }) async {
-    final result = await repository.query(databaseId);
+    final result = await repository.query(databaseId, filter: filter);
 
     if (result.isFailure) return result;
 

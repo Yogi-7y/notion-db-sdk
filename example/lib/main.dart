@@ -35,7 +35,6 @@ class _NotionDatabaseExampleState extends State<NotionDatabaseExample> {
   );
 
   late final _testOneDatabaseId = const String.fromEnvironment('test_one_database_id');
-  late final _testTwoDatabaseId = const String.fromEnvironment('test_two_database_id');
 
   List<Map<String, Property>>? _items;
   bool _isLoading = false;
@@ -49,9 +48,20 @@ class _NotionDatabaseExampleState extends State<NotionDatabaseExample> {
   Future<void> _fetchNotionProperties() async {
     setState(() => _isLoading = true);
 
+    final filter = AndFilter([
+      NumberFilter(
+        'Number',
+        greaterThan: 20,
+      ),
+    ]);
+
     final result = await _notionClient.query(
       _testOneDatabaseId,
       forceFetchRelationPages: true,
+      filter: NumberFilter(
+        'Number',
+        greaterThan: 20,
+      ),
     );
 
     _items = result.fold(

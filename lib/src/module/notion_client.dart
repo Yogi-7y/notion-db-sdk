@@ -4,6 +4,7 @@ import 'package:network_y/network_y.dart';
 
 import './domain/use_case/notion_use_case.dart';
 import 'data/repository/notion_repository.dart';
+import 'domain/entity/filter.dart';
 import 'domain/entity/property.dart';
 import 'domain/repository/notion_repository.dart';
 
@@ -88,10 +89,12 @@ class NotionClient {
   AsyncResult<Properties, AppException> query(
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
+    Filter? filter,
   }) =>
       _useCase.query(
         databaseId,
         forceFetchRelationPages: forceFetchRelationPages,
+        filter: filter,
       );
 
   AsyncResult<Map<String, Property>, AppException> fetchPageProperties(String pageId) async {
