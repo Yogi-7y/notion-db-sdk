@@ -11,7 +11,7 @@ class PhoneNumberModel extends PhoneNumber {
   });
 
   factory PhoneNumberModel.fromMap(Map<String, Object?> map) {
-    final _metaData = getMetaData<String>(
+    final _metaData = validateAndGetData<String>(
       map: map,
       validators: [
         MapLengthValidator(),

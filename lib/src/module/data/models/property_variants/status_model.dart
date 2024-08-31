@@ -11,7 +11,7 @@ class StatusModel extends Status {
   });
 
   factory StatusModel.fromMap(Map<String, Object?> map) {
-    final metaData = getMetaData<Map<String, Object?>>(
+    final metaData = validateAndGetData<Map<String, Object?>>(
       map: map,
       validators: [
         MapLengthValidator(),

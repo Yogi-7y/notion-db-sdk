@@ -1,22 +1,40 @@
+import 'package:core_y/core_y.dart';
+
 import 'exception.dart';
 
 typedef PropertyMetaData<T> = ({String name, String id, String type, T value});
 
-PropertyMetaData<T?> getMetaData<T>({
+PropertyMetaData<T?> validateAndGetData<T>({
   required Map<String, Object?> map,
   List<PropertyValidator> validators = const [],
 }) {
+  final isValid = validate(validators, map);
+
+  if (!isValid) {
+    throw AppException(
+      exception: 'Validation failed',
+      stackTrace: StackTrace.current,
+    );
+  }
+
+  return getPropertyData<T>(map: map);
+}
+
+bool validate(List<PropertyValidator> validators, Map<String, Object?> map) {
   for (final validator in validators) {
     validator.validate(map);
   }
+  return true;
+}
 
+PropertyMetaData<T?> getPropertyData<T>({
+  required Map<String, Object?> map,
+}) {
   final _name = map.keys.first;
   final _data = map[_name] as Map<String, Object?>? ?? {};
-
   final _id = _data['id'] as String? ?? '';
   final _type = _data['type'] as String? ?? '';
   final _value = _data[_type] as T?;
-
   return (id: _id, name: _name, type: _type, value: _value);
 }
 
@@ -85,7 +103,7 @@ class PropertyTypeListValidator extends PropertyValidator {
     if (_type == null || !expectedTypes.contains(_type))
       throw InvalidPropertyTypeException(
         map: map,
-        expectedType: expectedTypes.join(' or '),
+        expectedType: expectedTypes.join('/'),
       );
 
     _nextValidator?.validate(map);

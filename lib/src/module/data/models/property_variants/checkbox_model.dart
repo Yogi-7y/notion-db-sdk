@@ -11,7 +11,7 @@ class CheckboxModel extends Checkbox {
   });
 
   factory CheckboxModel.fromMap(Map<String, Object?> map) {
-    final _metaData = getMetaData<bool>(
+    final _metaData = validateAndGetData<bool>(
       map: map,
       validators: [
         MapLengthValidator(),

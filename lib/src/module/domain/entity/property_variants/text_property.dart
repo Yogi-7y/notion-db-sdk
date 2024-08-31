@@ -4,6 +4,7 @@ import '../property.dart';
 
 const _richTextType = 'rich_text';
 const _titleType = 'title';
+const _uniqueId = 'unique_id';
 
 @immutable
 class TextProperty extends Property<String> {
@@ -15,7 +16,7 @@ class TextProperty extends Property<String> {
     super.valueDetails,
   });
 
-  static const supportedTypes = [_richTextType, _titleType];
+  static const supportedTypes = [_richTextType, _titleType, _uniqueId];
 
   /// Set to true if you're updating the title(page name) of the page
   final bool isTitle;

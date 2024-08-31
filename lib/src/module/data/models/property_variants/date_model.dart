@@ -11,7 +11,7 @@ class DateModel extends Date {
   });
 
   factory DateModel.fromMap(Map<String, Object?> map) {
-    final _metaData = getMetaData<Map<String, Object?>>(
+    final _metaData = validateAndGetData<Map<String, Object?>>(
       map: map,
       validators: [
         MapLengthValidator(),

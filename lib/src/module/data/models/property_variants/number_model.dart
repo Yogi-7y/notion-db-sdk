@@ -11,7 +11,7 @@ class NumberModel extends Number {
   });
 
   factory NumberModel.fromMap(Map<String, Object?> map) {
-    final _metaData = getMetaData<num>(
+    final _metaData = validateAndGetData<num>(
       map: map,
       validators: [
         MapLengthValidator(),

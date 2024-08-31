@@ -1,6 +1,6 @@
 /// Exception thrown when an error occurs during parsing the json to an Object.
-class PropertyAdapterException implements Exception {
-  const PropertyAdapterException({
+class PropertySerializationException implements Exception {
+  const PropertySerializationException({
     required this.message,
     required this.map,
   });
@@ -24,7 +24,7 @@ class PropertyAdapterException implements Exception {
 ///   }
 /// }
 /// ```
-class InvalidMapLengthException implements PropertyAdapterException {
+class InvalidMapLengthException implements PropertySerializationException {
   const InvalidMapLengthException({
     required this.map,
     this.message = 'Invalid map length. Expected a map with only one key.',
@@ -41,7 +41,7 @@ class InvalidMapLengthException implements PropertyAdapterException {
 }
 
 /// Thrown when the property type returned in json is not of expected type.
-class InvalidPropertyTypeException implements PropertyAdapterException {
+class InvalidPropertyTypeException implements PropertySerializationException {
   const InvalidPropertyTypeException(
       {required this.map, required this.expectedType, this.message = 'Invalid property type.'});
 
