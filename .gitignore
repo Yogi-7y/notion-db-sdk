@@ -10,3 +10,4 @@ claude_chats
 .DS_Store
 .dart_tool
 build/
+.nvim.lua
