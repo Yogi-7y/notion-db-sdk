@@ -1,108 +1,112 @@
 import 'package:flutter/material.dart';
 import 'package:notion_db_sdk/notion_db_sdk.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _MyAppState extends State<MyApp> {
-  late final _options = NotionOptions(
-    secret: const String.fromEnvironment('SECRET'),
-    version: '2022-06-28',
-  );
-
-  late final _client = NotionClient(options: _options);
-
-  var _pages = <Map<String, Property>>[];
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchJson();
-    });
-  }
-
-  Future<void> _fetchJson() async {
-    final _result = await _client.getProperties('b624602e46c3492099b7b5559b8cf189');
-
-    print(_result);
-
-    _result.fold(
-      onSuccess: (value) {
-        _pages = value;
-        setState(() {});
-      },
-      onFailure: (error) {
-        print('Failed to fetch properties: $error');
-      },
-    );
-  }
-
-  Future<void> createPage() async {
-    final title = TextProperty(
-      name: 'Name',
-      isTitle: true,
-      valueDetails: Value(value: 'From SDK'),
-    );
-
-    final _result = await _client.createPage(
-      databaseId: 'b624602e46c3492099b7b5559b8cf189',
-      properties: [title],
-    );
-
-    print(_result);
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Notion DB SDK Example'),
-        ),
-        body: ListView.separated(
-          itemCount: _pages.length,
-          separatorBuilder: (context, index) => const Divider(),
-          itemBuilder: (context, index) {
-            final _page = _pages[index];
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: _page.entries
-                  .map(
-                    (e) => Tile(
-                      propertyName: e.key,
-                      property: e.value,
-                    ),
-                  )
-                  .toList(),
-            );
-          },
-        ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+        appBar: AppBar(title: const Text('Notion Database Example')),
+        body: const NotionDatabaseExample(),
+      ),
+    );
+  }
+}
+
+class NotionDatabaseExample extends StatefulWidget {
+  const NotionDatabaseExample({super.key});
+
+  @override
+  State<NotionDatabaseExample> createState() => _NotionDatabaseExampleState();
+}
+
+class _NotionDatabaseExampleState extends State<NotionDatabaseExample> {
+  final NotionClient _notionClient = NotionClient(
+    options: const NotionOptions(
+      secret: String.fromEnvironment('notion_secret'),
+      version: '2022-06-28',
+    ),
+  );
+
+  late final _testOneDatabaseId = const String.fromEnvironment('test_one_database_id');
+  late final _testTwoDatabaseId = const String.fromEnvironment('test_two_database_id');
+
+  List<Map<String, Property>>? _items;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchNotionProperties();
+  }
+
+  Future<void> _fetchNotionProperties() async {
+    setState(() => _isLoading = true);
+
+    final result = await _notionClient.query(
+      _testOneDatabaseId,
+      forceFetchRelationPages: true,
+    );
+
+    _items = result.fold(
+      onSuccess: (properties) => properties,
+      onFailure: (error) {
+        print('Error fetching properties: $error');
+        return null;
+      },
+    );
+    _isLoading = false;
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_items == null) {
+      return const Center(child: Text('Failed to load data'));
+    }
+
+    return RefreshIndicator(
+      onRefresh: _fetchNotionProperties,
+      child: ListView.builder(
+        itemCount: _items!.length,
+        itemBuilder: (context, index) {
+          return NotionItemWidget(properties: _items![index]);
+        },
+      ),
+    );
+  }
+}
+
+class NotionItemWidget extends StatelessWidget {
+  final Map<String, Property> properties;
+
+  const NotionItemWidget({super.key, required this.properties});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FloatingActionButton(
-              onPressed: () async {
-                _fetchJson();
-              },
-              child: const Icon(Icons.refresh),
-            ),
-            SizedBox(width: 8),
-            FloatingActionButton(
-              onPressed: () async {
-                createPage();
-              },
-              child: const Icon(Icons.add),
-            ),
+            PropertyRow(label: 'Name', property: properties['Name'] as TextProperty?),
+            PropertyRow(label: 'Number', property: properties['Number'] as Number?),
+            PropertyRow(label: 'Date', property: properties['Date'] as Date?),
+            PropertyRow(label: 'Description', property: properties['Description'] as TextProperty?),
+            PropertyRow(label: 'Status', property: properties['Status'] as Status?),
+            PropertyRow(label: 'Test 2', property: properties['Test 2'] as RelationProperty?),
           ],
         ),
       ),
@@ -110,25 +114,39 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-@immutable
-class Tile extends StatelessWidget {
-  const Tile({
-    super.key,
-    required this.propertyName,
-    required this.property,
-  });
+class PropertyRow extends StatelessWidget {
+  final String label;
+  final Property? property;
 
-  final String propertyName;
-  final Property property;
+  const PropertyRow({super.key, required this.label, this.property});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(propertyName),
-        SizedBox(width: 8),
-        Text(property.value.toString()),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('$label: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+          Expanded(child: _buildPropertyValue()),
+        ],
+      ),
     );
+  }
+
+  Widget _buildPropertyValue() {
+    if (property is RelationProperty) {
+      final relationProperty = property as RelationProperty;
+      final relatedPages = relationProperty.value ?? [];
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: relatedPages.map((page) {
+          final name = page.properties['Name'] as TextProperty?;
+          final number = page.properties['Number'] as Number?;
+          return Text('${name?.value ?? 'N/A'} - ${number?.value ?? 'N/A'}');
+        }).toList(),
+      );
+    }
+    return Text(property?.value?.toString() ?? 'N/A');
   }
 }
