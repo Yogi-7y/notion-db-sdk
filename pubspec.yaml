@@ -4,7 +4,7 @@ homepage: https://github.com/Yogi-7y/notion_db_sdk
 repository: https://github.com/Yogi-7y/notion_db_sdk
 issue_tracker: https://github.com/Yogi-7y/notion_db_sdk/issues
 license: MIT
-version: 0.1.0
+version: 0.1.0+1
 
 environment:
   sdk: ^3.4.0

@@ -1,3 +1,7 @@
+## 0.1.0+1
+
+- Update README with diagram link
+
 ## 0.1.0
 
 Initial release of the Notion DB SDK package.
