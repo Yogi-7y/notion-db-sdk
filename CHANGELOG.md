@@ -1,3 +1,7 @@
+## 0.1.0+2
+
+- Update the Github url in pubspec.yaml
+
 ## 0.1.0+1
 
 - Update README with diagram link
