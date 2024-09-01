@@ -3,13 +3,17 @@ import 'package:core_y/core_y.dart';
 import '../../../../notion_db_sdk.dart';
 import '../../domain/entity/property_variants/created_time.dart';
 import '../../domain/entity/property_variants/last_edited_time.dart';
+import '../../domain/entity/property_variants/people.dart';
+import '../../domain/entity/property_variants/select_property.dart';
 import 'property_variants/checkbox_model.dart';
 import 'property_variants/created_time_model.dart';
 import 'property_variants/date_model.dart';
 import 'property_variants/last_edited_time_model.dart';
 import 'property_variants/number_model.dart';
+import 'property_variants/people_model.dart';
 import 'property_variants/phone_number_model.dart';
 import 'property_variants/relation_model.dart';
+import 'property_variants/select_property_model.dart';
 import 'property_variants/status_model.dart';
 import 'property_variants/text_model.dart';
 
@@ -63,8 +67,10 @@ class PropertyFactory {
     if (RelationProperty.supportedTypes.contains(_type)) return RelationModel.fromMap(map);
     if (CreatedTime.supportedTypes.contains(_type)) return CreatedTimeModel.fromMap(map);
     if (LastEditedTime.supportedTypes.contains(_type)) return LastEditedTimeModel.fromMap(map);
+    if (PeopleProperty.supportedTypes.contains(_type)) return PeopleModel.fromMap(map);
+    if (Select.supportedTypes.contains(_type)) return SelectModel.fromMap(map);
 
-    throw UnsupportedError('Unsupported property type: $_type');
+    throw UnsupportedError('Unsupported property type: $_type for map: $map');
   }
 
   /// Extracts the underlying property embeded in a formula property. \
@@ -129,6 +135,14 @@ class PropertyFactory {
             },
           };
         }
+      } else {
+        return <String, Object?>{
+          map.keys.first: <String, Object?>{
+            'id': rollupMap['id'],
+            'type': 'rich_text',
+            type: '',
+          },
+        };
       }
     }
 
