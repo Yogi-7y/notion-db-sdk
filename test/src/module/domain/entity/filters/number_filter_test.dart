@@ -44,5 +44,21 @@ void main() {
             'number': {'is_empty': true},
           }));
     });
+
+    test('toMap should return correct map for formula property', () {
+      final filter = NumberFilter('Price', greaterThan: 50, isFormulaProperty: true);
+      final map = filter.toMap();
+      expect(
+        map,
+        equals(
+          {
+            'property': 'Price',
+            'formula': {
+              'number': {'greater_than': 50},
+            },
+          },
+        ),
+      );
+    });
   });
 }

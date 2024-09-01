@@ -64,5 +64,21 @@ void main() {
       expect(map2['checkbox'], containsPair('does_not_equal', false));
       expect(map2['checkbox'], isNot(contains('equals')));
     });
+
+    test('toMap should return correct map for formula property', () {
+      final filter = CheckboxFilter('Done', equals: true, isFormulaProperty: true);
+      final map = filter.toMap();
+      expect(
+        map,
+        equals(
+          {
+            'property': 'Done',
+            'formula': {
+              'checkbox': {'equals': true},
+            },
+          },
+        ),
+      );
+    });
   });
 }

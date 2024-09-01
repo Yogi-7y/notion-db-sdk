@@ -46,5 +46,18 @@ void main() {
             'date': {'past_week': <String, Object?>{}},
           }));
     });
+
+    test('toMap should return correct map for formula property', () {
+      final filter = DateFilter('Due Date', equals: DateTime(2023, 5, 1), isFormulaProperty: true);
+      final map = filter.toMap();
+      expect(
+          map,
+          equals({
+            'property': 'Due Date',
+            'formula': {
+              'date': {'equals': '2023-05-01T00:00:00.000'},
+            },
+          }));
+    });
   });
 }

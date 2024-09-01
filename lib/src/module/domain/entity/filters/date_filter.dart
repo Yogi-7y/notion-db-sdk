@@ -2,9 +2,10 @@ import 'package:meta/meta.dart';
 import '../filter.dart';
 
 @immutable
-class DateFilter extends PropertyFilter {
+class DateFilter extends FormulaFilter {
   DateFilter(
     super.property, {
+    super.isFormulaProperty,
     this.equals,
     this.before,
     this.after,
@@ -53,8 +54,7 @@ class DateFilter extends PropertyFilter {
   final bool? isNotEmpty;
 
   @override
-  Map<String, dynamic> toMap() => {
-        'property': property,
+  Map<String, dynamic> toMapWithoutPropertyKey() => {
         'date': {
           if (equals != null) 'equals': equals!.toIso8601String(),
           if (before != null) 'before': before!.toIso8601String(),

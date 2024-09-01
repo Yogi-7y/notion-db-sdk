@@ -2,9 +2,10 @@ import 'package:meta/meta.dart';
 import '../filter.dart';
 
 @immutable
-class TextFilter extends PropertyFilter {
+class TextFilter extends FormulaFilter {
   TextFilter(
     super.property, {
+    super.isFormulaProperty,
     this.equals,
     this.doesNotEqual,
     this.contains,
@@ -38,8 +39,7 @@ class TextFilter extends PropertyFilter {
   final bool? isNotEmpty;
 
   @override
-  Map<String, dynamic> toMap() => {
-        'property': property,
+  Map<String, dynamic> toMapWithoutPropertyKey() => {
         'rich_text': {
           if (equals != null) 'equals': equals,
           if (doesNotEqual != null) 'does_not_equal': doesNotEqual,

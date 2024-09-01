@@ -66,5 +66,18 @@ void main() {
             'rich_text': {'ends_with': 'X'},
           }));
     });
+
+    test('toMap should return correct map for formula property', () {
+      final filter = TextFilter('Title', contains: 'Project', isFormulaProperty: true);
+      final map = filter.toMap();
+      expect(
+          map,
+          equals({
+            'property': 'Title',
+            'formula': {
+              'rich_text': {'contains': 'Project'},
+            },
+          }));
+    });
   });
 }
