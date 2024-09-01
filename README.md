@@ -219,6 +219,81 @@ result.fold(
 );
 ```
 
+### Filter
+
+#### Single Filter
+
+To use a single filter, you can create an instance of the appropriate filter class and pass it to the `query` method. Here's an example using a `TextFilter`:
+
+```dart
+final filter = TextFilter('Title', contains: 'Foo');
+
+final result = await client.query(
+  databaseId,
+  filter: filter,
+);
+
+result.fold(
+  (properties) {
+    // Handle filtered results
+  },
+  (error) {
+    // Handle error
+  },
+);
+```
+
+#### Filter Operators
+
+You can combine multiple filters using `AndFilter` and `OrFilter`:
+
+```dart
+final filter = AndFilter([
+  TextFilter('Title', contains: 'Foo'),
+  NumberFilter('Priority', greaterThan: 5),
+]);
+
+final result = await client.query(
+  databaseId,
+  filter: filter,
+);
+```
+
+This query will return pages where the 'Title' contains 'Foo' AND the 'Priority' is greater than 5.
+Similaly, you can use `OrFilter`
+
+```dart
+final filter = OrFilter([
+  TextFilter('Status', equals: 'In Progress'),
+  TextFilter('Status', equals: 'Review'),
+]);
+```
+
+#### Nested Filters
+
+You can create complex queries by nesting AND and OR filters:
+
+```dart
+final filter = AndFilter([
+  TextFilter('Title', contains: 'Foo'),
+  OrFilter([
+    NumberFilter('Priority', greaterThan: 8),
+    DateFilter('DueDate', before: DateTime.now()),
+  ]),
+]);
+
+final result = await client.query(
+  databaseId,
+  filter: filter,
+);
+```
+
+This query will return pages where the 'Title' contains 'Foo' AND either the 'Priority' is greater than 8 OR the 'DueDate' is before the current date.
+
 ---
 
 Happy coding! 💻✨
+
+```
+
+```
