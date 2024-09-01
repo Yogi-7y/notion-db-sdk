@@ -72,7 +72,6 @@ void main() {
         final _phoneNumber = PhoneNumberModel.fromMap(_map);
         const _expectedResult = PhoneNumber(
           name: 'Contact',
-          type: 'phone_number',
           id: '123',
           valueDetails: Value(value: '+1 (555) 123-4567'),
         );

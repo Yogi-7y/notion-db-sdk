@@ -1,18 +1,18 @@
 name: notion_db_sdk
-description: A type-safe structured way to interact with Notion APIs.
+description: A type-safe SDK for Notion APIs, which focuses on raw data, ignoring style elements, page blocks etc. and providig an idiomatic Dart interface.
 homepage: https://github.com/Yogi-7y/notion-db-sdk
 repository: https://github.com/Yogi-7y/notion-db-sdk
 issue_tracker: https://github.com/Yogi-7y/notion-db-sdk/issues
 license: MIT
-version: 0.1.0+2
+version: 0.1.2+1
 
 environment:
   sdk: ^3.4.0
 
 dependencies:
-  core_y: ^0.1.0
+  core_y: ^0.2.0
   meta: ^1.12.0
-  network_y: ^0.0.4+3
+  network_y: ^0.1.1
 
 dev_dependencies:
   lints_y:
