@@ -298,7 +298,3 @@ This query will return pages where the 'Title' contains 'Foo' AND either the 'Pr
 ---
 
 Happy coding! 💻✨
-
-```
-
-```
