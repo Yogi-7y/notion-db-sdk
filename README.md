@@ -1,6 +1,6 @@
 # Notion DB SDK
 
-A type-safe structured way to interact with Notion APIs. This client handles structured data from within Notion databases, focusing on property management while ignoring embedded styles, page blocks, and other non-database elements.
+A type-safe structured way to interact with Notion APIs. This client handles structured data from Notion databases, focusing on property management while ignoring embedded styles, page blocks, and other non-database elements.
 
 ![Diagram](https://raw.githubusercontent.com/Yogi-7y/notion-db-sdk/main/assets/diagram.png)
 
@@ -12,7 +12,8 @@ import 'package:notion_db_sdk/notion_db_sdk.dart';
 void main() async {
   // Initialize the NotionClient
   final client = NotionClient(
-    options: NotionOptions( secret: 'your_notion_api_secret',
+    options: NotionOptions(
+      secret: 'your_notion_api_secret',
       version: 'your_notion_api_version',
     ),
   );
@@ -31,17 +32,19 @@ void main() async {
 }
 ```
 
-## Understanding Notion Properties
+> One rule that this package abides by: "Only deal with raw, structured data in a type-safe way and ignore all the fluffy stuff like styling, formatting, page blocks, etc."
+
+# Understanding Notion Properties
 
 In Notion, properties define the structure and type of information stored in database. This SDK mimics Notion's property structure, making it easy to read and write data while ignoring styling information and complex nested structures.
 
 The main advantage of this package is its simplicity in reading from and writing to Notion databases. It abstracts away the complex JSON structures typically required in direct API calls.
 
-### Examples: SDK vs Direct API Calls
+## SDK vs Direct API Calls
 
-#### Reading Properties
+### Reading Properties
 
-With direct API calls, reading properties might look like this:
+With direct API calls, reading properties will involve handling this:
 
 ```json
 {
@@ -85,7 +88,7 @@ With direct API calls, reading properties might look like this:
 }
 ```
 
-With this SDK, the same properties can be accessed as:
+With this SDK, value can be easily accessed as:
 
 ```dart
 properties['Description'].value // "A dark sky"
@@ -93,7 +96,7 @@ properties['Price'].value // 42
 properties['Due Date'].value // DateTime(2023, 2, 23)
 ```
 
-#### Writing Properties
+### Writing Properties
 
 To create a new page with a title, a number property, and a date property using direct API calls:
 
@@ -219,9 +222,9 @@ result.fold(
 );
 ```
 
-### Filter
+## Filter
 
-#### Single Filter
+### Single Filter
 
 To use a single filter, you can create an instance of the appropriate filter class and pass it to the `query` method. Here's an example using a `TextFilter`:
 
@@ -243,7 +246,7 @@ result.fold(
 );
 ```
 
-#### Filter Operators
+### Filter Operators
 
 You can combine multiple filters using `AndFilter` and `OrFilter`:
 
@@ -269,7 +272,7 @@ final filter = OrFilter([
 ]);
 ```
 
-#### Nested Filters
+### Nested Filters
 
 You can create complex queries by nesting AND and OR filters:
 
