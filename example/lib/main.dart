@@ -35,7 +35,6 @@ class _NotionDatabaseExampleState extends State<NotionDatabaseExample> {
   );
 
   late final _testOneDatabaseId = const String.fromEnvironment('test_one_database_id');
-  late final _testTwoDatabaseId = const String.fromEnvironment('test_two_database_id');
 
   List<Map<String, Property>>? _items;
   bool _isLoading = false;

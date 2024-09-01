@@ -1,10 +1,10 @@
 name: notion_db_sdk
-description: A type-safe structured way to interact with Notion APIs.
+description: A type-safe structured way to interact with Notion APIs. This client handles structured data from within Notion databases, focusing on property management while ignoring embedded styles, page blocks, and other non-database elements.
 homepage: https://github.com/Yogi-7y/notion-db-sdk
 repository: https://github.com/Yogi-7y/notion-db-sdk
 issue_tracker: https://github.com/Yogi-7y/notion-db-sdk/issues
 license: MIT
-version: 0.1.0+2
+version: 0.1.1
 
 environment:
   sdk: ^3.4.0

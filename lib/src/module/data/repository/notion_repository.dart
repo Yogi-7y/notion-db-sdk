@@ -44,7 +44,7 @@ class NotionRepository implements Repository {
           }
 
           return _result;
-        } catch (e, s) {
+        } catch (e) {
           rethrow;
         }
       },

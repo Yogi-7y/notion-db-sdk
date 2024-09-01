@@ -53,18 +53,18 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: e17f6b3097b8c51b72c74c9f071a605c47bcc8893839bd66732457a5ebe73714
+      sha256: "0dfb6b6a1979dac1c1245e17cef824d7b452ea29bd33d3467269f9bef3715fb0"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.0+1"
+    version: "5.6.0"
   dio_web_adapter:
     dependency: transitive
     description:
       name: dio_web_adapter
-      sha256: "36c5b2d79eb17cdae41e974b7a8284fec631651d2a6f39a8a2ff22327e90aeac"
+      sha256: "33259a9276d6cea88774a0000cfae0d861003497755969c92faa223108620dc8"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -143,17 +143,17 @@ packages:
     dependency: transitive
     description:
       name: network_y
-      sha256: cf07d11f9ecab0ffbbb52f7a04633d5d9d462a05eec22574c31ba369fff8eb74
+      sha256: "57dd02535ffcd5c6ac977a7ddf74e5f6d9155830b7b91abbe7143851ab81b057"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.4+3"
+    version: "0.0.4+4"
   notion_db_sdk:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.1.0+2"
+    version: "0.1.1"
   path:
     dependency: transitive
     description:
@@ -239,6 +239,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.2.1"
+  web:
+    dependency: transitive
+    description:
+      name: web
+      sha256: d43c1d6b787bf0afad444700ae7f4db8827f701bc61c255ac8d328c6f4d52062
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
 sdks:
   dart: ">=3.4.4 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"

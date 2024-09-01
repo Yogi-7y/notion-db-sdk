@@ -75,7 +75,6 @@ void main() {
         final _date = DateModel.fromMap(_map);
         final _expectedResult = Date(
           name: 'Due date',
-          type: 'date',
           id: 'M%3BBw',
           valueDetails: Value(value: DateTime.parse('2023-02-07')),
         );

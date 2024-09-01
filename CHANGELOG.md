@@ -1,3 +1,7 @@
+## 0.1.1
+
+- Fix analyzer issues.
+
 ## 0.1.0+2
 
 - Update the Github url in pubspec.yaml

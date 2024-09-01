@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 import '../../../../../notion_db_sdk.dart';
 import '../../../../core/errors/property_validators.dart';
 import '../../../domain/entity/page.dart';
-import '../../../domain/entity/property_variants/relation.dart';
 
 @immutable
 class RelationModel extends RelationProperty {
