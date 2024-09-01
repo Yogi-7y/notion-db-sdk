@@ -4,6 +4,10 @@ A type-safe structured way to interact with Notion APIs. This client handles str
 
 ![Diagram](https://raw.githubusercontent.com/Yogi-7y/notion-db-sdk/main/assets/diagram.png)
 
+One rule that this package abides by:
+
+> Only deal with raw, structured data in a type-safe way and ignore all the fluffy stuff like styling, formatting, page blocks, etc.
+
 ## Quick Start
 
 ```dart
@@ -31,8 +35,6 @@ void main() async {
   );
 }
 ```
-
-> One rule that this package abides by: "Only deal with raw, structured data in a type-safe way and ignore all the fluffy stuff like styling, formatting, page blocks, etc."
 
 ## Understanding Notion Properties
 
