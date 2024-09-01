@@ -34,7 +34,7 @@ void main() async {
 
 > One rule that this package abides by: "Only deal with raw, structured data in a type-safe way and ignore all the fluffy stuff like styling, formatting, page blocks, etc."
 
-# Understanding Notion Properties
+## Understanding Notion Properties
 
 In Notion, properties define the structure and type of information stored in database. This SDK mimics Notion's property structure, making it easy to read and write data while ignoring styling information and complex nested structures.
 
