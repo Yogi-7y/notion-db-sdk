@@ -19,7 +19,26 @@ Future<void> main(List<String> arguments) async {
   );
 
   log('Querying database...');
-  await queryDatabase(client, databaseId);
+
+  final filter = NumberFilter('Number', greaterThan: 40);
+
+  await queryDatabase(
+    client,
+    databaseId,
+    filter: filter,
+  );
+
+  final andFilter = AndFilter([
+    NumberFilter('Number', greaterThan: 40),
+    NumberFilter('Number', lessThan: 50),
+  ]);
+
+  log('--------Or filter----------');
+  await queryDatabase(
+    client,
+    databaseId,
+    filter: andFilter,
+  );
 
   log('\nFetching page properties...');
   await fetchPageProperties(client, pageId);
