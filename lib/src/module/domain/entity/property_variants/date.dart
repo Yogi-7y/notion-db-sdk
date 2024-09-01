@@ -15,12 +15,12 @@ class Date extends Property<DateTime> {
 
   static const supportedTypes = [_dateType];
 
-  String get _formattedDate => value?.toIso8601String().split('T').first ?? '';
+  String get formattedDate => value?.toIso8601String().split('T').first ?? '';
 
   @override
   Map<String, Object?> toMap() => {
         name: {
-          'date': _formattedDate,
+          type: formattedDate,
         }
       };
 }
