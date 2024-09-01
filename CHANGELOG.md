@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Remove Flutter dependencies
+
 ## 0.1.1
 
 - Fix analyzer issues.
