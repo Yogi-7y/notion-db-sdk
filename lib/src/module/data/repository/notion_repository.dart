@@ -1,6 +1,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:network_y/network_y.dart';
 
+import '../../domain/entity/filter.dart';
 import '../../domain/entity/property.dart';
 import '../../domain/repository/notion_repository.dart';
 import '../models/property_factory.dart';
@@ -12,8 +13,11 @@ class NotionRepository implements Repository {
   final ApiClient apiClient;
 
   @override
-  AsyncResult<Properties, ApiException> query(DatabaseId databaseId) async {
-    final _request = QueryRequest(databaseId: databaseId);
+  AsyncResult<Properties, ApiException> query(
+    DatabaseId databaseId, {
+    Filter? filter,
+  }) async {
+    final _request = QueryRequest(databaseId: databaseId, filter: filter);
 
     final result = await apiClient<Map<String, Object?>>(_request);
 

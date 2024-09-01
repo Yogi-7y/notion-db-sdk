@@ -1,8 +1,12 @@
 # Notion DB SDK
 
-A type-safe structured way to interact with Notion APIs. This client handles structured data from within Notion databases, focusing on property management while ignoring embedded styles, page blocks, and other non-database elements.
+A type-safe structured way to interact with Notion APIs. This client handles structured data from Notion databases, focusing on property management while ignoring embedded styles, page blocks, and other non-database elements.
 
 ![Diagram](https://raw.githubusercontent.com/Yogi-7y/notion-db-sdk/main/assets/diagram.png)
+
+One rule that this package abides by:
+
+> Only deal with raw, structured data in a type-safe way and ignore all the fluffy stuff like styling, formatting, page blocks, etc.
 
 ## Quick Start
 
@@ -12,7 +16,8 @@ import 'package:notion_db_sdk/notion_db_sdk.dart';
 void main() async {
   // Initialize the NotionClient
   final client = NotionClient(
-    options: NotionOptions( secret: 'your_notion_api_secret',
+    options: NotionOptions(
+      secret: 'your_notion_api_secret',
       version: 'your_notion_api_version',
     ),
   );
@@ -37,11 +42,11 @@ In Notion, properties define the structure and type of information stored in dat
 
 The main advantage of this package is its simplicity in reading from and writing to Notion databases. It abstracts away the complex JSON structures typically required in direct API calls.
 
-### Examples: SDK vs Direct API Calls
+## SDK vs Direct API Calls
 
-#### Reading Properties
+### Reading Properties
 
-With direct API calls, reading properties might look like this:
+With direct API calls, reading properties will involve handling this:
 
 ```json
 {
@@ -85,7 +90,7 @@ With direct API calls, reading properties might look like this:
 }
 ```
 
-With this SDK, the same properties can be accessed as:
+With this SDK, value can be easily accessed as:
 
 ```dart
 properties['Description'].value // "A dark sky"
@@ -93,7 +98,7 @@ properties['Price'].value // 42
 properties['Due Date'].value // DateTime(2023, 2, 23)
 ```
 
-#### Writing Properties
+### Writing Properties
 
 To create a new page with a title, a number property, and a date property using direct API calls:
 
@@ -218,6 +223,77 @@ result.fold(
   },
 );
 ```
+
+## Filter
+
+### Single Filter
+
+To use a single filter, you can create an instance of the appropriate filter class and pass it to the `query` method. Here's an example using a `TextFilter`:
+
+```dart
+final filter = TextFilter('Title', contains: 'Foo');
+
+final result = await client.query(
+  databaseId,
+  filter: filter,
+);
+
+result.fold(
+  (properties) {
+    // Handle filtered results
+  },
+  (error) {
+    // Handle error
+  },
+);
+```
+
+### Filter Operators
+
+You can combine multiple filters using `AndFilter` and `OrFilter`:
+
+```dart
+final filter = AndFilter([
+  TextFilter('Title', contains: 'Foo'),
+  NumberFilter('Priority', greaterThan: 5),
+]);
+
+final result = await client.query(
+  databaseId,
+  filter: filter,
+);
+```
+
+This query will return pages where the 'Title' contains 'Foo' AND the 'Priority' is greater than 5.
+Similaly, you can use `OrFilter`
+
+```dart
+final filter = OrFilter([
+  TextFilter('Status', equals: 'In Progress'),
+  TextFilter('Status', equals: 'Review'),
+]);
+```
+
+### Nested Filters
+
+You can create complex queries by nesting AND and OR filters:
+
+```dart
+final filter = AndFilter([
+  TextFilter('Title', contains: 'Foo'),
+  OrFilter([
+    NumberFilter('Priority', greaterThan: 8),
+    DateFilter('DueDate', before: DateTime.now()),
+  ]),
+]);
+
+final result = await client.query(
+  databaseId,
+  filter: filter,
+);
+```
+
+This query will return pages where the 'Title' contains 'Foo' AND either the 'Priority' is greater than 8 OR the 'DueDate' is before the current date.
 
 ---
 

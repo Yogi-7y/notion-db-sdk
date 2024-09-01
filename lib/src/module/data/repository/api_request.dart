@@ -2,19 +2,24 @@ import 'package:meta/meta.dart';
 import 'package:network_y/network_y.dart';
 
 import '../../../core/network/api_constants.dart';
+import '../../domain/entity/filter.dart';
 import '../../domain/entity/property.dart';
 
 class QueryRequest extends BaseNotionRequest implements PostRequest {
   QueryRequest({
     required this.databaseId,
+    this.filter,
   }) : super(
           endpoint: 'v1/databases/$databaseId/query',
         );
 
   final String databaseId;
+  final Filter? filter;
 
   @override
-  Payload get body => {};
+  Payload get body => <String, Object?>{
+        if (filter != null) 'filter': filter!.toMap(),
+      };
 }
 
 class FetchPagePropertiesRequest extends BaseNotionRequest implements GetRequest {

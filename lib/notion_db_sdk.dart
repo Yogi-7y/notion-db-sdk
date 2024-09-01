@@ -1,3 +1,5 @@
+export './src/module/domain/entity/filter.dart';
+export './src/module/domain/entity/filters/filters.dart';
 export './src/module/domain/entity/property_variants/variants.dart';
 export './src/module/domain/entity/value.dart';
 export 'src/module/domain/entity/property.dart';

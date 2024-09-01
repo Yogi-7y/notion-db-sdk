@@ -1,8 +1,15 @@
 import 'package:notion_db_sdk/notion_db_sdk.dart';
 import 'package:network_y/src/exceptions/api_exception.dart';
 
-Future<void> queryDatabase(NotionClient client, String databaseId) async {
-  final result = await client.query(databaseId);
+Future<void> queryDatabase(
+  NotionClient client,
+  String databaseId, {
+  Filter? filter,
+}) async {
+  final result = await client.query(
+    databaseId,
+    filter: filter,
+  );
 
   result.fold(
     onSuccess: (properties) {

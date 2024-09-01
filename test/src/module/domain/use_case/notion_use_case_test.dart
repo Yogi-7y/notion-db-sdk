@@ -106,8 +106,8 @@ void main() {
     });
   });
 
-  group('lazyLoadRelations', () {
-    test('resolves relation properties when lazyLoadRelations is true', () async {
+  group('Force Fetch Relation', () {
+    test('resolves relation properties when forceFetchRelationPages is true', () async {
       const databaseId = 'test_database_id';
       final mockPage1 = MockPage();
       final mockPage2 = MockPage();
@@ -129,7 +129,7 @@ void main() {
       when(() => mockPage1.resolve(any())).thenAnswer((_) async {});
       when(() => mockPage2.resolve(any())).thenAnswer((_) async {});
 
-      final result = await notionUseCase.query(databaseId);
+      final result = await notionUseCase.query(databaseId, forceFetchRelationPages: true);
 
       expect(result, isA<Success<Properties, AppException>>());
       expect(result.valueOrNull, equals(mockProperties));

@@ -1,6 +1,7 @@
 import 'package:core_y/core_y.dart';
 // ignore: implementation_imports
 
+import '../entity/filter.dart';
 import '../entity/property.dart';
 
 typedef Properties = List<Map<String, Property>>;
@@ -15,8 +16,9 @@ typedef DatabaseId = String;
 abstract class Repository {
   /// Queries the Notion database and returns a list of properties.
   AsyncResult<Properties, AppException> query(
-    DatabaseId databaseId,
-  );
+    DatabaseId databaseId, {
+    Filter? filter,
+  });
 
   /// Creates a new page in the Notion database.
   AsyncResult<void, AppException> createPage(

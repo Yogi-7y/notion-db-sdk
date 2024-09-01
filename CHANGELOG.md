@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Filter support
+
 ## 0.1.2
 
 - Remove Flutter dependencies
