@@ -14,7 +14,6 @@ void main() {
 
       const _number = Number(
         name: 'Price',
-        type: 'number',
         valueDetails: Value(
           value: 100,
         ),

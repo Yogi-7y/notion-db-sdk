@@ -1,8 +1,6 @@
 import 'package:core_y/core_y.dart';
 
 import '../../../../notion_db_sdk.dart';
-import '../../domain/entity/property.dart';
-import '../../domain/entity/property_variants/relation.dart';
 import 'property_variants/checkbox_model.dart';
 import 'property_variants/date_model.dart';
 import 'property_variants/number_model.dart';
