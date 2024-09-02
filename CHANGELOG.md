@@ -1,3 +1,8 @@
+## 0.3.1
+
+- Delete empty test file
+- Remove dead imports
+
 ## 0.3.0
 
 - Introduce new properties
