@@ -1,9 +1,7 @@
 import 'package:core_y/core_y.dart';
 
 import '../../../../notion_db_sdk.dart';
-import '../../domain/entity/property_variants/created_time.dart';
-import '../../domain/entity/property_variants/last_edited_time.dart';
-import '../../domain/entity/property_variants/people.dart';
+import '../../domain/entity/property_variants/people_property.dart';
 import '../../domain/entity/property_variants/select_property.dart';
 import 'property_variants/checkbox_model.dart';
 import 'property_variants/created_time_model.dart';
