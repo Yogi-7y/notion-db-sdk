@@ -1,7 +1,5 @@
 import '../../../../../notion_db_sdk.dart';
-import '../../../../core/errors/property_validators.dart';
-import '../../../domain/entity/page.dart';
-import '../../../domain/entity/property_variants/people.dart';
+import '../../../domain/entity/property_variants/people_property.dart';
 
 class PeopleModel extends PeopleProperty {
   const PeopleModel({
@@ -12,19 +10,11 @@ class PeopleModel extends PeopleProperty {
   });
 
   factory PeopleModel.fromMap(Map<String, Object?> map) {
-    final metaData = validateAndGetData<List<Object?>>(
-      map: map,
-      validators: [
-        MapLengthValidator(),
-        PropertyTypeListValidator(expectedTypes: PeopleProperty.supportedTypes),
-      ],
-    );
-
     return PeopleModel(
-      name: metaData.name,
-      id: metaData.id,
-      type: metaData.type,
-      valueDetails: const Value(value: ''),
+      name: 'No People',
+      type: 'people',
+      id: map['id'] as String?,
+      valueDetails: const Value(value: 'No People'),
     );
   }
 }
