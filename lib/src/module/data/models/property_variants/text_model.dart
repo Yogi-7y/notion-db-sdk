@@ -48,6 +48,16 @@ class TextModel extends TextProperty {
       );
     }
 
+    if (type == 'string') {
+      final metaData = getPropertyData<String>(map: map);
+      return TextModel(
+        name: metaData.name,
+        id: metaData.id,
+        type: metaData.type,
+        valueDetails: Value(value: metaData.value),
+      );
+    }
+
     final _metaData = getPropertyData<List<Object?>>(map: map);
 
     final richTextList =
