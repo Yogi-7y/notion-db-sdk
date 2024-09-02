@@ -1,3 +1,15 @@
+## 0.3.0
+
+- Introduce new properties
+  - `CreatedTime`
+  - `LastEditedTime`
+  - `Select`
+- Introduce new filters
+  - `CheckboxFilter`
+  - `NumberFilter`
+  - `DateFilter`
+  - `TextFilter`
+
 ## 0.2.0
 
 - Filter support
