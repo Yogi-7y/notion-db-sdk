@@ -2,10 +2,9 @@ import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
 import 'package:network_y/network_y.dart';
 
+import '../../notion_db_sdk.dart';
 import './domain/use_case/notion_use_case.dart';
 import 'data/repository/notion_repository.dart';
-import 'domain/entity/filter.dart';
-import 'domain/entity/property.dart';
 import 'domain/repository/notion_repository.dart';
 
 @immutable
@@ -18,6 +17,7 @@ class NotionClient {
 
   late final _useCase = NotionUseCase(
     options: options,
+    cacheManager: CacheManager<Page>(),
     repository: NotionRepository(
       ApiClient(
         apiExecutor: DioApiExecutor()
@@ -90,11 +90,17 @@ class NotionClient {
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
     Filter? filter,
+
+    /// When set to true, it'll make the API call for that relation page once.
+    /// For subsequent calls, it'll use the cached value.
+    /// Cache is only one-pass and is destroyed after the method call.
+    bool cacheRelationPages = false,
   }) =>
       _useCase.query(
         databaseId,
         forceFetchRelationPages: forceFetchRelationPages,
         filter: filter,
+        cacheRelationPages: cacheRelationPages,
       );
 
   AsyncResult<Map<String, Property>, AppException> fetchPageProperties(String pageId) async {

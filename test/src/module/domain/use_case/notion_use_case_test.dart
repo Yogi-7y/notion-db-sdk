@@ -10,6 +10,10 @@ import 'package:test/test.dart';
 
 class MockRepository extends Mock implements Repository {}
 
+class MockCacheManager extends Mock implements CacheManager<Page> {}
+
+class MockKeepAliveLink extends Mock implements KeepAliveLink {}
+
 class MockPage extends Mock implements Page {}
 
 class FakePageResolver extends Fake implements PageResolver {}
@@ -17,6 +21,7 @@ class FakePageResolver extends Fake implements PageResolver {}
 void main() {
   late NotionUseCase notionUseCase;
   late MockRepository mockRepository;
+  late MockCacheManager mockCacheManager;
 
   setUpAll(() {
     registerFallbackValue(FakePageResolver());
@@ -24,9 +29,12 @@ void main() {
 
   setUp(() {
     mockRepository = MockRepository();
+    mockCacheManager = MockCacheManager();
+
     notionUseCase = NotionUseCase(
       options: const NotionOptions(secret: 'test_secret', version: 'test_version'),
       repository: mockRepository,
+      cacheManager: mockCacheManager,
     );
   });
 
@@ -161,6 +169,38 @@ void main() {
       expect(result, isA<Success<Properties, AppException>>());
       expect(result.valueOrNull, equals(mockProperties));
       verify(() => mockRepository.query(databaseId)).called(1);
+      verifyNever(() => mockPage.resolve(any()));
+    });
+  });
+
+  group('with cache', () {
+    test(
+        'Query with relation properties, forceFetchRelationPages = true, cacheRelationPages = true, page in cache',
+        () async {
+      const databaseId = 'test_database_id';
+      final mockPage = MockPage();
+      final mockCachedPage = MockPage();
+      final mockProperties = [
+        {
+          'Related': RelationProperty(
+            name: 'Related',
+            valueDetails: Value(value: [mockPage]),
+          ),
+        },
+      ];
+
+      when(() => mockRepository.query(databaseId, filter: null))
+          .thenAnswer((_) async => Success(mockProperties));
+      when(() => mockPage.id).thenReturn('page_id');
+      when(() => mockCacheManager.get('page_id')).thenReturn(mockCachedPage);
+      when(() => mockCachedPage.properties).thenReturn(
+          {'Title': TextProperty(name: 'Title', valueDetails: Value(value: 'Cached Page'))});
+
+      final result = await notionUseCase.query(databaseId,
+          forceFetchRelationPages: true, cacheRelationPages: true);
+
+      expect(result, isA<Success<Properties, AppException>>());
+      verify(() => mockCacheManager.get('page_id')).called(1);
       verifyNever(() => mockPage.resolve(any()));
     });
   });
