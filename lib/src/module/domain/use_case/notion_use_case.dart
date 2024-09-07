@@ -20,10 +20,12 @@ class NotionUseCase implements PageResolver {
   NotionUseCase({
     required this.options,
     required this.repository,
+    required this.cacheManager,
   });
 
   final NotionOptions options;
   final Repository repository;
+  final CacheManager<Page> cacheManager;
 
   /// Queries a Notion database and returns its properties.
   ///
@@ -35,6 +37,11 @@ class NotionUseCase implements PageResolver {
   AsyncResult<Properties, AppException> query(
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
+
+    /// When set to true, it'll make the API call for that relation page once.
+    /// For subsequent calls, it'll use the cached value.
+    /// Cache is only one-pass and is destroyed after the method call.
+    bool cacheRelationPages = false,
     Filter? filter,
   }) async {
     final result = await repository.query(databaseId, filter: filter);
@@ -45,17 +52,32 @@ class NotionUseCase implements PageResolver {
 
     final properties = result.valueOrNull ?? [];
 
+    KeepAliveLink? _cacheKeepAliveLink = null;
+
     for (final propertyMap in properties) {
       for (final property in propertyMap.values) {
         if (property.type == 'relation') {
           final relation = property as RelationProperty;
           final pages = relation.valueDetails?.value ?? [];
           for (final page in pages) {
-            await page.resolve(this);
+            if (!cacheRelationPages) {
+              await page.resolve(this);
+            } else {
+              final _page = cacheManager.get(page.id);
+
+              if (_page != null) {
+                page.properties = _page.properties;
+              } else {
+                await page.resolve(this);
+                _cacheKeepAliveLink = cacheManager.set(page.id, page);
+              }
+            }
           }
         }
       }
     }
+
+    _cacheKeepAliveLink?.expire();
 
     return Success(properties);
   }

@@ -66,10 +66,10 @@ packages:
     dependency: "direct main"
     description:
       name: core_y
-      sha256: d263bb09d75e812b50351963f32b3fea8a1f0796d8438ed016bee344966f6563
+      sha256: "6ebf736e45c2f823d1171ebe0f410ce370dbc0eb98eaf978368673ce21f85631"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0"
   coverage:
     dependency: transitive
     description:
@@ -219,10 +219,10 @@ packages:
     dependency: "direct main"
     description:
       name: network_y
-      sha256: "780406af078efa400935a741d656954d1c1b8c71fcea370824b054d639d3e931"
+      sha256: "45bad06c4760e43ad5ac19bd45b2ce0fe1ed2f3ef124405c2accf217a164fb71"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.1.1+2"
   node_preamble:
     dependency: transitive
     description:
