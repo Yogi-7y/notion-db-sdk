@@ -22,7 +22,3 @@ dev_dependencies:
       ref: main
   mocktail: ^1.0.4
   test: ^1.24.0
-
-dependency_overrides:
-  core_y:
-    path: ../project_y/packages/core/
