@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Add caching support via `CacheMaager`
+
 ## 0.3.1
 
 - Delete empty test file
@@ -29,7 +33,7 @@
 
 ## 0.1.0+2
 
-- Update the Github url in pubspec.yaml
+- Update the GitHub URL in pubspec.yaml
 
 ## 0.1.0+1
 
