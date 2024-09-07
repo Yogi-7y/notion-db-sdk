@@ -6,6 +6,7 @@ import 'package:notion_db_sdk/notion_db_sdk.dart';
 Future<void> main(List<String> arguments) async {
   const secret = String.fromEnvironment('notion_secret');
   const databaseId = String.fromEnvironment('database_id');
+  const projectDatabaseId = String.fromEnvironment('project_database_id');
   const pageId = String.fromEnvironment('page_id');
   const version = '2022-06-28';
 
@@ -18,8 +19,6 @@ Future<void> main(List<String> arguments) async {
     ),
   );
 
-  log('Querying database...');
-
   final filter = NumberFilter('Number', greaterThan: 40);
 
   await queryDatabase(
@@ -28,21 +27,27 @@ Future<void> main(List<String> arguments) async {
     filter: filter,
   );
 
-  final andFilter = AndFilter([
-    NumberFilter('Number', greaterThan: 40),
-    NumberFilter('Number', lessThan: 50),
-  ]);
-
-  log('--------Or filter----------');
   await queryDatabase(
     client,
-    databaseId,
-    filter: andFilter,
+    projectDatabaseId,
+    paginationParams: PaginationParams(pageSize: 5),
   );
 
-  log('\nFetching page properties...');
-  await fetchPageProperties(client, pageId);
-
-  log('\nCreating new page...');
-  await createNewPage(client, databaseId);
+  // final andFilter = AndFilter([
+  //   NumberFilter('Number', greaterThan: 40),
+  //   NumberFilter('Number', lessThan: 50),
+  // ]);
+  //
+  // log('--------Or filter----------');
+  // await queryDatabase(
+  //   client,
+  //   databaseId,
+  //   filter: andFilter,
+  // );
+  //
+  // log('\nFetching page properties...');
+  // await fetchPageProperties(client, pageId);
+  //
+  // log('\nCreating new page...');
+  // await createNewPage(client, databaseId);
 }

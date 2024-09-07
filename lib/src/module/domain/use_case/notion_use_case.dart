@@ -2,6 +2,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../notion_db_sdk.dart';
 import '../entity/filter.dart';
 import '../entity/page.dart';
 import '../entity/property.dart';
@@ -43,8 +44,13 @@ class NotionUseCase implements PageResolver {
     /// Cache is only one-pass and is destroyed after the method call.
     bool cacheRelationPages = false,
     Filter? filter,
+    PaginationParams? paginationParams,
   }) async {
-    final result = await repository.query(databaseId, filter: filter);
+    final result = await repository.query(
+      databaseId,
+      filter: filter,
+      paginationParams: paginationParams,
+    );
 
     if (result.isFailure) return result;
 

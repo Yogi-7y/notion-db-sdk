@@ -6,6 +6,7 @@ import '../../domain/entity/property.dart';
 import '../../domain/repository/notion_repository.dart';
 import '../models/property_factory.dart';
 import 'api_request.dart';
+import 'pagable.dart';
 
 class NotionRepository implements Repository {
   NotionRepository(this.apiClient);
@@ -16,8 +17,13 @@ class NotionRepository implements Repository {
   AsyncResult<Properties, ApiException> query(
     DatabaseId databaseId, {
     Filter? filter,
+    PaginationParams? paginationParams,
   }) async {
-    final _request = QueryRequest(databaseId: databaseId, filter: filter);
+    final _request = QueryRequest(
+      databaseId: databaseId,
+      filter: filter,
+      paginationParams: paginationParams,
+    );
 
     final result = await apiClient<Map<String, Object?>>(_request);
 

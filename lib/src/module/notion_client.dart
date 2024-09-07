@@ -95,12 +95,14 @@ class NotionClient {
     /// For subsequent calls, it'll use the cached value.
     /// Cache is only one-pass and is destroyed after the method call.
     bool cacheRelationPages = false,
+    PaginationParams? paginationParams,
   }) =>
       _useCase.query(
         databaseId,
         forceFetchRelationPages: forceFetchRelationPages,
         filter: filter,
         cacheRelationPages: cacheRelationPages,
+        paginationParams: paginationParams,
       );
 
   AsyncResult<Map<String, Property>, AppException> fetchPageProperties(String pageId) async {
