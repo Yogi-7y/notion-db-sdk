@@ -1,3 +1,7 @@
+## 0.6.0
+
+- Return `Page` level data instead of directly returning properties.
+
 ## 0.5.0
 
 - Introduce Pagination

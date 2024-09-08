@@ -3,10 +3,6 @@
 import 'package:core_y/core_y.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:notion_db_sdk/notion_db_sdk.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/page.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/value.dart';
 import 'package:notion_db_sdk/src/module/domain/repository/notion_repository.dart';
 import 'package:notion_db_sdk/src/module/domain/use_case/notion_use_case.dart';
 import 'package:test/test.dart';
@@ -45,29 +41,49 @@ void main() {
   });
 
   group('NotionUseCase', () {
-    test('query returns properties on success', () async {
+    test('query returns Pages on success', () async {
+      final mockRepository = MockRepository();
+      final useCase = NotionUseCase(
+        options: const NotionOptions(secret: 'test', version: 'test'),
+        repository: mockRepository,
+        cacheManager: MockCacheManager(),
+      );
+
       const databaseId = 'test_database_id';
-      final mockProperties = [
-        {
-          'Name': const TextProperty(
-            name: 'Name',
-            valueDetails: Value(value: 'Test Task'),
-          ),
-          'Status': const Status(
-            name: 'Status',
-            valueDetails: Value(value: 'In Progress'),
-          ),
-        }
+      final mockPages = [
+        Page(
+          id: 'page1',
+          properties: {
+            'Title': const TextProperty(
+              name: 'Title',
+              valueDetails: Value(value: 'Test Page 1'),
+            ),
+          },
+        ),
+        Page(
+          id: 'page2',
+          properties: {
+            'Title': const TextProperty(
+              name: 'Title',
+              valueDetails: Value(value: 'Test Page 2'),
+            ),
+          },
+        ),
       ];
 
-      final response = Success(PaginatedResponse(results: mockProperties, hasMore: true));
+      when(() => mockRepository.query(databaseId))
+          .thenAnswer((_) async => Success(PaginatedResponse(results: mockPages, hasMore: false)));
 
-      when(() => mockRepository.query(databaseId)).thenAnswer((_) async => response);
+      final result = await useCase.query(databaseId);
 
-      final result = await notionUseCase.query(databaseId);
+      expect(result, isA<Success<Pages, AppException>>());
+      final pages = result.valueOrNull!;
+      expect(pages.length, equals(2));
+      expect(pages[0].id, equals('page1'));
+      expect(pages[0].properties['Title']?.value, equals('Test Page 1'));
+      expect(pages[1].id, equals('page2'));
+      expect(pages[1].properties['Title']?.value, equals('Test Page 2'));
 
-      expect(result, isA<Success<Properties, AppException>>());
-      expect(result.valueOrNull, equals(mockProperties));
       verify(() => mockRepository.query(databaseId)).called(1);
     });
 
@@ -80,7 +96,7 @@ void main() {
 
       final result = await notionUseCase.query(databaseId);
 
-      expect(result, isA<Failure<Properties, AppException>>());
+      expect(result, isA<Failure<Pages, AppException>>());
       verify(() => mockRepository.query(databaseId)).called(1);
     });
 
@@ -130,7 +146,13 @@ void main() {
     }
 
     void setupQueryMock(String databaseId, List<Map<String, Property>> mockProperties) {
-      final response = Success(PaginatedResponse(results: mockProperties, hasMore: true));
+      final pages = mockProperties.map((props) {
+        final page = MockPage();
+        when(() => page.properties).thenReturn(props);
+        return page;
+      }).toList();
+
+      final response = Success(PaginatedResponse(results: pages, hasMore: true));
 
       when(() => mockRepository.query(databaseId)).thenAnswer((_) async => response);
     }
@@ -161,7 +183,7 @@ void main() {
       final result = await notionUseCase.query(databaseId,
           forceFetchRelationPages: true, cacheRelationPages: true);
 
-      expect(result, isA<Success<Properties, AppException>>());
+      expect(result, isA<Success<Pages, AppException>>());
       verify(() => mockCacheManager.get('page_id')).called(1);
       verifyNever(() => mockPage.resolve(any()));
     });
@@ -194,7 +216,7 @@ void main() {
         cacheRelationPages: true,
       );
 
-      expect(result, isA<Success<Properties, AppException>>());
+      expect(result, isA<Success<Pages, AppException>>());
       verify(() => mockCacheManager.get('page_id_1')).called(1);
       verify(() => mockCacheManager.get('page_id_2')).called(1);
       verify(() => mockPage1.resolve(any())).called(1);
@@ -223,7 +245,7 @@ void main() {
       final result = await notionUseCase.query(databaseId,
           forceFetchRelationPages: true, cacheRelationPages: true);
 
-      expect(result, isA<Success<Properties, AppException>>());
+      expect(result, isA<Success<Pages, AppException>>());
       verify(() => mockCacheManager.set('page_id', mockPage)).called(1);
       verify(() => mockKeepAliveLink.expire()).called(1);
     });

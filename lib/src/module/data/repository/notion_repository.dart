@@ -1,6 +1,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:network_y/network_y.dart';
 
+import '../../../../notion_db_sdk.dart';
 import '../../domain/entity/filter.dart';
 import '../../domain/entity/property.dart';
 import '../../domain/repository/notion_repository.dart';
@@ -14,7 +15,7 @@ class NotionRepository implements Repository {
   final ApiClient apiClient;
 
   @override
-  AsyncResult<PaginatedResponse<Properties>, ApiException> query(
+  AsyncResult<PaginatedResponse<Pages>, ApiException> query(
     DatabaseId databaseId, {
     Filter? filter,
     PaginationParams? paginationParams,
@@ -30,27 +31,25 @@ class NotionRepository implements Repository {
     return result.map(
       (value) {
         try {
-          final _result = <Map<String, Property>>[];
+          final _result = <Page>[];
 
           final _resultsPayload =
               List.castFrom<Object?, Map<String, Object?>>(value['results'] as List<Object?>? ?? [])
                   .toList();
 
-          final _properties =
-              _resultsPayload.map((e) => e['properties'] as Map<String, Object?>? ?? {}).toList();
-
           final _factory = PropertyFactory();
 
-          for (final property in _properties) {
-            final _propertyMap = <String, Property>{};
+          for (final pageData in _resultsPayload) {
+            final pageId = pageData['id'] as String;
+            final properties = pageData['properties'] as Map<String, Object?>? ?? {};
 
-            for (final entry in property.entries) {
+            final parsedProperties = <String, Property>{};
+            for (final entry in properties.entries) {
               final _property = _factory({entry.key: entry.value});
-
-              _propertyMap[entry.key] = _property;
+              parsedProperties[entry.key] = _property;
             }
 
-            _result.add(_propertyMap);
+            _result.add(Page(id: pageId, properties: parsedProperties));
           }
 
           final hasMore = value['has_more'] as bool? ?? false;

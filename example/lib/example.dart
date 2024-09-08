@@ -20,12 +20,13 @@ Future<void> queryDatabase(
   );
 
   result.fold(
-    onSuccess: (properties) {
+    onSuccess: (pages) {
       log('Results:');
-      log('Total Count: ${properties.length}');
-      for (final entry in properties) {
-        final number = properties.indexOf(entry) + 1;
-        log('$number. ${entry['Name']?.value}');
+      log('Total Count: ${pages.length}');
+      for (final page in pages) {
+        final properties = page.properties;
+        final number = pages.indexOf(page) + 1;
+        log('$number. ${properties['Name']?.value}');
       }
       logBlankLine();
     },
@@ -48,12 +49,13 @@ Future<void> fetchAll(
   );
 
   result.fold(
-    onSuccess: (properties) {
+    onSuccess: (pages) {
       log('Results:');
-      log('Total Count: ${properties.length}');
-      for (final entry in properties) {
-        final number = properties.indexOf(entry) + 1;
-        log('$number. ${entry['Name']?.value}');
+      log('Total Count: ${pages.length}');
+      for (final page in pages) {
+        final number = pages.indexOf(page) + 1;
+        final properties = page.properties;
+        log('$number. ${properties['Name']?.value}');
       }
       logBlankLine();
     },

@@ -86,7 +86,7 @@ class NotionClient {
   ///
   ///   relation.valueDetails?.value.first.value; // Access the value of the first related page
   /// ```
-  AsyncResult<Properties, AppException> query(
+  AsyncResult<Pages, AppException> query(
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
     Filter? filter,
@@ -121,7 +121,7 @@ class NotionClient {
   /// Fetching all pages can be time-consuming and resource-intensive for databases
   /// with a large number of pages. Consider using the paginated [query] method
   /// for more controlled data fetching in such cases.
-  AsyncResult<Properties, AppException> fetchAll(
+  AsyncResult<Pages, AppException> fetchAll(
     DatabaseId databaseId, {
     int pageSize = 100,
     Filter? filter,

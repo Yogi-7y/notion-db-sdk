@@ -33,6 +33,7 @@ void main() {
         final mockResponse = {
           'results': [
             {
+              'id': 'test_page_id',
               'properties': {
                 'Name': {
                   'id': 'title',
@@ -58,13 +59,14 @@ void main() {
 
         final result = await repository.query(databaseId);
 
-        expect(result, isA<Success<PaginatedResponse<Properties>, ApiException>>());
-        final properties = result.valueOrNull?.results ?? [];
-        expect(properties.length, 1);
-        expect(properties[0]['Name'], isA<TextProperty>());
-        expect(properties[0]['Name']!.value, 'Test Task');
-        expect(properties[0]['Status'], isA<Status>());
-        expect(properties[0]['Status']!.value, 'In Progress');
+        expect(result, isA<Success<PaginatedResponse<Pages>, ApiException>>());
+        final pages = result.valueOrNull?.results ?? [];
+        final properties = pages[0].properties;
+        expect(pages.length, 1);
+        expect(properties['Name'], isA<TextProperty>());
+        expect(properties['Name']!.value, 'Test Task');
+        expect(properties['Status'], isA<Status>());
+        expect(properties['Status']!.value, 'In Progress');
 
         verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
       });
@@ -82,7 +84,7 @@ void main() {
 
         final result = await repository.query(databaseId);
 
-        expect(result, isA<Failure<PaginatedResponse<Properties>, ApiException>>());
+        expect(result, isA<Failure<PaginatedResponse<Pages>, ApiException>>());
         verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
       });
     });
