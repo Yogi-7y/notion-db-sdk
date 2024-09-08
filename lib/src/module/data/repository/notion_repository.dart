@@ -14,7 +14,6 @@ class NotionRepository implements Repository {
   final ApiClient apiClient;
 
   @override
-  AsyncResult<Properties, ApiException> query(
   AsyncResult<PaginatedResponse<Properties>, ApiException> query(
     DatabaseId databaseId, {
     Filter? filter,
@@ -54,7 +53,6 @@ class NotionRepository implements Repository {
             _result.add(_propertyMap);
           }
 
-          return _result;
           final hasMore = value['has_more'] as bool? ?? false;
           final nextCursor = value['next_cursor'] as String?;
 
