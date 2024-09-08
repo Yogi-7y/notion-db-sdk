@@ -5,22 +5,57 @@ Future<void> queryDatabase(
   NotionClient client,
   String databaseId, {
   Filter? filter,
+  PaginationParams? paginationParams,
 }) async {
+  logHeader('Querying database');
+
+  log('Filter: ${filter?.toMap()}');
+  log('Pagination params: ${paginationParams?.toMap()}');
+  logBlankLine();
+
   final result = await client.query(
     databaseId,
     filter: filter,
+    paginationParams: paginationParams,
   );
 
   result.fold(
     onSuccess: (properties) {
-      log('Database query successful:');
-
+      log('Results:');
+      log('Total Count: ${properties.length}');
       for (final entry in properties) {
-        for (final property in entry.entries) {
-          log('${property.key}: ${property.value.value}');
-        }
-        log('---');
+        final number = properties.indexOf(entry) + 1;
+        log('$number. ${entry['Name']?.value}');
       }
+      logBlankLine();
+    },
+    onFailure: (error) => log('Error querying database: $error'),
+  );
+}
+
+Future<void> fetchAll(
+  NotionClient client,
+  String databaseId,
+) async {
+  logHeader('Fetch all ');
+
+  logBlankLine();
+  log('Database id: $databaseId');
+
+  final result = await client.fetchAll(
+    databaseId,
+    pageSize: 5,
+  );
+
+  result.fold(
+    onSuccess: (properties) {
+      log('Results:');
+      log('Total Count: ${properties.length}');
+      for (final entry in properties) {
+        final number = properties.indexOf(entry) + 1;
+        log('$number. ${entry['Name']?.value}');
+      }
+      logBlankLine();
     },
     onFailure: (error) => log('Error querying database: $error'),
   );
@@ -68,6 +103,16 @@ Future<void> createNewPage(NotionClient client, String databaseId) async {
       }
     },
   );
+}
+
+void logHeader(String name) {
+  logBlankLine();
+  log('--------------- $name ---------------');
+  logBlankLine();
+}
+
+void logBlankLine() {
+  log('\n');
 }
 
 void log(String message) {

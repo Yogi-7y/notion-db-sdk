@@ -1,3 +1,8 @@
+## 0.5.0
+
+- Introduce Pagination
+- Introduce `fetchAll` method to fetch all pages from a database.
+
 ## 0.4.0
 
 - Add caching support via `CacheMaager`

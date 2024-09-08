@@ -1,6 +1,7 @@
 import 'package:core_y/core_y.dart';
 // ignore: implementation_imports
 
+import '../../data/repository/pagable.dart';
 import '../entity/filter.dart';
 import '../entity/property.dart';
 
@@ -15,9 +16,10 @@ typedef DatabaseId = String;
 /// fetching page properties.
 abstract class Repository {
   /// Queries the Notion database and returns a list of properties.
-  AsyncResult<Properties, AppException> query(
+  AsyncResult<PaginatedResponse<Properties>, AppException> query(
     DatabaseId databaseId, {
     Filter? filter,
+    PaginationParams? paginationParams,
   });
 
   /// Creates a new page in the Notion database.

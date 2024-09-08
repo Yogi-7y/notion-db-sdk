@@ -2,6 +2,7 @@
 
 import 'package:core_y/core_y.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:notion_db_sdk/notion_db_sdk.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/page.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
@@ -59,7 +60,9 @@ void main() {
         }
       ];
 
-      when(() => mockRepository.query(databaseId)).thenAnswer((_) async => Success(mockProperties));
+      final response = Success(PaginatedResponse(results: mockProperties, hasMore: true));
+
+      when(() => mockRepository.query(databaseId)).thenAnswer((_) async => response);
 
       final result = await notionUseCase.query(databaseId);
 
@@ -127,7 +130,9 @@ void main() {
     }
 
     void setupQueryMock(String databaseId, List<Map<String, Property>> mockProperties) {
-      when(() => mockRepository.query(databaseId)).thenAnswer((_) async => Success(mockProperties));
+      final response = Success(PaginatedResponse(results: mockProperties, hasMore: true));
+
+      when(() => mockRepository.query(databaseId)).thenAnswer((_) async => response);
     }
 
     const databaseId = 'test_database_id';

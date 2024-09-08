@@ -2,6 +2,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../notion_db_sdk.dart';
 import '../entity/filter.dart';
 import '../entity/page.dart';
 import '../entity/property.dart';
@@ -43,16 +44,21 @@ class NotionUseCase implements PageResolver {
     /// Cache is only one-pass and is destroyed after the method call.
     bool cacheRelationPages = false,
     Filter? filter,
+    PaginationParams? paginationParams,
   }) async {
-    final result = await repository.query(databaseId, filter: filter);
+    final result = await repository.query(
+      databaseId,
+      filter: filter,
+      paginationParams: paginationParams,
+    );
 
-    if (result.isFailure) return result;
+    if (result.isFailure) return Failure((result as Failure).error);
 
-    if (!forceFetchRelationPages) return result;
+    if (!forceFetchRelationPages) return result.map((value) => value.results);
 
-    final properties = result.valueOrNull ?? [];
+    final properties = result.valueOrNull?.results ?? [];
 
-    KeepAliveLink? _cacheKeepAliveLink = null;
+    KeepAliveLink? _cacheKeepAliveLink;
 
     for (final propertyMap in properties) {
       for (final property in propertyMap.values) {
@@ -80,6 +86,39 @@ class NotionUseCase implements PageResolver {
     _cacheKeepAliveLink?.expire();
 
     return Success(properties);
+  }
+
+  AsyncResult<List<Map<String, Property>>, AppException> fetchAll(
+    DatabaseId databaseId, {
+    int pageSize = 100,
+    Filter? filter,
+  }) async {
+    final allProperties = <Map<String, Property>>[];
+    String? nextCursor;
+
+    do {
+      final result = await repository.query(
+        databaseId,
+        filter: filter,
+        paginationParams: PaginationParams(
+          startCursor: nextCursor,
+          pageSize: pageSize,
+        ),
+      );
+
+      if (result is Failure) {
+        final _result = result as Failure;
+        return Failure(_result.error);
+      }
+
+      final paginatedResponse = result.valueOrNull;
+
+      allProperties.addAll(paginatedResponse?.results ?? []);
+      nextCursor = paginatedResponse?.nextCursor;
+      print('nextCursor: $nextCursor');
+    } while (nextCursor != null);
+
+    return Success(allProperties);
   }
 
   AsyncResult<Map<String, Property>, AppException> fetchPageProperties(String pageId) async {
