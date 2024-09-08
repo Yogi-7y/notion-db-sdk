@@ -93,9 +93,9 @@ With direct API calls, reading properties will involve handling this:
 With this SDK, value can be easily accessed as:
 
 ```dart
-properties['Description'].value // "A dark sky"
-properties['Price'].value // 42
-properties['Due Date'].value // DateTime(2023, 2, 23)
+page.properties['Description'].value // "A dark sky"
+page.properties['Price'].value // 42
+page.properties['Due Date'].value // DateTime(2023, 2, 23)
 ```
 
 ### Writing Properties
