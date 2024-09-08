@@ -41,32 +41,6 @@ void main() {
   });
 
   group('NotionUseCase', () {
-    // test('query returns properties on success', () async {
-    //   const databaseId = 'test_database_id';
-    //   final mockProperties = [
-    //     {
-    //       'Name': const TextProperty(
-    //         name: 'Name',
-    //         valueDetails: Value(value: 'Test Task'),
-    //       ),
-    //       'Status': const Status(
-    //         name: 'Status',
-    //         valueDetails: Value(value: 'In Progress'),
-    //       ),
-    //     }
-    //   ];
-    //
-    //   final response = Success(PaginatedResponse(results: mockProperties, hasMore: true));
-    //
-    //   when(() => mockRepository.query(databaseId)).thenAnswer((_) async => response);
-    //
-    //   final result = await notionUseCase.query(databaseId);
-    //
-    //   expect(result, isA<Success<Properties, AppException>>());
-    //   expect(result.valueOrNull, equals(mockProperties));
-    //   verify(() => mockRepository.query(databaseId)).called(1);
-    // });
-
     test('query returns Pages on success', () async {
       final mockRepository = MockRepository();
       final useCase = NotionUseCase(
