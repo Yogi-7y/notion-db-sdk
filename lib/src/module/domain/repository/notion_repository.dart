@@ -16,7 +16,7 @@ typedef DatabaseId = String;
 /// fetching page properties.
 abstract class Repository {
   /// Queries the Notion database and returns a list of properties.
-  AsyncResult<Properties, AppException> query(
+  AsyncResult<PaginatedResponse<Properties>, AppException> query(
     DatabaseId databaseId, {
     Filter? filter,
     PaginationParams? paginationParams,

@@ -1,6 +1,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_y/network_y.dart';
+import 'package:notion_db_sdk/notion_db_sdk.dart';
 import 'package:notion_db_sdk/src/module/data/repository/notion_repository.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property.dart';
 import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
@@ -57,8 +58,8 @@ void main() {
 
         final result = await repository.query(databaseId);
 
-        expect(result, isA<Success<Properties, ApiException>>());
-        final properties = result.valueOrNull!;
+        expect(result, isA<Success<PaginatedResponse<Properties>, ApiException>>());
+        final properties = result.valueOrNull?.results ?? [];
         expect(properties.length, 1);
         expect(properties[0]['Name'], isA<TextProperty>());
         expect(properties[0]['Name']!.value, 'Test Task');
@@ -81,7 +82,7 @@ void main() {
 
         final result = await repository.query(databaseId);
 
-        expect(result, isA<Failure<Properties, ApiException>>());
+        expect(result, isA<Failure<PaginatedResponse<Properties>, ApiException>>());
         verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
       });
     });

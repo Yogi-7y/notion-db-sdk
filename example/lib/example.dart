@@ -33,6 +33,34 @@ Future<void> queryDatabase(
   );
 }
 
+Future<void> fetchAll(
+  NotionClient client,
+  String databaseId,
+) async {
+  logHeader('Fetch all ');
+
+  logBlankLine();
+  log('Database id: $databaseId');
+
+  final result = await client.fetchAll(
+    databaseId,
+    pageSize: 5,
+  );
+
+  result.fold(
+    onSuccess: (properties) {
+      log('Results:');
+      log('Total Count: ${properties.length}');
+      for (final entry in properties) {
+        final number = properties.indexOf(entry) + 1;
+        log('$number. ${entry['Name']?.value}');
+      }
+      logBlankLine();
+    },
+    onFailure: (error) => log('Error querying database: $error'),
+  );
+}
+
 Future<void> fetchPageProperties(NotionClient client, String pageId) async {
   final result = await client.fetchPageProperties(pageId);
 

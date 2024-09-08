@@ -15,6 +15,7 @@ class NotionRepository implements Repository {
 
   @override
   AsyncResult<Properties, ApiException> query(
+  AsyncResult<PaginatedResponse<Properties>, ApiException> query(
     DatabaseId databaseId, {
     Filter? filter,
     PaginationParams? paginationParams,
@@ -54,6 +55,14 @@ class NotionRepository implements Repository {
           }
 
           return _result;
+          final hasMore = value['has_more'] as bool? ?? false;
+          final nextCursor = value['next_cursor'] as String?;
+
+          return PaginatedResponse(
+            results: _result,
+            hasMore: hasMore,
+            nextCursor: nextCursor,
+          );
         } catch (e) {
           rethrow;
         }

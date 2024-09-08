@@ -3,13 +3,13 @@
 import 'package:example/example.dart';
 import 'package:notion_db_sdk/notion_db_sdk.dart';
 
-Future<void> main(List<String> arguments) async {
-  const secret = String.fromEnvironment('notion_secret');
-  const databaseId = String.fromEnvironment('database_id');
-  const projectDatabaseId = String.fromEnvironment('project_database_id');
-  const pageId = String.fromEnvironment('page_id');
-  const version = '2022-06-28';
+const secret = String.fromEnvironment('notion_secret');
+const databaseId = String.fromEnvironment('database_id');
+const projectDatabaseId = String.fromEnvironment('project_database_id');
+const pageId = String.fromEnvironment('page_id');
+const version = '2022-06-28';
 
+Future<void> main(List<String> arguments) async {
   log('secret: $secret');
 
   final client = NotionClient(
@@ -32,6 +32,8 @@ Future<void> main(List<String> arguments) async {
     projectDatabaseId,
     paginationParams: PaginationParams(pageSize: 5),
   );
+
+  await fetchAll(client, projectDatabaseId);
 
   // final andFilter = AndFilter([
   //   NumberFilter('Number', greaterThan: 40),
