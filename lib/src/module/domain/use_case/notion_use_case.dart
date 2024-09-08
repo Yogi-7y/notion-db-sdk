@@ -3,10 +3,6 @@ import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../notion_db_sdk.dart';
-import '../entity/filter.dart';
-import '../entity/page.dart';
-import '../entity/property.dart';
-import '../entity/property_variants/relation.dart';
 import '../repository/notion_repository.dart';
 
 /// Represents the core business logic for interacting with the Notion API.
@@ -35,7 +31,7 @@ class NotionUseCase implements PageResolver {
   /// When set to true, it automatically fetches the properties of
   /// related pages for any relation properties so they are readily available.
 
-  AsyncResult<Properties, AppException> query(
+  AsyncResult<Pages, AppException> query(
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
 
@@ -56,26 +52,25 @@ class NotionUseCase implements PageResolver {
 
     if (!forceFetchRelationPages) return result.map((value) => value.results);
 
-    final properties = result.valueOrNull?.results ?? [];
+    final pages = result.valueOrNull?.results ?? [];
 
     KeepAliveLink? _cacheKeepAliveLink;
 
-    for (final propertyMap in properties) {
-      for (final property in propertyMap.values) {
-        if (property.type == 'relation') {
-          final relation = property as RelationProperty;
-          final pages = relation.valueDetails?.value ?? [];
-          for (final page in pages) {
+    for (final page in pages) {
+      for (final property in page.properties.values) {
+        if (property is RelationProperty) {
+          final relatedPages = property.valueDetails?.value ?? [];
+          for (final relatedPage in relatedPages) {
             if (!cacheRelationPages) {
-              await page.resolve(this);
+              await relatedPage.resolve(this);
             } else {
-              final _page = cacheManager.get(page.id);
+              final _cachedPage = cacheManager.get(relatedPage.id);
 
-              if (_page != null) {
-                page.properties = _page.properties;
+              if (_cachedPage != null) {
+                relatedPage.properties = _cachedPage.properties;
               } else {
-                await page.resolve(this);
-                _cacheKeepAliveLink = cacheManager.set(page.id, page);
+                await relatedPage.resolve(this);
+                _cacheKeepAliveLink = cacheManager.set(relatedPage.id, relatedPage);
               }
             }
           }
@@ -85,15 +80,15 @@ class NotionUseCase implements PageResolver {
 
     _cacheKeepAliveLink?.expire();
 
-    return Success(properties);
+    return Success(pages);
   }
 
-  AsyncResult<List<Map<String, Property>>, AppException> fetchAll(
+  AsyncResult<Pages, AppException> fetchAll(
     DatabaseId databaseId, {
     int pageSize = 100,
     Filter? filter,
   }) async {
-    final allProperties = <Map<String, Property>>[];
+    final allPages = <Page>[];
     String? nextCursor;
 
     do {
@@ -113,12 +108,11 @@ class NotionUseCase implements PageResolver {
 
       final paginatedResponse = result.valueOrNull;
 
-      allProperties.addAll(paginatedResponse?.results ?? []);
+      allPages.addAll(paginatedResponse?.results ?? []);
       nextCursor = paginatedResponse?.nextCursor;
-      print('nextCursor: $nextCursor');
     } while (nextCursor != null);
 
-    return Success(allProperties);
+    return Success(allPages);
   }
 
   AsyncResult<Map<String, Property>, AppException> fetchPageProperties(String pageId) async {
