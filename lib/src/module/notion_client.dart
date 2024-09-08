@@ -105,6 +105,33 @@ class NotionClient {
         paginationParams: paginationParams,
       );
 
+  /// Fetches all pages from a Notion database.
+  ///
+  /// This method will continuously fetch pages until all pages in the database
+  /// have been retrieved. It uses pagination internally to fetch all pages.
+  ///
+  /// [databaseId] is the ID of the database to query.
+  /// [pageSize] is the number of items to fetch per page (default is 100, max is 100).
+  /// [filter] is an optional filter to apply to the query.
+  ///
+  /// Returns an [AsyncResult] containing a list of all [Properties] in the database,
+  /// or an [AppException] if an error occurs.
+  ///
+  /// WARNING: Use this method with caution, especially with large databases.
+  /// Fetching all pages can be time-consuming and resource-intensive for databases
+  /// with a large number of pages. Consider using the paginated [query] method
+  /// for more controlled data fetching in such cases.
+  AsyncResult<Properties, AppException> fetchAll(
+    DatabaseId databaseId, {
+    int pageSize = 100,
+    Filter? filter,
+  }) =>
+      _useCase.fetchAll(
+        databaseId,
+        pageSize: pageSize,
+        filter: filter,
+      );
+
   AsyncResult<Map<String, Property>, AppException> fetchPageProperties(String pageId) async {
     return _useCase.fetchPageProperties(pageId);
   }
