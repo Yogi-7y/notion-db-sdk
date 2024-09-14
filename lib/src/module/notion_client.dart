@@ -114,7 +114,7 @@ class NotionClient {
   /// [pageSize] is the number of items to fetch per page (default is 100, max is 100).
   /// [filter] is an optional filter to apply to the query.
   ///
-  /// Returns an [AsyncResult] containing a list of all [Properties] in the database,
+  /// Returns an [AsyncResult] containing a list of all [RawProperties] in the database,
   /// or an [AppException] if an error occurs.
   ///
   /// WARNING: Use this method with caution, especially with large databases.
@@ -176,4 +176,38 @@ class NotionClient {
     required List<Property> properties,
   }) =>
       _useCase.createPage(databaseId: databaseId, properties: properties);
+
+  /// Updates the properties of an existing page in a Notion database.
+  ///
+  /// [pageId] is the ID of the page to update.
+  /// [properties] is a list of [Property] objects to update on the page.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// final properties = [
+  ///   TextProperty(
+  ///     name: 'Name',
+  ///     valueDetails: Value(value: 'Updated Task Name'),
+  ///   ),
+  ///   Number(
+  ///     name: 'Priority',
+  ///     valueDetails: Value(value: 2),
+  ///   ),
+  /// ];
+  ///
+  /// final result = await notionClient.updatePage(
+  ///   pageId: 'page_id',
+  ///   properties: properties,
+  /// );
+  ///
+  /// result.fold(
+  ///   onSuccess: (_) => print('Page updated successfully'),
+  ///   onFailure: (error) => print('Error updating page: $error'),
+  /// );
+  /// ```
+  AsyncResult<void, AppException> updatePage({
+    required String pageId,
+    required List<Property> properties,
+  }) =>
+      _useCase.updatePage(pageId: pageId, properties: properties);
 }

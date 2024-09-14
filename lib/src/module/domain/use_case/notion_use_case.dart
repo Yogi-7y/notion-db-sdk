@@ -130,6 +130,16 @@ class NotionUseCase implements PageResolver {
     return repository.createPage(databaseId, properties);
   }
 
+  /// Updates the properties of an existing page in a Notion database.
+  ///
+  /// [pageId] is the ID of the page to update.
+  /// [properties] is a list of [Property] objects to update on the page.
+  AsyncResult<void, AppException> updatePage({
+    required String pageId,
+    required List<Property> properties,
+  }) async =>
+      repository.updatePage(pageId, properties: properties);
+
   @protected
   @override
   AsyncResult<Map<String, Property<Object>>, AppException> resolve(

@@ -3,8 +3,10 @@ import 'package:core_y/core_y.dart';
 import '../../../../notion_db_sdk.dart';
 
 typedef DatabaseId = String;
+typedef PageId = String;
 typedef Pages = List<Page>;
-typedef Properties = List<Map<String, Property>>;
+typedef Properties = List<Property>;
+typedef RawProperties = List<Map<String, Property>>;
 
 /// Defines the contract for interacting with the Notion API.
 ///
@@ -28,5 +30,10 @@ abstract class Repository {
     DatabaseId databaseId, {
     Filter? filter,
     PaginationParams? paginationParams,
+  });
+
+  AsyncResult<void, AppException> updatePage(
+    PageId pageId, {
+    required Properties properties,
   });
 }
