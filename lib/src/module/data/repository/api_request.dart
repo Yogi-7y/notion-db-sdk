@@ -4,6 +4,7 @@ import 'package:network_y/network_y.dart';
 import '../../../core/network/api_constants.dart';
 import '../../domain/entity/filter.dart';
 import '../../domain/entity/property.dart';
+import '../../domain/repository/notion_repository.dart';
 import 'pagable.dart';
 
 class QueryRequest extends BaseNotionRequest implements PostRequest, Pageable {
@@ -61,6 +62,32 @@ class CreatePageRequest extends BaseNotionRequest implements PostRequest {
       'parent': {
         'database_id': databaseId,
       },
+      'properties': _properties,
+    };
+  }
+}
+
+@immutable
+class UpdatePagePropertiesRequest extends BaseNotionRequest implements PatchRequest {
+  UpdatePagePropertiesRequest({
+    required this.pageId,
+    required this.properties,
+  }) : super(
+          endpoint: 'v1/pages/$pageId',
+        );
+
+  final PageId pageId;
+  final Properties properties;
+
+  @override
+  Payload get body {
+    final _properties = <String, Object?>{};
+
+    for (final element in properties) {
+      _properties.addAll(element.toMap());
+    }
+
+    return {
       'properties': _properties,
     };
   }

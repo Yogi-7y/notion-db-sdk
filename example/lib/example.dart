@@ -1,5 +1,5 @@
-import 'package:notion_db_sdk/notion_db_sdk.dart';
 import 'package:network_y/src/exceptions/api_exception.dart';
+import 'package:notion_db_sdk/notion_db_sdk.dart';
 
 Future<void> queryDatabase(
   NotionClient client,
@@ -30,7 +30,15 @@ Future<void> queryDatabase(
       }
       logBlankLine();
     },
-    onFailure: (error) => log('Error querying database: $error'),
+    onFailure: (error) {
+      log('Error querying database: $error');
+
+      if (error is ApiException) {
+        log('Status code: ${error.statusCode}');
+        log('Response: ${error.response}');
+        log('Request: ${error.request.url}');
+      }
+    },
   );
 }
 
@@ -92,6 +100,32 @@ Future<void> createNewPage(NotionClient client, String databaseId) async {
 
   final result = await client.createPage(
     databaseId: databaseId,
+    properties: properties,
+  );
+
+  result.fold(
+    onSuccess: (_) => log('Page created successfully'),
+    onFailure: (error) {
+      log('Error creating page: $error');
+      if (error is ApiException) {
+        log('Status code: ${error.statusCode}');
+        log('Response: ${error.response}');
+      }
+    },
+  );
+}
+
+Future<void> updatePage(NotionClient client, String pageId) async {
+  final properties = <Property>[
+    const TextProperty(
+      name: 'Name',
+      valueDetails: Value(value: 'Updated name'),
+      isTitle: true,
+    ),
+  ];
+
+  final result = await client.updatePage(
+    pageId: pageId,
     properties: properties,
   );
 
