@@ -3,15 +3,14 @@ import 'package:mocktail/mocktail.dart';
 import 'package:network_y/network_y.dart';
 import 'package:notion_db_sdk/notion_db_sdk.dart';
 import 'package:notion_db_sdk/src/module/data/repository/notion_repository.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/property_variants/variants.dart';
-import 'package:notion_db_sdk/src/module/domain/entity/value.dart';
 import 'package:notion_db_sdk/src/module/domain/repository/notion_repository.dart';
 import 'package:test/test.dart';
 
 class MockApiClient extends Mock implements ApiClient {}
 
 class MockPostRequest extends Mock implements PostRequest {}
+
+class MockPatchRequest extends Mock implements PatchRequest {}
 
 void main() {
   late NotionRepository repository;
@@ -188,6 +187,49 @@ void main() {
         when(() => mockApiClient.call<void>(any())).thenAnswer((_) async => Failure(mockException));
 
         final result = await repository.createPage(databaseId, properties);
+
+        expect(result, isA<Failure<void, AppException>>());
+
+        verify(() => mockApiClient.call<void>(any())).called(1);
+      });
+    });
+
+    group('updatePageProperties', () {
+      test('returns Success on successful API call', () async {
+        const pageId = 'test_page_id';
+        const properties = [
+          TextProperty(
+            name: 'Name',
+            valueDetails: Value(value: 'Updated Task'),
+          ),
+        ];
+
+        when(() => mockApiClient.call<void>(any())).thenAnswer((_) async => const Success(null));
+
+        final result = await repository.updatePage(pageId, properties: properties);
+
+        expect(result, isA<Success<void, AppException>>());
+
+        verify(() => mockApiClient.call<void>(any())).called(1);
+      });
+
+      test('returns Failure on API error', () async {
+        const pageId = 'test_page_id';
+        const properties = [
+          TextProperty(
+            name: 'Name',
+            valueDetails: Value(value: 'Updated Task'),
+          ),
+        ];
+
+        final mockException = ApiException(
+          exception: Exception('API Error'),
+          stackTrace: StackTrace.empty,
+          request: MockPatchRequest(),
+        );
+        when(() => mockApiClient.call<void>(any())).thenAnswer((_) async => Failure(mockException));
+
+        final result = await repository.updatePage(pageId, properties: properties);
 
         expect(result, isA<Failure<void, AppException>>());
 

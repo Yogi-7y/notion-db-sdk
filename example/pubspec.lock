@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: core_y
-      sha256: "6ebf736e45c2f823d1171ebe0f410ce370dbc0eb98eaf978368673ce21f85631"
+      sha256: "975129d5b6699e15213322dc447118cd482e9ec7a01e8490070260539da67c90"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.3.1"
   dio:
     dependency: transitive
     description:
@@ -70,10 +70,10 @@ packages:
     dependency: transitive
     description:
       name: network_y
-      sha256: "45bad06c4760e43ad5ac19bd45b2ce0fe1ed2f3ef124405c2accf217a164fb71"
+      sha256: "5b8477e12a2b78b51c724df4c474d75147a7cc886a9823f4ab9646ebef79b779"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1+2"
+    version: "0.1.2"
   notion_db_sdk:
     dependency: "direct main"
     description:

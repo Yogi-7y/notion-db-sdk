@@ -25,4 +25,3 @@ The property values to update for the page. The keys are the names or IDs of the
 Set to true to delete a block. Set to false to restore a block.
 
 
-

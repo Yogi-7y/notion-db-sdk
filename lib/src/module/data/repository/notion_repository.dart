@@ -109,4 +109,17 @@ class NotionRepository implements Repository {
 
     return _result;
   }
+
+  @override
+  AsyncResult<void, AppException> updatePage(
+    PageId pageId, {
+    required Properties properties,
+  }) {
+    final _request = UpdatePagePropertiesRequest(
+      pageId: pageId,
+      properties: properties,
+    );
+
+    return apiClient<void>(_request);
+  }
 }

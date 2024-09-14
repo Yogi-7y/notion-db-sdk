@@ -12,3 +12,4 @@ claude_chats
 build/
 .nvim.lua
 .claudesync/config.local.json
+example/lib/constants.dart
