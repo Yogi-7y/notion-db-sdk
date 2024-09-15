@@ -1,6 +1,11 @@
+## 0.7.0+1
+
+- Bump `network_y` to latest version
+
 ## 0.7.0
 
 - Add support for `updatePage`
+
 ## 0.6.0
 
 - Return `Page` level data instead of directly returning properties.
