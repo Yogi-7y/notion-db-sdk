@@ -1,4 +1,5 @@
 import 'package:core_y/core_y.dart';
+import 'package:network_y/src/pagination/pagination_params.dart';
 
 import '../../../../notion_db_sdk.dart';
 
@@ -26,10 +27,10 @@ abstract class Repository {
   );
 
   /// Queries the Notion database and returns a list of properties.
-  AsyncResult<PaginatedResponse<Pages>, AppException> query(
+  AsyncResult<PaginatedResponse<Page>, AppException> query(
     DatabaseId databaseId, {
     Filter? filter,
-    PaginationParams? paginationParams,
+    CursorPaginationStrategyParams? paginationParams,
   });
 
   AsyncResult<void, AppException> updatePage(

@@ -1,16 +1,16 @@
 import 'package:network_y/src/exceptions/api_exception.dart';
 import 'package:notion_db_sdk/notion_db_sdk.dart';
+import 'package:network_y/src/pagination/pagination_params.dart';
 
 Future<void> queryDatabase(
   NotionClient client,
   String databaseId, {
   Filter? filter,
-  PaginationParams? paginationParams,
+  CursorPaginationStrategyParams? paginationParams,
 }) async {
   logHeader('Querying database');
 
   log('Filter: ${filter?.toMap()}');
-  log('Pagination params: ${paginationParams?.toMap()}');
   logBlankLine();
 
   final result = await client.query(
@@ -20,7 +20,9 @@ Future<void> queryDatabase(
   );
 
   result.fold(
-    onSuccess: (pages) {
+    onSuccess: (paginatedResponse) {
+      final pages = paginatedResponse.results;
+
       log('Results:');
       log('Total Count: ${pages.length}');
       for (final page in pages) {
@@ -130,7 +132,7 @@ Future<void> updatePage(NotionClient client, String pageId) async {
   );
 
   result.fold(
-    onSuccess: (_) => log('Page created successfully'),
+    onSuccess: (_) => log('Page updated successfully'),
     onFailure: (error) {
       log('Error creating page: $error');
       if (error is ApiException) {

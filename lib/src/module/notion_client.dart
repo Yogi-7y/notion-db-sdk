@@ -1,6 +1,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
 import 'package:network_y/network_y.dart';
+import 'package:network_y/src/pagination/pagination_params.dart';
 
 import '../../notion_db_sdk.dart';
 import './domain/use_case/notion_use_case.dart';
@@ -86,7 +87,7 @@ class NotionClient {
   ///
   ///   relation.valueDetails?.value.first.value; // Access the value of the first related page
   /// ```
-  AsyncResult<Pages, AppException> query(
+  AsyncResult<PaginatedResponse<Page>, AppException> query(
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
     Filter? filter,
@@ -95,7 +96,7 @@ class NotionClient {
     /// For subsequent calls, it'll use the cached value.
     /// Cache is only one-pass and is destroyed after the method call.
     bool cacheRelationPages = false,
-    PaginationParams? paginationParams,
+    CursorPaginationStrategyParams? paginationParams,
   }) =>
       _useCase.query(
         databaseId,

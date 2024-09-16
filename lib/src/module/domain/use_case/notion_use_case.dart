@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:core_y/core_y.dart';
 import 'package:meta/meta.dart';
+import 'package:network_y/src/pagination/pagination_params.dart';
 
 import '../../../../notion_db_sdk.dart';
 import '../repository/notion_repository.dart';
@@ -31,7 +32,7 @@ class NotionUseCase implements PageResolver {
   /// When set to true, it automatically fetches the properties of
   /// related pages for any relation properties so they are readily available.
 
-  AsyncResult<Pages, AppException> query(
+  AsyncResult<PaginatedResponse<Page>, AppException> query(
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
 
@@ -40,7 +41,7 @@ class NotionUseCase implements PageResolver {
     /// Cache is only one-pass and is destroyed after the method call.
     bool cacheRelationPages = false,
     Filter? filter,
-    PaginationParams? paginationParams,
+    CursorPaginationStrategyParams? paginationParams,
   }) async {
     final result = await repository.query(
       databaseId,
@@ -50,8 +51,9 @@ class NotionUseCase implements PageResolver {
 
     if (result.isFailure) return Failure((result as Failure).error);
 
-    if (!forceFetchRelationPages) return result.map((value) => value.results);
+    if (!forceFetchRelationPages) return result;
 
+    final paginatedResponse = result.valueOrNull!;
     final pages = result.valueOrNull?.results ?? [];
 
     KeepAliveLink? _cacheKeepAliveLink;
@@ -80,7 +82,13 @@ class NotionUseCase implements PageResolver {
 
     _cacheKeepAliveLink?.expire();
 
-    return Success(pages);
+    return Success(
+      PaginatedResponse(
+        results: pages,
+        hasMore: result.valueOrNull?.hasMore ?? false,
+        paginationParams: paginatedResponse.paginationParams,
+      ),
+    );
   }
 
   AsyncResult<Pages, AppException> fetchAll(
@@ -89,16 +97,13 @@ class NotionUseCase implements PageResolver {
     Filter? filter,
   }) async {
     final allPages = <Page>[];
-    String? nextCursor;
+    var paginationParams = CursorPaginationStrategyParams(limit: pageSize);
 
     do {
       final result = await repository.query(
         databaseId,
         filter: filter,
-        paginationParams: PaginationParams(
-          startCursor: nextCursor,
-          pageSize: pageSize,
-        ),
+        paginationParams: paginationParams,
       );
 
       if (result is Failure) {
@@ -106,11 +111,11 @@ class NotionUseCase implements PageResolver {
         return Failure(_result.error);
       }
 
-      final paginatedResponse = result.valueOrNull;
+      final paginatedResponse = result.valueOrNull!;
 
-      allPages.addAll(paginatedResponse?.results ?? []);
-      nextCursor = paginatedResponse?.nextCursor;
-    } while (nextCursor != null);
+      allPages.addAll(paginatedResponse.results);
+      paginationParams = paginatedResponse.paginationParams as CursorPaginationStrategyParams;
+    } while (paginationParams.cursor != null);
 
     return Success(allPages);
   }
