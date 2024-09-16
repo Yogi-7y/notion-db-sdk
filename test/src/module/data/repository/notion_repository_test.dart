@@ -1,6 +1,7 @@
 import 'package:core_y/core_y.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_y/network_y.dart';
+import 'package:network_y/src/pagination/pagination_params.dart';
 import 'package:notion_db_sdk/notion_db_sdk.dart';
 import 'package:notion_db_sdk/src/module/data/repository/notion_repository.dart';
 import 'package:notion_db_sdk/src/module/domain/repository/notion_repository.dart';
@@ -58,7 +59,7 @@ void main() {
 
         final result = await repository.query(databaseId);
 
-        expect(result, isA<Success<PaginatedResponse<Pages>, ApiException>>());
+        expect(result, isA<Success<PaginatedResponse<Page>, ApiException>>());
         final pages = result.valueOrNull?.results ?? [];
         final properties = pages[0].properties;
         expect(pages.length, 1);
@@ -83,7 +84,7 @@ void main() {
 
         final result = await repository.query(databaseId);
 
-        expect(result, isA<Failure<PaginatedResponse<Pages>, ApiException>>());
+        expect(result, isA<Failure<PaginatedResponse<Page>, ApiException>>());
         verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
       });
     });

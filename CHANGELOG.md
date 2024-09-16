@@ -1,3 +1,7 @@
+## 0.7.1
+
+- feat: use pagination params from `network_y` and remove the existing one's. ([#14](https://github.com/Yogi-7y/notion-db-sdk/pull/14))
+
 ## 0.7.0+2
 
 - Bump `core_y` to latest version

@@ -1,13 +1,11 @@
 import 'package:core_y/core_y.dart';
 import 'package:network_y/network_y.dart';
+import 'package:network_y/src/pagination/pagination_params.dart';
 
 import '../../../../notion_db_sdk.dart';
-import '../../domain/entity/filter.dart';
-import '../../domain/entity/property.dart';
 import '../../domain/repository/notion_repository.dart';
 import '../models/property_factory.dart';
 import 'api_request.dart';
-import 'pagable.dart';
 
 class NotionRepository implements Repository {
   NotionRepository(this.apiClient);
@@ -15,10 +13,10 @@ class NotionRepository implements Repository {
   final ApiClient apiClient;
 
   @override
-  AsyncResult<PaginatedResponse<Pages>, ApiException> query(
+  AsyncResult<PaginatedResponse<Page>, ApiException> query(
     DatabaseId databaseId, {
     Filter? filter,
-    PaginationParams? paginationParams,
+    CursorPaginationStrategyParams? paginationParams,
   }) async {
     final _request = QueryRequest(
       databaseId: databaseId,
@@ -55,10 +53,13 @@ class NotionRepository implements Repository {
           final hasMore = value['has_more'] as bool? ?? false;
           final nextCursor = value['next_cursor'] as String?;
 
-          return PaginatedResponse(
+          return PaginatedResponse<Page>(
             results: _result,
             hasMore: hasMore,
-            nextCursor: nextCursor,
+            paginationParams: CursorPaginationStrategyParams(
+              limit: paginationParams?.limit ?? 100,
+              cursor: nextCursor,
+            ),
           );
         } catch (e) {
           rethrow;

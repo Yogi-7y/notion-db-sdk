@@ -1,13 +1,19 @@
 import 'package:notion_db_sdk/src/module/data/repository/api_request.dart';
 import 'package:notion_db_sdk/src/module/data/repository/pagable.dart';
+import 'package:network_y/src/pagination/pagination_params.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('QueryRequest', () {
     test('body should include pagination params when provided', () {
+      const paginationParams = CursorPaginationStrategyParams(
+        cursor: 'abc123',
+        limit: 50,
+      );
+
       final request = QueryRequest(
         databaseId: 'db123',
-        paginationParams: PaginationParams(startCursor: 'abc123', pageSize: 50),
+        paginationParams: paginationParams,
       );
 
       expect(request.body, containsPair('start_cursor', 'abc123'));
@@ -22,14 +28,18 @@ void main() {
     });
 
     test('should implement Pageable', () {
+      const paginationParams = CursorPaginationStrategyParams(
+        cursor: 'abc123',
+        limit: 50,
+      );
       final request = QueryRequest(
         databaseId: 'db123',
-        paginationParams: PaginationParams(startCursor: 'abc123'),
+        paginationParams: paginationParams,
       );
 
       expect(request, isA<Pageable>());
       expect(request.paginationParams, isNotNull);
-      expect(request.paginationParams?.startCursor, 'abc123');
+      expect(request.paginationParams?.cursor, 'abc123');
     });
   });
 }

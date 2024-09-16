@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:network_y/network_y.dart';
+import 'package:network_y/src/pagination/pagination_params.dart';
 
 import '../../../core/network/api_constants.dart';
 import '../../domain/entity/filter.dart';
@@ -18,13 +19,17 @@ class QueryRequest extends BaseNotionRequest implements PostRequest, Pageable {
 
   final String databaseId;
   final Filter? filter;
+
   @override
-  final PaginationParams? paginationParams;
+  final CursorPaginationStrategyParams? paginationParams;
 
   @override
   Payload get body => <String, Object?>{
         if (filter != null) 'filter': filter!.toMap(),
-        if (paginationParams != null) ...paginationParams!.toMap(),
+        if (paginationParams != null) ...{
+          'start_cursor': paginationParams!.cursor,
+          'page_size': paginationParams!.limit,
+        }
       };
 }
 
