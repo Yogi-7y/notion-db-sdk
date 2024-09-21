@@ -1,6 +1,6 @@
 ## 0.7.2
 
-- feat: Add null check before passing in pagination params. ([#15](https://github.com/Yogi-7y/notion-db-sdk/pull/15))
+- fix: Add null check before passing in pagination params. ([#15](https://github.com/Yogi-7y/notion-db-sdk/pull/15))
 
 ## 0.7.1
 
