@@ -1,3 +1,7 @@
+## 0.7.2
+
+- fix: Add null check before passing in pagination params. ([#15](https://github.com/Yogi-7y/notion-db-sdk/pull/15))
+
 ## 0.7.1
 
 - feat: use pagination params from `network_y` and remove the existing one's. ([#14](https://github.com/Yogi-7y/notion-db-sdk/pull/14))
