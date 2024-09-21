@@ -26,10 +26,8 @@ class QueryRequest extends BaseNotionRequest implements PostRequest, Pageable {
   @override
   Payload get body => <String, Object?>{
         if (filter != null) 'filter': filter!.toMap(),
-        if (paginationParams != null) ...{
-          'start_cursor': paginationParams!.cursor,
-          'page_size': paginationParams!.limit,
-        }
+        if (paginationParams?.cursor != null) 'start_cursor': paginationParams!.cursor,
+        if (paginationParams?.limit != null) 'page_size': paginationParams!.limit,
       };
 }
 
