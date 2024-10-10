@@ -6,6 +6,7 @@ import 'package:network_y/src/pagination/pagination_params.dart';
 import '../../notion_db_sdk.dart';
 import './domain/use_case/notion_use_case.dart';
 import 'data/repository/notion_repository.dart';
+import 'domain/entity/sort/sort.dart';
 import 'domain/repository/notion_repository.dart';
 
 @immutable
@@ -91,6 +92,7 @@ class NotionClient {
     DatabaseId databaseId, {
     bool forceFetchRelationPages = false,
     Filter? filter,
+    List<Sort> sorts = const [],
 
     /// When set to true, it'll make the API call for that relation page once.
     /// For subsequent calls, it'll use the cached value.
@@ -104,6 +106,7 @@ class NotionClient {
         filter: filter,
         cacheRelationPages: cacheRelationPages,
         paginationParams: paginationParams,
+        sorts: sorts,
       );
 
   /// Fetches all pages from a Notion database.

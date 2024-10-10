@@ -1,3 +1,7 @@
+## 0.8.0
+
+- feat: Introduce sorting. ([#16](https://github.com/Yogi-7y/notion-db-sdk/pull/16)
+
 ## 0.7.2
 
 - fix: Add null check before passing in pagination params. ([#15](https://github.com/Yogi-7y/notion-db-sdk/pull/15))

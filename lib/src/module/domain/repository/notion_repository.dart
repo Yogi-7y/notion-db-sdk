@@ -2,6 +2,7 @@ import 'package:core_y/core_y.dart';
 import 'package:network_y/src/pagination/pagination_params.dart';
 
 import '../../../../notion_db_sdk.dart';
+import '../entity/sort/sort.dart';
 
 typedef DatabaseId = String;
 typedef PageId = String;
@@ -31,6 +32,7 @@ abstract class Repository {
     DatabaseId databaseId, {
     Filter? filter,
     CursorPaginationStrategyParams? paginationParams,
+    List<Sort> sorts = const [],
   });
 
   AsyncResult<void, AppException> updatePage(

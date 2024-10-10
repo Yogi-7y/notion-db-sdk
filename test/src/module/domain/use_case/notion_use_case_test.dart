@@ -3,6 +3,8 @@
 import 'package:core_y/core_y.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:notion_db_sdk/notion_db_sdk.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/sort/sort.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/sort/variants/property_sort.dart';
 import 'package:notion_db_sdk/src/module/domain/repository/notion_repository.dart';
 import 'package:notion_db_sdk/src/module/domain/use_case/notion_use_case.dart';
 import 'package:test/test.dart';
@@ -144,6 +146,33 @@ void main() {
       expect(result, isA<Failure<Map<String, Property>, AppException>>());
       // expect(result.errorOrNull, equals(mockException));
       verify(() => mockRepository.fetchPageProperties(pageId)).called(1);
+    });
+
+    test('query passes sort parameters to repository', () async {
+      const databaseId = 'test_database_id';
+      final sorts = [
+        PropertySort(property: 'Name'),
+      ];
+
+      when(() => mockRepository.query(
+            databaseId,
+            sorts: sorts,
+            paginationParams: any(named: 'paginationParams'),
+          )).thenAnswer((_) async => const Success(
+            PaginatedResponse(
+              results: [],
+              hasMore: false,
+              paginationParams: CursorPaginationStrategyParams(limit: 100),
+            ),
+          ));
+
+      await notionUseCase.query(databaseId, sorts: sorts);
+
+      verify(() => mockRepository.query(
+            databaseId,
+            sorts: sorts,
+            paginationParams: any(named: 'paginationParams'),
+          )).called(1);
     });
   });
 

@@ -5,6 +5,7 @@ import 'package:network_y/src/pagination/pagination_params.dart';
 import '../../../core/network/api_constants.dart';
 import '../../domain/entity/filter.dart';
 import '../../domain/entity/property.dart';
+import '../../domain/entity/sort/sort.dart';
 import '../../domain/repository/notion_repository.dart';
 import 'pagable.dart';
 
@@ -13,12 +14,14 @@ class QueryRequest extends BaseNotionRequest implements PostRequest, Pageable {
     required this.databaseId,
     this.filter,
     this.paginationParams,
+    this.sorts = const [],
   }) : super(
           endpoint: 'v1/databases/$databaseId/query',
         );
 
   final String databaseId;
   final Filter? filter;
+  final List<Sort> sorts;
 
   @override
   final CursorPaginationStrategyParams? paginationParams;
@@ -28,7 +31,20 @@ class QueryRequest extends BaseNotionRequest implements PostRequest, Pageable {
         if (filter != null) 'filter': filter!.toMap(),
         if (paginationParams?.cursor != null) 'start_cursor': paginationParams!.cursor,
         if (paginationParams?.limit != null) 'page_size': paginationParams!.limit,
+        if (sorts.isNotEmpty) 'sorts': sorts.map((e) => e.toMap()).toList(),
       };
+
+  @override
+  String toString() {
+    final buffer = StringBuffer()
+      ..writeln('QueryRequest')
+      ..writeln('Database ID: $databaseId')
+      ..writeln('Filter: $filter')
+      ..writeln('Pagination params: $paginationParams')
+      ..writeln('Sorts: $sorts');
+
+    return buffer.toString();
+  }
 }
 
 class FetchPagePropertiesRequest extends BaseNotionRequest implements GetRequest {

@@ -4,7 +4,9 @@ import 'package:network_y/network_y.dart';
 import 'package:network_y/src/pagination/pagination_params.dart';
 import 'package:notion_db_sdk/notion_db_sdk.dart';
 import 'package:notion_db_sdk/src/module/data/repository/notion_repository.dart';
-import 'package:notion_db_sdk/src/module/domain/repository/notion_repository.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/sort/sort.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/sort/variants/property_sort.dart';
+import 'package:notion_db_sdk/src/module/domain/entity/sort/variants/timestamp_sort.dart';
 import 'package:test/test.dart';
 
 class MockApiClient extends Mock implements ApiClient {}
@@ -69,6 +71,50 @@ void main() {
         expect(properties['Status']!.value, 'In Progress');
 
         verify(() => mockApiClient.call<Map<String, Object?>>(any())).called(1);
+      });
+
+      test('query includes sort parameter in API call', () async {
+        const databaseId = 'test_database_id';
+        final sorts = [
+          PropertySort(property: 'Name'),
+          TimestampSort(timestamp: 'created_time', direction: SortDirection.descending),
+        ];
+
+        final mockResponse = {
+          'results': [
+            {
+              'id': 'test_page_id',
+              'properties': {
+                'Name': {
+                  'id': 'title',
+                  'type': 'title',
+                  'title': [
+                    {
+                      'text': {'content': 'Test Task'}
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        };
+
+        when(() => mockApiClient.call<Map<String, Object?>>(any()))
+            .thenAnswer((_) async => Success(mockResponse));
+
+        await repository.query(databaseId, sorts: sorts);
+
+        final captured =
+            verify(() => mockApiClient.call<Map<String, Object?>>(captureAny())).captured;
+
+        final request = captured.first as PostRequest;
+
+        expect(
+            request.body['sorts'],
+            equals([
+              {'property': 'Name', 'direction': 'ascending'},
+              {'timestamp': 'created_time', 'direction': 'descending'},
+            ]));
       });
 
       test('returns Failure on API error', () async {

@@ -3,6 +3,7 @@ import 'package:network_y/network_y.dart';
 import 'package:network_y/src/pagination/pagination_params.dart';
 
 import '../../../../notion_db_sdk.dart';
+import '../../domain/entity/sort/sort.dart';
 import '../../domain/repository/notion_repository.dart';
 import '../models/property_factory.dart';
 import 'api_request.dart';
@@ -17,12 +18,16 @@ class NotionRepository implements Repository {
     DatabaseId databaseId, {
     Filter? filter,
     CursorPaginationStrategyParams? paginationParams,
+    List<Sort> sorts = const [],
   }) async {
     final _request = QueryRequest(
       databaseId: databaseId,
       filter: filter,
       paginationParams: paginationParams,
+      sorts: sorts,
     );
+
+    print('Request: $_request');
 
     final result = await apiClient<Map<String, Object?>>(_request);
 
