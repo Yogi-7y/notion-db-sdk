@@ -2,8 +2,6 @@
 
 A type-safe structured way to interact with Notion APIs. This client handles structured data from Notion databases, focusing on property management while ignoring embedded styles, page blocks, and other non-database elements.
 
-![Diagram](https://raw.githubusercontent.com/Yogi-7y/notion-db-sdk/main/assets/diagram.png)
-
 One rule that this package abides by:
 
 > Only deal with raw, structured data in a type-safe way and ignore all the fluffy stuff like styling, formatting, page blocks, etc.
@@ -22,15 +20,21 @@ void main() async {
     ),
   );
 
-  // Fetch properties from a database
-  final result = await client.getProperties('database_id');
+  // Query a database
+  final result = await client.query('database_id');
 
   result.fold(
-    (properties) {
+    (paginatedResponse) {
       // Handle successful response
+      final pages = paginatedResponse.results;
+      for (final page in pages) {
+        // Access page properties
+        print(page.properties['Title']?.value);
+      }
     },
     (error) {
       // Handle error
+      print('Error: $error');
     },
   );
 }
@@ -38,7 +42,7 @@ void main() async {
 
 ## Understanding Notion Properties
 
-In Notion, properties define the structure and type of information stored in database. This SDK mimics Notion's property structure, making it easy to read and write data while ignoring styling information and complex nested structures.
+In Notion, properties define the structure and type of information stored in databases. This SDK mimics Notion's property structure, making it easy to read and write data while ignoring styling information and complex nested structures.
 
 The main advantage of this package is its simplicity in reading from and writing to Notion databases. It abstracts away the complex JSON structures typically required in direct API calls.
 
@@ -46,51 +50,7 @@ The main advantage of this package is its simplicity in reading from and writing
 
 ### Reading Properties
 
-With direct API calls, reading properties will involve handling this:
-
-```json
-{
-  "Description": {
-    "id": "a%7BUf",
-    "type": "rich_text",
-    "rich_text": [
-      {
-        "type": "text",
-        "text": {
-          "content": "A dark sky",
-          "link": null
-        },
-        "annotations": {
-          "bold": false,
-          "italic": false,
-          "strikethrough": false,
-          "underline": false,
-          "code": false,
-          "color": "default"
-        },
-        "plain_text": "A dark sky",
-        "href": null
-      }
-    ]
-  },
-  "Price": {
-    "id": "uCG%3A",
-    "type": "number",
-    "number": 42
-  },
-  "Due Date": {
-    "id": "%5E%7Cny",
-    "type": "date",
-    "date": {
-      "start": "2023-02-23",
-      "end": null,
-      "time_zone": null
-    }
-  }
-}
-```
-
-With this SDK, value can be easily accessed as:
+With direct API calls, reading properties involves handling complex JSON structures. With this SDK, values can be easily accessed as:
 
 ```dart
 page.properties['Description'].value // "A dark sky"
@@ -100,34 +60,7 @@ page.properties['Due Date'].value // DateTime(2023, 2, 23)
 
 ### Writing Properties
 
-To create a new page with a title, a number property, and a date property using direct API calls:
-
-```json
-{
-  "parent": { "database_id": "your_database_id" },
-  "properties": {
-    "Name": {
-      "title": [
-        {
-          "text": {
-            "content": "New Page Title"
-          }
-        }
-      ]
-    },
-    "Price": {
-      "number": 42
-    },
-    "Due Date": {
-      "date": {
-        "start": "2023-05-20"
-      }
-    }
-  }
-}
-```
-
-With this SDK, the same operation is simplified to:
+Creating a new page with properties using this SDK is simplified:
 
 ```dart
 final properties = [
@@ -167,16 +100,16 @@ final client = NotionClient(
 );
 ```
 
-### Fetching Properties
+### Querying a Database
 
-To fetch properties from a Notion database:
+To query a Notion database:
 
 ```dart
-final databaseId = 'your_database_id';
-final result = await client.getProperties(databaseId);
+final result = await client.query('your_database_id');
 
 result.fold(
-  (properties) {
+  (paginatedResponse) {
+    final pages = paginatedResponse.results;
     // Handle successful response
   },
   (error) {
@@ -191,7 +124,6 @@ result.fold(
 To create a new page in a Notion database:
 
 ```dart
-final databaseId = 'your_database_id';
 final properties = [
   TextProperty(
     name: 'Name',
@@ -206,11 +138,10 @@ final properties = [
     name: 'Due Date',
     valueDetails: Value(value: DateTime(2023, 5, 20)),
   ),
-  // Add more properties as needed
 ];
 
 final result = await client.createPage(
-  databaseId: databaseId,
+  databaseId: 'your_database_id',
   properties: properties,
 );
 
@@ -224,22 +155,53 @@ result.fold(
 );
 ```
 
-## Filter
+### Updating a Page
+
+To update an existing page in a Notion database:
+
+```dart
+final properties = [
+  TextProperty(
+    name: 'Name',
+    valueDetails: Value(value: 'Updated Task Name'),
+  ),
+  Number(
+    name: 'Priority',
+    valueDetails: Value(value: 2),
+  ),
+];
+
+final result = await client.updatePage(
+  pageId: 'page_id',
+  properties: properties,
+);
+
+result.fold(
+  (_) {
+    print('Page updated successfully');
+  },
+  (error) {
+    print('Error updating page: $error');
+  },
+);
+```
+
+## Filtering
 
 ### Single Filter
 
-To use a single filter, you can create an instance of the appropriate filter class and pass it to the `query` method. Here's an example using a `TextFilter`:
+To use a single filter, create an instance of the appropriate filter class and pass it to the `query` method:
 
 ```dart
 final filter = TextFilter('Title', contains: 'Foo');
 
 final result = await client.query(
-  databaseId,
+  'database_id',
   filter: filter,
 );
 
 result.fold(
-  (properties) {
+  (paginatedResponse) {
     // Handle filtered results
   },
   (error) {
@@ -259,19 +221,9 @@ final filter = AndFilter([
 ]);
 
 final result = await client.query(
-  databaseId,
+  'database_id',
   filter: filter,
 );
-```
-
-This query will return pages where the 'Title' contains 'Foo' AND the 'Priority' is greater than 5.
-Similaly, you can use `OrFilter`
-
-```dart
-final filter = OrFilter([
-  TextFilter('Status', equals: 'In Progress'),
-  TextFilter('Status', equals: 'Review'),
-]);
 ```
 
 ### Nested Filters
@@ -288,12 +240,54 @@ final filter = AndFilter([
 ]);
 
 final result = await client.query(
-  databaseId,
+  'database_id',
   filter: filter,
 );
 ```
 
-This query will return pages where the 'Title' contains 'Foo' AND either the 'Priority' is greater than 8 OR the 'DueDate' is before the current date.
+## Sorting
+
+You can sort the query results using the `SortBuilder`:
+
+```dart
+final sortBuilder = SortBuilder()
+  ..addPropertySort('Name')
+  ..addTimestampSort('created_time', direction: SortDirection.descending);
+
+final sorts = sortBuilder.build();
+
+final result = await client.query(
+  'database_id',
+  sorts: sorts,
+);
+```
+
+## Pagination
+
+The `query` method supports pagination:
+
+```dart
+final paginationParams = CursorPaginationStrategyParams(
+  limit: 50,
+  cursor: 'next_cursor_from_previous_query',
+);
+
+final result = await client.query(
+  'database_id',
+  paginationParams: paginationParams,
+);
+
+result.fold(
+  (paginatedResponse) {
+    final pages = paginatedResponse.results;
+    final nextCursor = paginatedResponse.paginationParams.cursor;
+    // Use nextCursor for the next query if there are more results
+  },
+  (error) {
+    // Handle error
+  },
+);
+```
 
 ---
 
