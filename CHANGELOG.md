@@ -1,6 +1,6 @@
 ## 0.8.0
 
-- feat: Introduce sorting. ([#15](https://github.com/Yogi-7y/notion-db-sdk/pull/15))
+- feat: Introduce sorting. ([#16](https://github.com/Yogi-7y/notion-db-sdk/pull/16)
 
 ## 0.7.2
 
