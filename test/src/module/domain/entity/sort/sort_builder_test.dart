@@ -33,6 +33,7 @@ void main() {
     test('adds timestamp sort with specified direction', () {
       final builder = SortBuilder()
         ..addTimestampSort('last_edited_time', direction: SortDirection.descending);
+
       expect(
         builder.build(),
         [

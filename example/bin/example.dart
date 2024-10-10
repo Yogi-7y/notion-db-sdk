@@ -22,5 +22,5 @@ Future<void> main(List<String> arguments) async {
     filter: filter,
   );
 
-  await updatePage(client, pageId);
+  // await updatePage(client, pageId);
 }
