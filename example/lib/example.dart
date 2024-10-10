@@ -1,22 +1,25 @@
 import 'package:network_y/src/exceptions/api_exception.dart';
-import 'package:notion_db_sdk/notion_db_sdk.dart';
 import 'package:network_y/src/pagination/pagination_params.dart';
+import 'package:notion_db_sdk/notion_db_sdk.dart';
 
 Future<void> queryDatabase(
   NotionClient client,
   String databaseId, {
   Filter? filter,
+  List<Sort> sorts = const [],
   CursorPaginationStrategyParams? paginationParams,
 }) async {
   logHeader('Querying database');
 
   log('Filter: ${filter?.toMap()}');
+  log('Sort: $sorts');
   logBlankLine();
 
   final result = await client.query(
     databaseId,
     filter: filter,
     paginationParams: paginationParams,
+    sorts: sorts,
   );
 
   result.fold(

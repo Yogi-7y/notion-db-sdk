@@ -23,5 +23,5 @@ class SortBuilder {
   }
 
   /// Builds and returns the list of sort operations.
-  List<Map<String, String>> build() => _sorts.map((sort) => sort.toMap()).toList();
+  List<Sort> build() => _sorts;
 }

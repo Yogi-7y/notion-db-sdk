@@ -1,6 +1,10 @@
 export './src/module/domain/entity/filter.dart';
 export './src/module/domain/entity/filters/filters.dart';
 export './src/module/domain/entity/property_variants/variants.dart';
+export './src/module/domain/entity/sort/sort.dart';
+export './src/module/domain/entity/sort/sort_builder.dart';
+export './src/module/domain/entity/sort/variants/property_sort.dart';
+export './src/module/domain/entity/sort/variants/timestamp_sort.dart';
 export './src/module/domain/entity/value.dart';
 export 'src/module/data/repository/pagable.dart';
 export 'src/module/domain/entity/page.dart';

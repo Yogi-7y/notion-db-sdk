@@ -14,13 +14,17 @@ Future<void> main(List<String> arguments) async {
     ),
   );
 
-  final filter = NumberFilter('Number', greaterThan: 40);
+  final filter = NumberFilter('Number', greaterThan: 10);
+  final sortBuilder = SortBuilder()
+    ..addPropertySort(
+      'Number',
+      direction: SortDirection.descending,
+    );
 
   await queryDatabase(
     client,
     testDatabaseId,
     filter: filter,
+    sorts: sortBuilder.build(),
   );
-
-  // await updatePage(client, pageId);
 }

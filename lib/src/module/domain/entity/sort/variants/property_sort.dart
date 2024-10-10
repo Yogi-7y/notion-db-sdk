@@ -22,4 +22,7 @@ class PropertySort implements Sort {
         'property': property,
         'direction': direction.toString().split('.').last,
       };
+
+  @override
+  String toString() => 'PropertySort { property: $property, direction: $direction }';
 }

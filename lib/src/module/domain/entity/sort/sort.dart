@@ -9,6 +9,9 @@ abstract class Sort {
 
   /// Converts the sort operation to a map representation.
   Map<String, String> toMap();
+
+  @override
+  String toString() => 'Sort { direction: $direction }';
 }
 
 /// Represents the direction of a sort operation.

@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:network_y/src/pagination/pagination_params.dart';
 
 import '../../../../notion_db_sdk.dart';
+import '../entity/sort/sort.dart';
 import '../repository/notion_repository.dart';
 
 /// Represents the core business logic for interacting with the Notion API.
@@ -41,12 +42,14 @@ class NotionUseCase implements PageResolver {
     /// Cache is only one-pass and is destroyed after the method call.
     bool cacheRelationPages = false,
     Filter? filter,
+    List<Sort> sorts = const [],
     CursorPaginationStrategyParams? paginationParams,
   }) async {
     final result = await repository.query(
       databaseId,
       filter: filter,
       paginationParams: paginationParams,
+      sorts: sorts,
     );
 
     if (result.isFailure) return Failure((result as Failure).error);
