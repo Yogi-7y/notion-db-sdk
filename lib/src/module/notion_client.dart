@@ -69,7 +69,7 @@ class NotionClient {
   ///
   /// Example usage:
   /// ```dart
-  /// final result = await useCase.query('database_id', lazyLoadRelations: true);
+  /// final result = await useCase.query('database_id', forceFetchRelationPages: true);
   ///
   /// result.fold(
   ///   onSuccess: (properties) {
@@ -80,7 +80,7 @@ class NotionClient {
   /// ```
   /// To resolve the related pages manually later:
   /// ```dart
-  ///   final result = await useCase.query('database_id', lazyLoadRelations: false);
+  ///   final result = await useCase.query('database_id');
   ///
   ///   final properties = result.valueOrNull ?? [];
   ///   final relation = properties['related_pages'].first as RelationProperty;
