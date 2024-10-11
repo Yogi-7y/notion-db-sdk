@@ -50,7 +50,51 @@ The main advantage of this package is its simplicity in reading from and writing
 
 ### Reading Properties
 
-With direct API calls, reading properties involves handling complex JSON structures. With this SDK, values can be easily accessed as:
+Reading value with API involves handling the following JSON:
+
+```json
+{
+  "Description": {
+    "id": "a%7BUf",
+    "type": "rich_text",
+    "rich_text": [
+      {
+        "type": "text",
+        "text": {
+          "content": "A dark sky",
+          "link": null
+        },
+        "annotations": {
+          "bold": false,
+          "italic": false,
+          "strikethrough": false,
+          "underline": false,
+          "code": false,
+          "color": "default"
+        },
+        "plain_text": "A dark sky",
+        "href": null
+      }
+    ]
+  },
+  "Price": {
+    "id": "uCG%3A",
+    "type": "number",
+    "number": 42
+  },
+  "Due Date": {
+    "id": "%5E%7Cny",
+    "type": "date",
+    "date": {
+      "start": "2023-02-23",
+      "end": null,
+      "time_zone": null
+    }
+  }
+}
+```
+
+With SDK, values can be easily accessed as:
 
 ```dart
 page.properties['Description'].value // "A dark sky"
@@ -60,7 +104,34 @@ page.properties['Due Date'].value // DateTime(2023, 2, 23)
 
 ### Writing Properties
 
-Creating a new page with properties using this SDK is simplified:
+To create a new page with a title, number and a date property using API:
+
+```json
+{
+  "parent": { "database_id": "your_database_id" },
+  "properties": {
+    "Name": {
+      "title": [
+        {
+          "text": {
+            "content": "New Page Title"
+          }
+        }
+      ]
+    },
+    "Price": {
+      "number": 42
+    },
+    "Due Date": {
+      "date": {
+        "start": "2023-05-20"
+      }
+    }
+  }
+}
+```
+
+With SDK, the same can be simplified to:
 
 ```dart
 final properties = [
