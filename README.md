@@ -24,7 +24,7 @@ void main() async {
   final result = await client.query('database_id');
 
   result.fold(
-    (paginatedResponse) {
+    onSuccess: (paginatedResponse) {
       // Handle successful response
       final pages = paginatedResponse.results;
       for (final page in pages) {
@@ -32,7 +32,7 @@ void main() async {
         print(page.properties['Title']?.value);
       }
     },
-    (error) {
+    onFailure: (error) {
       // Handle error
       print('Error: $error');
     },
@@ -108,11 +108,11 @@ To query a Notion database:
 final result = await client.query('your_database_id');
 
 result.fold(
-  (paginatedResponse) {
+  onSuccess: (paginatedResponse) {
     final pages = paginatedResponse.results;
     // Handle successful response
   },
-  (error) {
+  onFailure: (error) {
     // Handle error
     print('Error: $error');
   },
@@ -146,10 +146,10 @@ final result = await client.createPage(
 );
 
 result.fold(
-  (_) {
+  onSuccess: (_) {
     print('Page created successfully');
   },
-  (error) {
+  onFailure: (error) {
     print('Error creating page: $error');
   },
 );
@@ -177,10 +177,10 @@ final result = await client.updatePage(
 );
 
 result.fold(
-  (_) {
+  onSuccess: (_) {
     print('Page updated successfully');
   },
-  (error) {
+  onFailure: (error) {
     print('Error updating page: $error');
   },
 );
@@ -201,10 +201,10 @@ final result = await client.query(
 );
 
 result.fold(
-  (paginatedResponse) {
+  onSuccess: (paginatedResponse) {
     // Handle filtered results
   },
-  (error) {
+  onFailure: (error) {
     // Handle error
   },
 );
@@ -278,16 +278,45 @@ final result = await client.query(
 );
 
 result.fold(
-  (paginatedResponse) {
+  onSuccess: (paginatedResponse) {
     final pages = paginatedResponse.results;
     final nextCursor = paginatedResponse.paginationParams.cursor;
     // Use nextCursor for the next query if there are more results
   },
-  (error) {
+  onFailure: (error) {
     // Handle error
   },
 );
 ```
+
+## Force Fetch Related Pages
+
+The `forceFetchRelationPages` option in the query method allows you to automatically resolve and fetch properties for related pages in a single query. This can be particularly useful when you need immediate access to the properties of related pages without making separate API calls.
+
+```dart
+final result = await useCase.query('database_id', forceFetchRelationPages: true);
+
+result.fold(
+  onSuccess: (properties) {
+    properties['related_pages'].first.value; // Access the value of the first related
+  },
+  onFailure: (error) => print('Error: $error'),
+);
+```
+
+It provides the convenience to fetch all the related pages in a single query and use values in one go. It is recommended to set [forceFetchRelationPages] to false if there are many related pages, as this can lead to a large number of API calls. In that case, it is recommended to resolve related pages manually as needed.
+
+```dart
+final result = await useCase.query('database_id');
+
+final properties = result.valueOrNull ?? [];
+final relation = properties['related_pages'].first as RelationProperty;
+await relation.valueDetails?.value.first.resolve(useCase); // Resolve
+
+relation.valueDetails?.value.first.value; // Access the value of the first related page
+```
+
+For databases with a large number of relation properties or when you don't immediately need all related data, consider fetching related pages selectively to optimize performance and API usage.
 
 ---
 
