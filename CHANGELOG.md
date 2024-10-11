@@ -1,3 +1,7 @@
+## 0.8.0+1
+
+- chore: Update README and Doc strings. ([#17](https://github.com/Yogi-7y/notion-db-sdk/pull/17)
+
 ## 0.8.0
 
 - feat: Introduce sorting. ([#16](https://github.com/Yogi-7y/notion-db-sdk/pull/16)
